@@ -28,7 +28,7 @@ class HomeScreenState extends State<HomeScreen> {
       builder: (BuildContext context, AppTab activeTab) => Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
-              title: Text('AppBar'),
+              backgroundColor: Colors.white,
             ),
             body: _getContainer(activeTab),
             bottomNavigationBar: //TabSelector(),

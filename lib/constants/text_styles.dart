@@ -21,8 +21,8 @@ class TextStyles {
 
   static const TextStyle signInInputTextStyle = TextStyle(
     fontSize: 20,
-    color: Colors.white70,
-    fontWeight: FontWeight.w500,
+    color: Colors.black87,
+    fontWeight: FontWeight.w400,
   );
 
   static const TextStyle tinyTitleTextStyle = TextStyle(
@@ -34,6 +34,17 @@ class TextStyles {
     fontSize: 18,
     color: Colors.white,
     fontWeight: FontWeight.w400,
+  );
+
+  static const TextStyle authButtonStyle = TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.w500,
+  );
+
+  static const TextStyle appBarStyle = TextStyle(
+    fontSize: 20,
+    color: Colors.black,
+    fontWeight: FontWeight.w500,
   );
 
   static const TextStyle transparentButtonStyle = TextStyle(

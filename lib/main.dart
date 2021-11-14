@@ -5,12 +5,12 @@ import 'package:redux_thunk/redux_thunk.dart';
 import 'package:weekly_bible_trivia/redux/actions/home_actions.dart';
 import 'package:weekly_bible_trivia/redux/reducers/app_state_reduser.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
-import 'package:weekly_bible_trivia/router.dart';
+import 'package:weekly_bible_trivia/utils/router.dart';
 import 'package:weekly_bible_trivia/screens/home_screen.dart';
 import 'package:weekly_bible_trivia/services/navigation_service.dart';
 
 import 'constants/route_paths.dart';
-import 'locator.dart';
+import 'utils/locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +35,7 @@ class _NoteState extends State<Note> {
     super.initState();
     _store = Store<AppState>(appReducer,
         middleware: [thunkMiddleware],
-        initialState: const AppState());
+        initialState: AppState.initial());
   }
 
   @override

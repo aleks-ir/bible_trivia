@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:weekly_bible_trivia/screens/signup_screen.dart';
 import 'package:weekly_bible_trivia/screens/home_screen.dart';
+import 'package:weekly_bible_trivia/screens/signin_screen.dart';
 
-import 'constants/route_paths.dart';
+import '../constants/route_paths.dart';
 
 class ApplicationRouter {
   Route call(RouteSettings settings) {
@@ -10,6 +12,16 @@ class ApplicationRouter {
         return MaterialPageRoute(
             builder: (context){
               return HomeScreen(onInit: () {  },);
+            });
+      case RoutePaths.SignInScreen:
+        return MaterialPageRoute(
+            builder: (context){
+              return SignInScreen();
+            });
+      case RoutePaths.SignUpScreen:
+        return MaterialPageRoute(
+            builder: (context){
+              return SignUpScreen();
             });
       default:
         return MaterialPageRoute(

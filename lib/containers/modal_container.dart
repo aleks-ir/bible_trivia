@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/redux/actions/autorization_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/authentication_actions.dart';
+import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 class ModalBottomSheetContainer {
@@ -20,7 +21,7 @@ class ModalBottomSheetContainer {
               bool isPortrait =
                   MediaQuery.of(context).orientation == Orientation.portrait;
               return Container(
-                height: viewModel.isAuthorized ? 280 : 200,
+                height: viewModel.isAuthorized ? 280 : isPortrait ? 200 : 150,
                 clipBehavior: Clip.antiAlias,
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -110,8 +111,8 @@ class ModalBottomSheetContainer {
                       width: double.infinity, // <-- match_parent
                       child: TextButton(
                         onPressed: viewModel.isAuthorized
-                            ? viewModel.goToLogOutFunc
-                            : viewModel.goToAuthorizationFunc,
+                            ? viewModel.navigateToSignOut
+                            : viewModel.navigateToSignIn,
                         child: Text(
                             viewModel.isAuthorized ? "Log out" : "Log in",
                             style: TextStyle(
@@ -130,24 +131,20 @@ class ModalBottomSheetContainer {
 }
 
 class _ViewModel {
-  final Function() goToAuthorizationFunc;
-  final Function() goToLogOutFunc;
+  final Function() navigateToSignIn;
+  final Function() navigateToSignOut;
   final bool isAuthorized;
 
   _ViewModel({
-    required this.goToAuthorizationFunc,
-    required this.goToLogOutFunc,
+    required this.navigateToSignIn,
+    required this.navigateToSignOut,
     required this.isAuthorized,
   });
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
-      goToAuthorizationFunc: () {
-        store.dispatch(UpdateAuthorizationAction(true));
-      },
-      goToLogOutFunc: () {
-        store.dispatch(UpdateAuthorizationAction(false));
-      },
+      navigateToSignIn: () => store.dispatch(updateScreenThunk(NavigateToSignInAction())),
+      navigateToSignOut: () => store.dispatch(UpdateAuthorizationAction(true)),
       isAuthorized: store.state.authorizationState.isAuthorized,
     );
   }
