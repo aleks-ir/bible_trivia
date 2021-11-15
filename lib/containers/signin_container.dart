@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:weekly_bible_trivia/models/loading_status.dart';
+import 'package:weekly_bible_trivia/models/screens.dart';
+import 'package:weekly_bible_trivia/models/signin_request.dart';
 import 'package:weekly_bible_trivia/redux/actions/authentication_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
+import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons/auth_buttun.dart';
+import 'package:weekly_bible_trivia/widgets/error_validation.dart';
 import 'package:weekly_bible_trivia/widgets/text_form_fields/auth_text_form_field.dart';
 
-class SignInContainer extends StatelessWidget {
-  const SignInContainer({Key? key}) : super(key: key);
+class SignInContainer extends StatefulWidget {
+  @override
+  _SignInContainerState createState() => _SignInContainerState();
+}
+
+class _SignInContainerState extends State<SignInContainer>
+    with SingleTickerProviderStateMixin {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +28,16 @@ class SignInContainer extends StatelessWidget {
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
           bool isPortrait =
-              MediaQuery.of(context).orientation == Orientation.portrait;
+              MediaQuery
+                  .of(context)
+                  .orientation == Orientation.portrait;
+
 
           final Column buttonsGroupColumn = Column(
             children: [
-              authButton("Log in", () {}),
+              authButton("Log in", () {
+                viewModel.signIn(SignInRequest(_emailController.text, _passController.text));
+              }),
               SizedBox(height: 10.0),
               authButton("Create account", viewModel.navigateToRegistration,
                   color: Colors.brown),
@@ -29,7 +46,11 @@ class SignInContainer extends StatelessWidget {
 
           final Row buttonsGroupRow = Row(
             children: [
-              Expanded(child: authButton("Log in", () {}), flex: 10),
+              Expanded(
+                  child: authButton("Log in", () {
+                    viewModel.signIn(SignInRequest(_emailController.text, _passController.text));
+                  }),
+                  flex: 10),
               Expanded(
                 child: SizedBox(),
                 flex: 1,
@@ -70,8 +91,16 @@ class SignInContainer extends StatelessWidget {
                         icon: Icons.email,
                         obscure: false,
                         label: '',
-                        autofocus: false),
-                    //viewModel.status == LoadingStatus.error ? emailError(viewModel.emailError) : const SizedBox(),
+                        autofocus: false,
+                        controller: _emailController,
+                        onChanged: (value) => viewModel.validateEmail(value)),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: viewModel.status == LoadingStatus.error &&
+                          viewModel.emailError.isNotEmpty
+                          ? errorValidation(viewModel.emailError)
+                          : const SizedBox(),
+                    ),
                     SizedBox(height: 20.0),
                     Text("Password"),
                     SizedBox(height: 5.0),
@@ -79,7 +108,17 @@ class SignInContainer extends StatelessWidget {
                         icon: Icons.lock,
                         obscure: true,
                         label: '',
-                        autofocus: false),
+                        autofocus: false,
+                        controller: _passController,
+                        onChanged: (value) =>
+                            viewModel.validatePassword(value)),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: viewModel.status == LoadingStatus.error &&
+                          viewModel.passwordError.isNotEmpty
+                          ? errorValidation(viewModel.passwordError)
+                          : const SizedBox(),
+                    ),
                     SizedBox(height: 30.0),
                     isPortrait ? buttonsGroupColumn : buttonsGroupRow,
                   ],
@@ -89,28 +128,49 @@ class SignInContainer extends StatelessWidget {
           );
         });
   }
+
+
 }
 
 class _ViewModel {
+  final LoadingStatus status;
   final String password;
+  final String passwordError;
   final String email;
+  final String emailError;
 
-  final Function(String email, String password) login;
+  final Function(String) validateEmail;
+  final Function(String) validatePassword;
+  final Function(SignInRequest request) signIn;
   final Function() navigateToRegistration;
 
-  _ViewModel(
-      {required this.password,
-      required this.email,
-      required this.login,
-      required this.navigateToRegistration});
+  _ViewModel({
+    required this.status,
+    required this.password,
+    required this.passwordError,
+    required this.email,
+    required this.emailError,
+    required this.signIn,
+    required this.navigateToRegistration,
+    required this.validateEmail,
+    required this.validatePassword,
+  });
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-        email: store.state.signInState.email,
+        status: store.state.signInState.loadingStatus,
         password: store.state.signInState.password,
-        login: (email, password) {
-          store.dispatch(UpdateAuthorizationAction(true));
-          store.dispatch(new NavigateToHomeAction());
+        passwordError: store.state.signInState.passwordError,
+        email: store.state.signInState.email,
+        emailError: store.state.signInState.emailError,
+        validateEmail: (email) =>
+            store.dispatch(validateEmailThunk(email, Screens.SIGNIN)),
+        validatePassword: (password) =>
+            store
+                .dispatch(validatePasswordThunk(password, Screens.SIGNIN)),
+        signIn: (request) {
+          store.dispatch(validateSignInThunk(request));
+          //store.dispatch(new NavigateToHomeAction());
           //store.dispatch(new ValidateLoginFields(email, password));
         },
         navigateToRegistration: () =>

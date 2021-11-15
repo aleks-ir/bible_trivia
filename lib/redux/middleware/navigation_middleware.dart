@@ -36,9 +36,11 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
       _navigationService.navigateTo(RoutePaths.HomeScreen);
       return;
     }else if(action is NavigateToSignInAction) {
+      store.dispatch(ClearErrorsAction());
       _navigationService.navigateTo(RoutePaths.SignInScreen);
       return;
     }else if(action is NavigateToSignUpAction) {
+      store.dispatch(ClearErrorsAction());
       _navigationService.navigateTo(RoutePaths.SignUpScreen);
       return;
     }

@@ -1,0 +1,3 @@
+enum Screens{
+  SIGNIN,SIGNUP
+}

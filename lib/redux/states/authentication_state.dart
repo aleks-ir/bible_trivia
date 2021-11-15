@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 
 @immutable
-class AuthorizationState {
+class AuthenticationState {
   final bool isAuthorized;
 
-  const AuthorizationState({
+  const AuthenticationState({
     required this.isAuthorized,
   });
 
-  AuthorizationState copyWith({bool? isAuthorized}) {
-    return AuthorizationState(
+  AuthenticationState copyWith({bool? isAuthorized}) {
+    return AuthenticationState(
       isAuthorized: isAuthorized ?? this.isAuthorized,
     );
   }

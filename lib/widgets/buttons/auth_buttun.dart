@@ -41,10 +41,10 @@ class AuthButton extends StatelessWidget {
 }
 
 
-MaterialButton authButton(String title, Function() func,
+MaterialButton authButton(String title, VoidCallback callback,
     {Color color: const Color(0xfff063057), Color textColor: Colors.white}) {
   return MaterialButton(
-    onPressed: func,
+    onPressed: callback,
     textColor: textColor,
     color: color,
     child: SizedBox(

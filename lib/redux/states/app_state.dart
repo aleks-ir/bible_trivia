@@ -5,7 +5,7 @@ import 'package:weekly_bible_trivia/redux/states/past_trivia_state.dart';
 import 'package:weekly_bible_trivia/redux/states/reader_state.dart';
 import 'package:weekly_bible_trivia/redux/states/signin_state.dart';
 import 'package:weekly_bible_trivia/redux/states/signup_state.dart';
-import 'authorization_state.dart';
+import 'authentication_state.dart';
 
 
 @immutable
@@ -14,7 +14,7 @@ class AppState {
   final HomeState homeState;
   final ReaderState readerState;
   final PastTriviaState pastTriviaState;
-  final AuthorizationState authorizationState;
+  final AuthenticationState authorizationState;
   final SignInState signInState;
   final SignUpState signUpState;
 
@@ -34,7 +34,7 @@ class AppState {
         homeState: HomeState(title: 'Home screen'),
         readerState : ReaderState(title: 'Reader screen'),
         pastTriviaState : PastTriviaState(title: 'Past Trivia screen'),
-        authorizationState : AuthorizationState(isAuthorized: false),
+        authorizationState : AuthenticationState(isAuthorized: false),
         signInState: SignInState.initial(),
         signUpState: SignUpState.initial()
     );
@@ -45,7 +45,7 @@ class AppState {
     HomeState? homeState,
     ReaderState? readerState,
     PastTriviaState? pastTriviaState,
-    AuthorizationState? authorizationState,
+    AuthenticationState? authorizationState,
     SignInState? signInState,
     SignUpState? signUpState,
   }) {
