@@ -7,9 +7,8 @@ import 'package:weekly_bible_trivia/redux/states/app_tab.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';
 
 class HomeScreen extends StatefulWidget {
-  final void Function() onInit;
+  const HomeScreen({Key? key}) : super(key: key);
 
-  HomeScreen({required this.onInit});
 
   @override
   HomeScreenState createState() {
@@ -28,7 +27,7 @@ class HomeScreenState extends State<HomeScreen> {
       builder: (BuildContext context, AppTab activeTab) => Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
-              title: Text('AppBar'),
+              backgroundColor: Colors.white,
             ),
             body: _getContainer(activeTab),
             bottomNavigationBar: //TabSelector(),

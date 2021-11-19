@@ -1,7 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/redux/actions/autorization_actions.dart';
+import 'package:weekly_bible_trivia/constants/strings.dart';
+import 'package:weekly_bible_trivia/constants/text_styles.dart';
+import 'package:weekly_bible_trivia/models/authentication_status.dart';
+import 'package:weekly_bible_trivia/models/user_firebase.dart';
+import 'package:weekly_bible_trivia/redux/actions/transition_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
+import 'package:weekly_bible_trivia/redux/middleware/authentication_middleware.dart';
+import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 class ModalBottomSheetContainer {
@@ -20,7 +28,7 @@ class ModalBottomSheetContainer {
               bool isPortrait =
                   MediaQuery.of(context).orientation == Orientation.portrait;
               return Container(
-                height: viewModel.isAuthorized ? 280 : 200,
+                height: viewModel.isAuthenticated ? 250 : isPortrait ? 180 : 150,
                 clipBehavior: Clip.antiAlias,
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -33,13 +41,13 @@ class ModalBottomSheetContainer {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Visibility(
-                      visible: viewModel.isAuthorized ? true : false,
+                      visible: viewModel.isAuthenticated ? true : false,
                       child: SizedBox(
-                        height: isPortrait ? 30 : 10,
+                        height: isPortrait ? 20 : 10,
                       ),
                     ),
                     Visibility(
-                      visible: viewModel.isAuthorized ? true : false,
+                      visible: viewModel.isAuthenticated ? true : false,
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
                             primary: Colors.black,
@@ -49,8 +57,8 @@ class ModalBottomSheetContainer {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  "https://i.pinimg.com/736x/2c/15/22/2c15222f332f689b4cf89dd886af7d1d.jpg"),
+                              backgroundColor: Colors.transparent,
+                              child: ClipOval(child: FadeInImage.assetNetwork(placeholder: 'assets/images/loading.gif', image: viewModel.user.photoURL != '' ? viewModel.user.photoURL : defaultPhotoURL,)),
                             ),
                             SizedBox(
                               width: 20,
@@ -58,7 +66,7 @@ class ModalBottomSheetContainer {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("User name",
+                                Text(viewModel.user.displayName,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20)),
@@ -66,6 +74,7 @@ class ModalBottomSheetContainer {
                                   height: 5,
                                 ),
                                 Text("Edit profile",
+                                  //"Edit profile",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         fontSize: 15)),
@@ -76,48 +85,39 @@ class ModalBottomSheetContainer {
                       ),
                     ),
                     SizedBox(
-                      height: isPortrait ? 20 : 0,
+                      height: isPortrait ? 10 : 0,
                     ),
                     SizedBox(
                       width: double.infinity, // <-- match_parent
                       child: TextButton(
                         onPressed: () {},
                         child: Text("Table result",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20)),
+                          style: TextStyles.buttonMoreTextStyle,),
                       ),
                     ),
                     SizedBox(
-                      height: isPortrait ? 10 : 0,
+                      height: isPortrait ? 5 : 0,
                     ),
                     SizedBox(
                       width: double.infinity, // <-- match_parent
                       child: TextButton(
                         onPressed: () {},
                         child: Text("About",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20)),
+                          style: TextStyles.buttonMoreTextStyle,),
                       ),
                     ),
                     SizedBox(
-                      height: isPortrait ? 10 : 0,
+                      height: isPortrait ? 5 : 0,
                     ),
                     SizedBox(
                       width: double.infinity, // <-- match_parent
                       child: TextButton(
-                        onPressed: viewModel.isAuthorized
-                            ? viewModel.goToLogOutFunc
-                            : viewModel.goToAuthorizationFunc,
+                        onPressed: viewModel.isAuthenticated
+                            ? viewModel.navigateToSignOut
+                            : viewModel.navigateToSignIn,
                         child: Text(
-                            viewModel.isAuthorized ? "Log out" : "Log in",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20)),
+                            viewModel.isAuthenticated ? "Log out" : "Log in",
+                          style: TextStyles.buttonMoreTextStyle,),
                       ),
                     )
                   ],
@@ -130,25 +130,24 @@ class ModalBottomSheetContainer {
 }
 
 class _ViewModel {
-  final Function() goToAuthorizationFunc;
-  final Function() goToLogOutFunc;
-  final bool isAuthorized;
+  final Function() navigateToSignIn;
+  final Function() navigateToSignOut;
+  final bool isAuthenticated;
+  final UserFirebase user;
 
   _ViewModel({
-    required this.goToAuthorizationFunc,
-    required this.goToLogOutFunc,
-    required this.isAuthorized,
+    required this.navigateToSignIn,
+    required this.navigateToSignOut,
+    required this.isAuthenticated,
+    required this.user,
   });
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
-      goToAuthorizationFunc: () {
-        store.dispatch(UpdateAuthorizationAction(true));
-      },
-      goToLogOutFunc: () {
-        store.dispatch(UpdateAuthorizationAction(false));
-      },
-      isAuthorized: store.state.authorizationState.isAuthorized,
+      navigateToSignIn: () => store.dispatch(updateScreenThunk(NavigateToSignInAction())),
+      navigateToSignOut: () => store.dispatch(createLogOutThunk()),
+      isAuthenticated: store.state.authenticationState.status == AuthenticationStatus.loaded,
+      user: store.state.authenticationState.user,
     );
   }
 }

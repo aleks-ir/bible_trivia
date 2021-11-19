@@ -1,0 +1,127 @@
+{
+  "project_info": {
+    "project_number": "218966790741",
+    "firebase_url": "https://teatauth-default-rtdb.firebaseio.com",
+    "project_id": "teatauth",
+    "storage_bucket": "teatauth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:218966790741:android:6c24e6a31416aa71f6badc",
+        "android_client_info": {
+          "package_name": "com.example.firestore_redux"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "218966790741-05lo88nn53hm7m2jne01jr5u66l0mi51.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwTWdBwd79YXZ5b5rVssJPrWm_9Yo-Yyo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "218966790741-05lo88nn53hm7m2jne01jr5u66l0mi51.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:218966790741:android:42569daa4967ab21f6badc",
+        "android_client_info": {
+          "package_name": "com.example.reduxtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "218966790741-05lo88nn53hm7m2jne01jr5u66l0mi51.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwTWdBwd79YXZ5b5rVssJPrWm_9Yo-Yyo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "218966790741-05lo88nn53hm7m2jne01jr5u66l0mi51.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:218966790741:android:a7827a318db03b68f6badc",
+        "android_client_info": {
+          "package_name": "com.example.testauth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "218966790741-05lo88nn53hm7m2jne01jr5u66l0mi51.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwTWdBwd79YXZ5b5rVssJPrWm_9Yo-Yyo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "218966790741-05lo88nn53hm7m2jne01jr5u66l0mi51.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:218966790741:android:0a8b2ea5235c378ff6badc",
+        "android_client_info": {
+          "package_name": "com.tisserand.weekly_bible_trivia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "218966790741-05lo88nn53hm7m2jne01jr5u66l0mi51.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwTWdBwd79YXZ5b5rVssJPrWm_9Yo-Yyo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "218966790741-05lo88nn53hm7m2jne01jr5u66l0mi51.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

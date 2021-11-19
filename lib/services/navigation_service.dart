@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:weekly_bible_trivia/constants/route_paths.dart';
 
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -9,5 +10,9 @@ class NavigationService {
 
   void goBack() {
     navigatorKey.currentState!.pop();
+  }
+
+  void goBackTo(String routeName) {
+    navigatorKey.currentState!.pushReplacementNamed(routeName);
   }
 }

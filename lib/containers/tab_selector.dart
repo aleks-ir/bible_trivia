@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/redux/middleware/store_middleware.dart';
+import 'package:weekly_bible_trivia/models/authentication_status.dart';
+import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_tab.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/containers/modal_container.dart';
 
 class TabSelector extends StatelessWidget {
   const TabSelector({Key? key}) : super(key: key);
-  static bool isPortrait = false;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +95,7 @@ class _ViewModel {
       onTabSelected: (index) {
         store.dispatch(updateTabThunk(AppTab.values[index]));
       },
-      isAuthorized: store.state.authorizationState.isAuthorized,
+      isAuthorized: store.state.authenticationState.status == AuthenticationStatus.loaded,
     );
   }
 
