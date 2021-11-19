@@ -3,7 +3,7 @@ import 'package:weekly_bible_trivia/constants/colors.dart';
 
 Widget errorValidation(String textError) =>  Text(textError,
     style: const TextStyle(
-        fontSize: 15.0,
+        fontSize: 10.0,
         color: Color(error_red)
     ),
 );

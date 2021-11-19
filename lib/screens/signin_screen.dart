@@ -7,7 +7,7 @@ import 'package:weekly_bible_trivia/containers/signin_container.dart';
 import 'package:weekly_bible_trivia/containers/past_trivia_container.dart';
 import 'package:weekly_bible_trivia/containers/reader_container.dart';
 import 'package:weekly_bible_trivia/containers/tab_selector.dart';
-import 'package:weekly_bible_trivia/redux/actions/authentication_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_tab.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';

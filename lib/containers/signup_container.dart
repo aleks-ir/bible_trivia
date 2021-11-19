@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:weekly_bible_trivia/models/loading_status.dart';
+import 'package:weekly_bible_trivia/models/authentication_status.dart';
+import 'package:weekly_bible_trivia/models/validation_status.dart';
 import 'package:weekly_bible_trivia/models/screens.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
+import 'package:weekly_bible_trivia/redux/actions/authentication_action.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
+import 'package:weekly_bible_trivia/redux/states/authentication_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons/auth_buttun.dart';
 import 'package:weekly_bible_trivia/widgets/error_validation.dart';
+import 'package:weekly_bible_trivia/widgets/snack_bar.dart';
 import 'package:weekly_bible_trivia/widgets/text_form_fields/auth_text_form_field.dart';
 
 class SignUpContainer extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
-  final TextEditingController _retypePassController =
-      TextEditingController();
+  final TextEditingController _retypePassController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +38,11 @@ class SignUpContainer extends StatelessWidget {
                   autofocus: false,
                   controller: _nameController,
                   onChanged: (value) => viewModel.validateName(value)),
-              viewModel.status == LoadingStatus.error &&
+              viewModel.validStatus == ValidationStatus.error &&
                       viewModel.nameError.isNotEmpty
                   ? errorValidation(viewModel.nameError)
                   : const SizedBox(),
-              SizedBox(height: 20.0),
+              SizedBox(height: 20),
               authTextField(
                   icon: Icons.email,
                   obscure: false,
@@ -47,7 +50,7 @@ class SignUpContainer extends StatelessWidget {
                   autofocus: false,
                   controller: _emailController,
                   onChanged: (value) => viewModel.validateEmail(value)),
-              viewModel.status == LoadingStatus.error &&
+              viewModel.validStatus == ValidationStatus.error &&
                       viewModel.emailError.isNotEmpty
                   ? errorValidation(viewModel.emailError)
                   : const SizedBox(),
@@ -66,7 +69,7 @@ class SignUpContainer extends StatelessWidget {
                         autofocus: false,
                         controller: _nameController,
                         onChanged: (value) => viewModel.validateName(value)),
-                    viewModel.status == LoadingStatus.error &&
+                    viewModel.validStatus == ValidationStatus.error &&
                             viewModel.nameError.isNotEmpty
                         ? errorValidation(viewModel.nameError)
                         : const SizedBox(),
@@ -88,7 +91,7 @@ class SignUpContainer extends StatelessWidget {
                         autofocus: false,
                         controller: _emailController,
                         onChanged: (value) => viewModel.validateEmail(value)),
-                    viewModel.status == LoadingStatus.error &&
+                    viewModel.validStatus == ValidationStatus.error &&
                             viewModel.emailError.isNotEmpty
                         ? errorValidation(viewModel.emailError)
                         : const SizedBox(),
@@ -109,11 +112,11 @@ class SignUpContainer extends StatelessWidget {
                   autofocus: false,
                   controller: _passController,
                   onChanged: (value) => viewModel.validatePassword(value)),
-              viewModel.status == LoadingStatus.error &&
+              viewModel.validStatus == ValidationStatus.error &&
                       viewModel.passwordError.isNotEmpty
                   ? errorValidation(viewModel.passwordError)
                   : const SizedBox(),
-              SizedBox(height: 20.0),
+              SizedBox(height: 20),
               authTextField(
                   icon: Icons.lock,
                   obscure: true,
@@ -122,7 +125,7 @@ class SignUpContainer extends StatelessWidget {
                   controller: _retypePassController,
                   onChanged: (value) => viewModel.validatePasswordMatch(
                       _passController.text, value)),
-              viewModel.status == LoadingStatus.error &&
+              viewModel.validStatus == ValidationStatus.error &&
                       viewModel.retypePasswordError.isNotEmpty
                   ? errorValidation(viewModel.retypePasswordError)
                   : const SizedBox(),
@@ -142,7 +145,7 @@ class SignUpContainer extends StatelessWidget {
                         controller: _passController,
                         onChanged: (value) =>
                             viewModel.validatePassword(value)),
-                    viewModel.status == LoadingStatus.error &&
+                    viewModel.validStatus == ValidationStatus.error &&
                             viewModel.passwordError.isNotEmpty
                         ? errorValidation(viewModel.passwordError)
                         : const SizedBox(),
@@ -165,7 +168,7 @@ class SignUpContainer extends StatelessWidget {
                         controller: _retypePassController,
                         onChanged: (value) => viewModel.validatePasswordMatch(
                             _passController.text, value)),
-                    viewModel.status == LoadingStatus.error &&
+                    viewModel.validStatus == ValidationStatus.error &&
                             viewModel.retypePasswordError.isNotEmpty
                         ? errorValidation(viewModel.retypePasswordError)
                         : const SizedBox(),
@@ -177,18 +180,25 @@ class SignUpContainer extends StatelessWidget {
           );
 
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 40.0),
+            padding: EdgeInsets.symmetric(horizontal: 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SizedBox(height: 70.0),
+                SizedBox(height: isPortrait ? 70 : 20),
                 isPortrait ? emailAndNameGroupColumn : emailAndNameGroupRow,
-                SizedBox(height: isPortrait ? 60.0 : 30),
+                SizedBox(height: isPortrait ? 60 : 30),
                 isPortrait
                     ? passwordAndVerifyGroupColumn
                     : passwordAndVerifyGroupRow,
-                SizedBox(height: 30.0),
-                authButton("Create", (){viewModel.signUp(SignUpRequest(_nameController.text, _emailController.text, _passController.text, _retypePassController.text));}, color: Colors.brown),
+                SizedBox(height: 30),
+                viewModel.authStatus != AuthenticationStatus.loading ? authButton("Create", () {
+                  FocusScope.of(context).unfocus();
+                  viewModel.signUp(SignUpRequest(
+                      _nameController.text,
+                      _emailController.text,
+                      _passController.text,
+                      _retypePassController.text));
+                }, color: Colors.brown) : CircularProgressIndicator(),
               ],
             ),
           );
@@ -197,7 +207,8 @@ class SignUpContainer extends StatelessWidget {
 }
 
 class _ViewModel {
-  final LoadingStatus status;
+  final ValidationStatus validStatus;
+  final AuthenticationStatus authStatus;
   final String name;
   final String nameError;
   final String password;
@@ -214,9 +225,10 @@ class _ViewModel {
   final Function(SignUpRequest request) signUp;
 
   _ViewModel({
+    required this.validStatus,
+    required this.authStatus,
     required this.name,
     required this.nameError,
-    required this.status,
     required this.password,
     required this.passwordError,
     required this.email,
@@ -232,9 +244,10 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
+      validStatus: store.state.signUpState.validationStatus,
+      authStatus: store.state.authenticationState.status,
       name: store.state.signUpState.name,
       nameError: store.state.signUpState.nameError,
-      status: store.state.signUpState.loadingStatus,
       password: store.state.signUpState.password,
       passwordError: store.state.signUpState.passwordError,
       email: store.state.signUpState.email,
@@ -251,8 +264,6 @@ class _ViewModel {
           validatePassMatchThunk(password, retypePassword, Screens.SIGNUP)),
       signUp: (request) {
         store.dispatch(validateSignUpThunk(request));
-        //store.dispatch(new NavigateToHomeAction());
-        //store.dispatch(new ValidateLoginFields(email, password));
       },
     );
   }

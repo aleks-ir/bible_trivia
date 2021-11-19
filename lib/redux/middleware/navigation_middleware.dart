@@ -1,7 +1,7 @@
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:weekly_bible_trivia/constants/route_paths.dart';
-import 'package:weekly_bible_trivia/redux/actions/authentication_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/home_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/past_trivia_action.dart';
 import 'package:weekly_bible_trivia/redux/actions/reader_actions.dart';

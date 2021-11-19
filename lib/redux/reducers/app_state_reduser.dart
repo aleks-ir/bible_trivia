@@ -5,8 +5,9 @@ import 'package:weekly_bible_trivia/redux/reducers/signup_reducer.dart';
 import 'package:weekly_bible_trivia/redux/reducers/tabs_reducer.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
-import 'authorization_reducer.dart';
+import 'authentication_reducer.dart';
 import 'home_reducer.dart';
+import 'local_storage_reducer.dart';
 
 AppState appReducer(AppState state, action) {
   return AppState(
@@ -14,8 +15,10 @@ AppState appReducer(AppState state, action) {
       homeState: homeReducer(state.homeState, action),
       readerState: readerReducer(state.readerState, action),
       pastTriviaState: pastTriviaReducer(state.pastTriviaState, action),
-      authorizationState:
-          authorizationReducer(state.authorizationState, action),
+      authenticationState:
+          authenticationReducer(state.authenticationState, action),
       signUpState: signUpReducer(state.signUpState, action),
-      signInState: signInReducer(state.signInState, action));
+      signInState: signInReducer(state.signInState, action),
+      localStorageState: localStorageReducer(state.localStorageState, action),
+  );
 }

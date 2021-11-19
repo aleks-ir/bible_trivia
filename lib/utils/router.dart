@@ -11,7 +11,7 @@ class ApplicationRouter {
       case RoutePaths.HomeScreen:
         return MaterialPageRoute(
             builder: (context){
-              return HomeScreen(onInit: () {  },);
+              return HomeScreen();
             });
       case RoutePaths.SignInScreen:
         return MaterialPageRoute(

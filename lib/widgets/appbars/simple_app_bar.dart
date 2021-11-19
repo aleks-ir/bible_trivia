@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:weekly_bible_trivia/constants/route_paths.dart';
 import 'package:weekly_bible_trivia/constants/text_styles.dart';
+import 'package:weekly_bible_trivia/screens/home_screen.dart';
 
 class SimpleAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
@@ -25,7 +26,7 @@ class SimpleAppBar extends StatelessWidget with PreferredSizeWidget {
           angle: 90 * pi/180,
           child: Icon(Icons.chevron_right, color: Colors.black),
         ),
-        onPressed: () => Navigator.pushReplacementNamed(context, RoutePaths.HomeScreen),
+          onPressed: () => Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen(),), (route) => route.isCurrent),
       ),],
       title: Text(this.title, style: TextStyles.appBarStyle),
       backgroundColor: Colors.white,

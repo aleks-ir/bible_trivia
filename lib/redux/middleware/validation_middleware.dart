@@ -2,12 +2,14 @@ import 'dart:async';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:weekly_bible_trivia/constants/strings.dart';
-import 'package:weekly_bible_trivia/models/loading_status.dart';
+import 'package:weekly_bible_trivia/models/validation_status.dart';
 import 'package:weekly_bible_trivia/models/screens.dart';
 import 'package:weekly_bible_trivia/models/signin_request.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
-import 'package:weekly_bible_trivia/redux/actions/authentication_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
+
+import 'authentication_middleware.dart';
 
 const String emailPattern =
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -19,10 +21,9 @@ ThunkAction<AppState> validateSignInThunk(SignInRequest request) {
     bool isValidEmail = validateEmail(request.email, screen, store);
     bool isValidPassword = validatePassword(request.password, screen, store);
     if (isValidEmail && isValidPassword) {
-      store.dispatch(SignInAction(request));
-
+      store.dispatch(createSignInThunk(request));
     } else {
-      store.dispatch(ChangeLoadingStatusAction(LoadingStatus.error));
+      store.dispatch(ChangeValidationStatusAction(ValidationStatus.error));
     }
   };
 }
@@ -36,9 +37,9 @@ ThunkAction<AppState> validateSignUpThunk(SignUpRequest request) {
     bool isValidPasswordMatch = validatePassMatch(
         request.password, request.retypePassword, screen, store);
     if (isValidName && isValidEmail && isValidPassword && isValidPasswordMatch) {
-      store.dispatch(SignUpAction(request));
+      store.dispatch(createSignUpThunk(request));
     } else {
-      store.dispatch(ChangeLoadingStatusAction(LoadingStatus.error));
+      store.dispatch(ChangeValidationStatusAction(ValidationStatus.error));
     }
   };
 }
@@ -83,7 +84,7 @@ bool validatePassMatch(String password, String confirmPassword,
 bool validatePassword(
     String password, Screens screen, Store<AppState> store) {
   if (password.length < 6) {
-    store.dispatch(PasswordErrorAction(email_error, screen));
+    store.dispatch(PasswordErrorAction(password_error, screen));
     return false;
   } else {
     store.dispatch(PasswordErrorAction("", screen));

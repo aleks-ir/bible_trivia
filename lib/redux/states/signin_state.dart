@@ -1,23 +1,23 @@
 import 'package:meta/meta.dart';
-import 'package:weekly_bible_trivia/models/loading_status.dart';
+import 'package:weekly_bible_trivia/models/validation_status.dart';
 
 @immutable
 class SignInState {
-  final LoadingStatus loadingStatus;
+  final ValidationStatus validationStatus;
   final String password;
   final String passwordError;
   final String email;
   final String emailError;
 
   SignInState(
-      {required this.loadingStatus,
+      {required this.validationStatus,
       required this.password,
       required this.passwordError,
       required this.email,
       required this.emailError});
 
   SignInState copyWith({
-    LoadingStatus? loadingStatus,
+    ValidationStatus? validationStatus,
     String? password,
     String? passwordError,
     String? email,
@@ -26,7 +26,7 @@ class SignInState {
     return SignInState(
       password: password ?? this.password,
       email: email ?? this.email,
-      loadingStatus: loadingStatus ?? this.loadingStatus,
+      validationStatus: validationStatus ?? this.validationStatus,
       passwordError: passwordError ?? this.passwordError,
       emailError: emailError ?? this.emailError,
     );
@@ -34,7 +34,7 @@ class SignInState {
 
   factory SignInState.initial() {
     return SignInState(
-      loadingStatus: LoadingStatus.success,
+      validationStatus: ValidationStatus.success,
       password: "",
       passwordError: "",
       email: "",

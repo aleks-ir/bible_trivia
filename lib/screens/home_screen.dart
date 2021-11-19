@@ -7,9 +7,8 @@ import 'package:weekly_bible_trivia/redux/states/app_tab.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';
 
 class HomeScreen extends StatefulWidget {
-  final void Function() onInit;
+  const HomeScreen({Key? key}) : super(key: key);
 
-  HomeScreen({required this.onInit});
 
   @override
   HomeScreenState createState() {
