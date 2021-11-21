@@ -4,7 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/constants/strings.dart';
 import 'package:weekly_bible_trivia/constants/text_styles.dart';
-import 'package:weekly_bible_trivia/models/authentication_status.dart';
+import 'package:weekly_bible_trivia/constants/enums/authentication_status.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
 import 'package:weekly_bible_trivia/redux/actions/transition_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
@@ -144,7 +144,7 @@ class _ViewModel {
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
-      navigateToSignIn: () => store.dispatch(updateScreenThunk(NavigateToSignInAction())),
+      navigateToSignIn: () => store.dispatch(updateScreenThunk(NavigateFromHomeToSignInScreenAction())),
       navigateToSignOut: () => store.dispatch(createLogOutThunk()),
       isAuthenticated: store.state.authenticationState.status == AuthenticationStatus.loaded,
       user: store.state.authenticationState.user,

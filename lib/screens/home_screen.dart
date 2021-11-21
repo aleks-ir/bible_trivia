@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:weekly_bible_trivia/containers/appbars/home_app_bar.dart';
 import 'package:weekly_bible_trivia/containers/home_container.dart';
 import 'package:weekly_bible_trivia/containers/past_trivia_container.dart';
 import 'package:weekly_bible_trivia/containers/reader_container.dart';
 import 'package:weekly_bible_trivia/containers/tab_selector.dart';
+import 'package:weekly_bible_trivia/containers/test_modal_container.dart';
 import 'package:weekly_bible_trivia/redux/states/app_tab.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';
 
@@ -26,9 +28,7 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) => ActiveTab(
       builder: (BuildContext context, AppTab activeTab) => Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-              backgroundColor: Colors.white,
-            ),
+          appBar: HomeAppBar("", (){TestModalBottomSheetContainer(context).showModal();}),
             body: _getContainer(activeTab),
             bottomNavigationBar: //TabSelector(),
                 Theme(

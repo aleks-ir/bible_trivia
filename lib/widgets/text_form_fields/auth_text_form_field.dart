@@ -12,6 +12,9 @@ Widget authTextField(
       onChanged: onChanged,
       decoration: InputDecoration(
         labelText: label,
+        labelStyle: TextStyle(
+          fontSize: 15,
+        ),
         prefixIcon: Icon(icon, color: Color.fromRGBO(50, 62, 72, 1.0)),
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),

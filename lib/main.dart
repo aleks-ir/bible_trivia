@@ -17,15 +17,14 @@ import 'package:weekly_bible_trivia/services/navigation_service.dart';
 import 'constants/route_paths.dart';
 import 'utils/locator.dart';
 
-void main() async {
+void main() {
   setUpLocator();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(WeeklyTriviaBible());
 }
 
 
-class MyApp extends StatelessWidget {
+class WeeklyTriviaBible extends StatelessWidget {
 
   late Store<AppState> _store = _store = Store<AppState>(appReducer,
       middleware: [thunkMiddleware, LoggingMiddleware.printer()],
@@ -33,23 +32,29 @@ class MyApp extends StatelessWidget {
 
   final _applicationRouter = ApplicationRouter();
 
-
   @override
   Widget build(BuildContext context) {
-    initAuth();
-    return StoreProvider<AppState>(
-      store: _store,
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          initialRoute: RoutePaths.HomeScreen,
-          navigatorKey: locator<NavigationService>().navigatorKey,
-          onGenerateRoute: _applicationRouter,
-          ),
+    return FutureBuilder(
+      future: Firebase.initializeApp(),
+      builder: (context, snapshot) {
+        // if (snapshot.hasError) {
+        //   return SomethingWentWrong();
+        // }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          return StoreProvider<AppState>(
+            store: _store,
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              initialRoute: RoutePaths.toHomeScreen,
+              navigatorKey: locator<NavigationService>().navigatorKey,
+              onGenerateRoute: _applicationRouter,
+            ),
+          );
+        }
+
+        return const MaterialApp(home: Scaffold(body: Center(child: CircularProgressIndicator()),));
+      },
     );
-  }
-
-
-  void initAuth() {
-    _store.dispatch(createInitAuthThunk());
   }
 }

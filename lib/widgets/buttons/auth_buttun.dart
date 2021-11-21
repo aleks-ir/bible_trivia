@@ -41,17 +41,14 @@ class AuthButton extends StatelessWidget {
 }
 
 
-MaterialButton authButton(String title, VoidCallback callback,
+MaterialButton authButton(Widget childWidget, VoidCallback callback,
     {Color color: const Color(0xfff063057), Color textColor: Colors.white}) {
   return MaterialButton(
     onPressed: callback,
     textColor: textColor,
     color: color,
     child: SizedBox(
-      child: Text(
-        title,
-        textAlign: TextAlign.center,
-      ),
+      child: childWidget,
     ),
     height: 45,
     minWidth: 600,

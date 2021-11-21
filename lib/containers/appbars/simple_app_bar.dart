@@ -4,15 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:weekly_bible_trivia/constants/route_paths.dart';
 import 'package:weekly_bible_trivia/constants/text_styles.dart';
 import 'package:weekly_bible_trivia/screens/home_screen.dart';
+import 'package:weekly_bible_trivia/services/navigation_service.dart';
+import 'package:weekly_bible_trivia/utils/locator.dart';
 
 class SimpleAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
+  final String routeName;
+
+  final NavigationService _navigationService = locator<NavigationService>();
 
   @override
   final Size preferredSize;
 
   SimpleAppBar(
-    this.title, {
+    this.title, this.routeName, {
     Key? key,
   })  : preferredSize = Size.fromHeight(50.0),
         super(key: key);
@@ -26,7 +31,7 @@ class SimpleAppBar extends StatelessWidget with PreferredSizeWidget {
           angle: 90 * pi/180,
           child: Icon(Icons.chevron_right, color: Colors.black),
         ),
-          onPressed: () => Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen(),), (route) => route.isCurrent),
+          onPressed: () => _navigationService.navigateBack(routeName)
       ),],
       title: Text(this.title, style: TextStyles.appBarStyle),
       backgroundColor: Colors.white,

@@ -13,8 +13,9 @@ import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart'
 import 'package:weekly_bible_trivia/redux/states/app_tab.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+
+class AboutScreen extends StatefulWidget {
+  const AboutScreen({Key? key}) : super(key: key);
 
 
 
@@ -24,7 +25,7 @@ class SignInScreen extends StatefulWidget {
   }
 }
 
-class SignInScreenState extends State<SignInScreen> {
+class SignInScreenState extends State<AboutScreen> {
   @override
   void initState() {
     super.initState();
@@ -34,7 +35,7 @@ class SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) => ActiveTab(
         builder: (BuildContext context, AppTab activeTab) => Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: SimpleAppBar("Log in", RoutePaths.fromSignInToHomeScreen),
+          appBar: SimpleAppBar("About", RoutePaths.fromAboutToHomeScreen),
           body: SignInContainer(),
         ),
       );

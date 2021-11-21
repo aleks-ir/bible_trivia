@@ -12,10 +12,10 @@ import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_tab.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';
+import 'package:weekly_bible_trivia/constants/text_styles.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key}) : super(key: key);
-
+class TableResultsScreen extends StatefulWidget {
+  const TableResultsScreen({Key? key}) : super(key: key);
 
 
   @override
@@ -24,7 +24,7 @@ class SignInScreen extends StatefulWidget {
   }
 }
 
-class SignInScreenState extends State<SignInScreen> {
+class SignInScreenState extends State<TableResultsScreen> {
   @override
   void initState() {
     super.initState();
@@ -34,7 +34,7 @@ class SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) => ActiveTab(
         builder: (BuildContext context, AppTab activeTab) => Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: SimpleAppBar("Log in", RoutePaths.fromSignInToHomeScreen),
+          appBar: SimpleAppBar("Results", RoutePaths.fromResultToHomeScreen),
           body: SignInContainer(),
         ),
       );

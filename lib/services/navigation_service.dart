@@ -4,7 +4,7 @@ import 'package:weekly_bible_trivia/constants/route_paths.dart';
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  Future<dynamic> navigateTo(String routeName) {
+  Future<dynamic> navigate(String routeName) {
     return navigatorKey.currentState!.pushNamed(routeName);
   }
 
@@ -12,7 +12,8 @@ class NavigationService {
     navigatorKey.currentState!.pop();
   }
 
-  void goBackTo(String routeName) {
-    navigatorKey.currentState!.pushReplacementNamed(routeName);
+  void navigateBack(String routeName) {
+    navigatorKey.currentState!.pushNamedAndRemoveUntil(routeName, (route) => route.isCurrent);
   }
 }
+

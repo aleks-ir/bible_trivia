@@ -7,10 +7,44 @@ class UpdateTabAction {
 
 class NavigateToHomeAction {}
 
-class NavigateToSignInAction {}
+class NavigateFromHomeToSignInScreenAction {}
 
-class NavigateToSignOutAction {}
+class NavigateFromHomeToTableResultsScreenAction {}
 
-class NavigateToSignUpAction {}
+class NavigateFromHomeToAboutScreenAction {}
 
-class NavigateBackToHomeAction {}
+class NavigateFromHomeToEditProfileScreenAction {}
+
+class NavigateFromHomeToMainTriviaScreenAction {}
+
+class NavigateFromHomeToPastTriviaScreenAction {}
+
+class NavigateFromHomeToSearchScreenAction {}
+
+class NavigateFromHomeToSetChapterScreenAction {}
+
+class NavigateFromHomeToSetTranslationScreenAction {}
+
+class NavigateFromSignInToHomeScreenAction {}
+
+class NavigateFromSignInToSignUpScreenAction {}
+
+class NavigateFromSignUpToHomeScreenAction {}
+
+class NavigateFromTableResultsToHomeScreenAction {}
+
+class NavigateFromAboutToHomeScreenAction {}
+
+class NavigateFromEditProfileToHomeScreenAction {}
+
+class NavigateFromMainTriviaToResultScreenAction {}
+
+class NavigateFromPastTriviaToResultScreenAction {}
+
+class NavigateFromResultToHomeScreenAction {}
+
+class NavigateFromSearchToHomeScreenAction {}
+
+class NavigateFromSetChapterToHomeScreenAction {}
+
+class NavigateFromSetTranslationToHomeScreenAction {}

@@ -1,6 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:weekly_bible_trivia/models/authentication_status.dart';
+import 'package:weekly_bible_trivia/constants/enums/authentication_status.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
 
 

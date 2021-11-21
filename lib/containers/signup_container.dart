@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:weekly_bible_trivia/models/authentication_status.dart';
-import 'package:weekly_bible_trivia/models/validation_status.dart';
-import 'package:weekly_bible_trivia/models/screens.dart';
+import 'package:weekly_bible_trivia/constants/enums/authentication_status.dart';
+import 'package:weekly_bible_trivia/constants/enums/validation_status.dart';
+import 'package:weekly_bible_trivia/constants/enums/screens.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/redux/actions/authentication_action.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
@@ -11,6 +11,7 @@ import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/redux/states/authentication_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons/auth_buttun.dart';
 import 'package:weekly_bible_trivia/widgets/error_validation.dart';
+import 'package:weekly_bible_trivia/widgets/circular_progress_indicator.dart';
 import 'package:weekly_bible_trivia/widgets/snack_bar.dart';
 import 'package:weekly_bible_trivia/widgets/text_form_fields/auth_text_form_field.dart';
 
@@ -191,14 +192,17 @@ class SignUpContainer extends StatelessWidget {
                     ? passwordAndVerifyGroupColumn
                     : passwordAndVerifyGroupRow,
                 SizedBox(height: 30),
-                viewModel.authStatus != AuthenticationStatus.loading ? authButton("Create", () {
+
+                authButton(viewModel.authStatus != AuthenticationStatus.loading ? Text(
+                  "Create",
+                ) : circularProgressIndicator(), () {
                   FocusScope.of(context).unfocus();
                   viewModel.signUp(SignUpRequest(
                       _nameController.text,
                       _emailController.text,
                       _passController.text,
                       _retypePassController.text));
-                }, color: Colors.brown) : CircularProgressIndicator(),
+                }, color: Colors.brown),
               ],
             ),
           );
