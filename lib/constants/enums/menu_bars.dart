@@ -1,0 +1,1 @@
+enum MenuBar { home, reader, pastTrivia}

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:weekly_bible_trivia/constants/enums/navigation_tabs.dart';
 import 'package:weekly_bible_trivia/constants/route_paths.dart';
-import 'package:weekly_bible_trivia/containers/appbars/simple_app_bar.dart';
-import 'package:weekly_bible_trivia/containers/signup_container.dart';
-import 'package:weekly_bible_trivia/containers/tab_selector.dart';
-import 'package:weekly_bible_trivia/redux/states/app_tab.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';
-import 'package:weekly_bible_trivia/constants/text_styles.dart';
+import 'package:weekly_bible_trivia/containers/appbars/simple_appbar.dart';
+import 'package:weekly_bible_trivia/containers/signup_container.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -24,7 +22,7 @@ class SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) => ActiveTab(
-      builder: (BuildContext context, AppTab activeTab) => Scaffold(
+      builder: (BuildContext context, NavigationTab activeTab) => Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: SimpleAppBar("Create account", RoutePaths.fromSignUpToHomeScreen),
             body: SignUpContainer(),

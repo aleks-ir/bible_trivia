@@ -1,9 +1,10 @@
-import 'package:weekly_bible_trivia/redux/states/app_tab.dart';
+import 'package:weekly_bible_trivia/constants/enums/navigation_tabs.dart';
 
-class UpdateTabAction {
-  final AppTab newTab;
-  UpdateTabAction(this.newTab);
+class UpdateNavigationTabAction {
+  final NavigationTab newTab;
+  UpdateNavigationTabAction(this.newTab);
 }
+
 
 class NavigateToHomeAction {}
 

@@ -1,20 +1,36 @@
 import 'package:flutter/cupertino.dart';
+import 'package:weekly_bible_trivia/constants/enums/languages.dart';
+import 'package:weekly_bible_trivia/constants/enums/themes.dart';
 
 @immutable
 class LocalStorageState {
-  final String token;
+  final Languages language;
+  final Themes theme;
+  final double fontSize;
 
   const LocalStorageState({
-    required this.token,
+    required this.language,
+    required this.theme,
+    required this.fontSize,
   });
 
-  LocalStorageState copyWith(
-      {String? token}) {
-    return LocalStorageState(token: token ?? '',
+  LocalStorageState copyWith({
+    Languages? language,
+    Themes? theme,
+    double? fontSize,
+  }) {
+    return LocalStorageState(
+      language: language ?? this.language,
+      theme: theme ?? this.theme,
+      fontSize: fontSize ?? this.fontSize,
     );
   }
 
   factory LocalStorageState.initial() {
-    return LocalStorageState(token: '');
+    return LocalStorageState(
+      language: Languages.english,
+      theme: Themes.light,
+      fontSize: 20,
+    );
   }
 }

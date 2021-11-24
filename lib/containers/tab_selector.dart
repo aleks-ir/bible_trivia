@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/constants/enums/authentication_status.dart';
-import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
-import 'package:weekly_bible_trivia/redux/states/app_tab.dart';
-import 'package:weekly_bible_trivia/redux/states/app_state.dart';
+import 'package:weekly_bible_trivia/constants/enums/menu_bars.dart';
+import 'package:weekly_bible_trivia/constants/enums/navigation_tabs.dart';
 import 'package:weekly_bible_trivia/containers/modal_container.dart';
+import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
+import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
+import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 class TabSelector extends StatelessWidget {
   const TabSelector({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class TabSelector extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       distinct: true,
       converter: _ViewModel.fromStore,
-      builder: (context, vm) {
+      builder: (context, viewModel) {
         return BottomNavigationBar(
 
           type: BottomNavigationBarType.fixed,
@@ -25,19 +26,20 @@ class TabSelector extends StatelessWidget {
           selectedFontSize: 12,
           showUnselectedLabels: true,
           unselectedItemColor: Colors.black45,
-          selectedItemColor: Colors.amber,
-          currentIndex: AppTab.values.indexOf(vm.activeTab),
+          selectedItemColor: Colors.teal,
+          //const Color(0xfff063057),
+          currentIndex: NavigationTab.values.indexOf(viewModel.activeTab),
           onTap: (index) {
             switch (index) {
               case 3:
-                //ModalWithoutAuthWidget(context).showModal();
                 ModalBottomSheetContainer(context).showModal();
                 break;
               default:
-                vm.onTabSelected(index);
+                viewModel.hideMenuBar();
+                viewModel.onTabSelected(index);
             }
           },
-          items: AppTab.values.map((tab) {
+          items: NavigationTab.values.map((tab) {
             return BottomNavigationBarItem(
               icon: _getIcon(tab),
               label: _getLabel(tab),
@@ -48,27 +50,27 @@ class TabSelector extends StatelessWidget {
     );
   }
 
-  Icon _getIcon(AppTab tab) {
-    if (tab == AppTab.home) {
+  Icon _getIcon(NavigationTab tab) {
+    if (tab == NavigationTab.home) {
       return Icon(Icons.home);
-    } else if (tab == AppTab.reader) {
+    } else if (tab == NavigationTab.reader) {
       return Icon(Icons.book);
-    } else if (tab == AppTab.pastTrivia) {
+    } else if (tab == NavigationTab.pastTrivia) {
       return Icon(Icons.library_books_sharp);
-    } else if (tab == AppTab.more) {
+    } else if (tab == NavigationTab.more) {
       return Icon(Icons.list);
     }
     return Icon(Icons.error);
   }
 
-  String _getLabel(AppTab tab) {
-    if (tab == AppTab.home) {
+  String _getLabel(NavigationTab tab) {
+    if (tab == NavigationTab.home) {
       return "Home";
-    } else if (tab == AppTab.reader) {
+    } else if (tab == NavigationTab.reader) {
       return "Bible";
-    } else if (tab == AppTab.pastTrivia) {
+    } else if (tab == NavigationTab.pastTrivia) {
       return "Trivia";
-    } else if (tab == AppTab.more) {
+    } else if (tab == NavigationTab.more) {
       return "More";
     } else {
       return "Error";
@@ -79,34 +81,26 @@ class TabSelector extends StatelessWidget {
 }
 
 class _ViewModel {
-  final AppTab activeTab;
+  final NavigationTab activeTab;
   final Function onTabSelected;
-  final bool isAuthorized;
+  final Function hideMenuBar;
+  
 
   _ViewModel({
     required this.activeTab,
     required this.onTabSelected,
-    required this.isAuthorized,
+    required this.hideMenuBar,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      activeTab: store.state.activeTab,
+      activeTab: store.state.bottomBarState.activeTab,
       onTabSelected: (index) {
-        store.dispatch(updateTabThunk(AppTab.values[index]));
+        store.dispatch(updateTabThunk(NavigationTab.values[index]));
+        Future.delayed(const Duration(milliseconds: 500), () {store.dispatch(UpdateMenuBarAction(MenuBar.values[index]));});
       },
-      isAuthorized: store.state.authenticationState.status == AuthenticationStatus.loaded,
+      hideMenuBar: () => store.dispatch(UpdateShowMenuBarAction(false)),
     );
   }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is _ViewModel &&
-          runtimeType == other.runtimeType &&
-          activeTab == other.activeTab;
-
-  @override
-  int get hashCode => activeTab.hashCode;
 }
 

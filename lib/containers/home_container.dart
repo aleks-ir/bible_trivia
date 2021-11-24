@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/containers/tab_selector.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 class HomeContainer extends StatelessWidget {
@@ -11,7 +10,7 @@ class HomeContainer extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       converter: (Store<AppState> store) => _ViewModel.fromStore(store),
       builder: (context, _ViewModel viewModel) =>
-          Center(child: Text(viewModel.title)),
+          Center(child: FloatingActionButton(onPressed: () {  },),),
     );
   }
 }

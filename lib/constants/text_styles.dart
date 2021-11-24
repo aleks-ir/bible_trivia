@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 class TextStyles {
   static const TextStyle buttonMoreTextStyle = TextStyle(
     fontSize: 20,
-    color: Colors.black87,
-    fontWeight: FontWeight.w500,
-    fontStyle: FontStyle.italic,
+    color: Colors.brown,
+    fontWeight: FontWeight.w700,
   );
 
   static const TextStyle signInInputTextStyle = TextStyle(

@@ -6,17 +6,17 @@ class AuthSuccessfulAction {
   AuthSuccessfulAction({ required this.user});
 }
 
-class AuthErrorAction {
+class UpdateAuthErrorAction {
   final String authError;
-  AuthErrorAction(this.authError);
+  UpdateAuthErrorAction(this.authError);
 }
 
-class SignUpErrorAction {
+class UpdateSignUpErrorAction {
   final String signUpError;
-  SignUpErrorAction(this.signUpError);
+  UpdateSignUpErrorAction(this.signUpError);
 }
 
-class ChangeAuthStatusAction{
+class UpdateAuthStatusAction{
   final AuthenticationStatus status;
-  ChangeAuthStatusAction(this.status);
+  UpdateAuthStatusAction(this.status);
 }

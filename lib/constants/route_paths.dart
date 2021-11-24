@@ -1,5 +1,5 @@
 class RoutePaths {
-  static const String toHomeScreen = "toHomeScreen";
+  static const String toMainScreen = "toMainScreen";
   static const String fromHomeToSignInScreen = "fromHomeToSignInScreen";
   static const String fromHomeToTableResultsScreen =
       "fromHomeToTableResultsScreen";
