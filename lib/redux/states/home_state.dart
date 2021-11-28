@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 
 @immutable
 class HomeState {
-  final String title;
+  final bool isShowedInfoTrivia;
 
   const HomeState({
-    required this.title,
+    required this.isShowedInfoTrivia,
   });
 
-  HomeState copyWith({String? title}) {
+  HomeState copyWith({
+    bool? isShowedInfoTrivia}) {
     return HomeState(
-      title: title ?? this.title,
+      isShowedInfoTrivia: isShowedInfoTrivia ?? this.isShowedInfoTrivia,
     );
+  }
+
+  factory HomeState.initial() {
+    return HomeState(
+        isShowedInfoTrivia: false);
   }
 }

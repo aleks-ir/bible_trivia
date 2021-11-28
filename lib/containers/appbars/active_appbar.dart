@@ -27,9 +27,9 @@ class ActiveAppBar extends StatelessWidget with PreferredSizeWidget {
         builder: (context, _ViewModel viewModel) {
           switch (viewModel.activeTab) {
             case NavigationTab.home:
-              return HomeAppBar("Home");
+              return HomeAppBar("Weekly Trivia");
             case NavigationTab.reader:
-              return ReaderAppBar("Bible");
+              return ReaderAppBar("");
             case NavigationTab.pastTrivia:
               return PastTriviaAppBar("Trivia");
             default:

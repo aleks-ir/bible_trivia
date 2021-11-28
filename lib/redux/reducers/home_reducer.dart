@@ -3,13 +3,13 @@ import 'package:weekly_bible_trivia/redux/actions/home_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/home_state.dart';
 
 Reducer<HomeState> homeReducer = combineReducers([
-  TypedReducer<HomeState, UpdateHomeTitleAction>(_doUpdateHomeAction),
+  TypedReducer<HomeState, ChangeShowInfoTriviaAction>(_updateShowedInfoTriviaAction),
 ]);
 
 
-HomeState _doUpdateHomeAction(
-    HomeState prevState, UpdateHomeTitleAction action) {
+HomeState _updateShowedInfoTriviaAction(
+    HomeState prevState, ChangeShowInfoTriviaAction action) {
   return prevState.copyWith(
-    title: action.title,
+    isShowedInfoTrivia: action.isShowedInfoTrivia,
   );
 }

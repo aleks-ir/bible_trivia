@@ -1,4 +1,4 @@
-class UpdateHomeTitleAction {
-  final String title;
-  UpdateHomeTitleAction(this.title);
+class ChangeShowInfoTriviaAction {
+  final bool isShowedInfoTrivia;
+  ChangeShowInfoTriviaAction(this.isShowedInfoTrivia);
 }

@@ -44,7 +44,7 @@ ThunkAction<AppState> createSignInThunk(SignInRequest request) {
             user: UserFirebase(user.displayName ?? '', user.email ?? '',
                 user.uid, user.photoURL ?? '')));
         store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loaded));
-        store.dispatch(updateScreenThunk(NavigateToHomeAction()));
+        store.dispatch(updateScreenThunk(NavigateFromSignInToHomeScreenAction()));
       }
     } on FirebaseAuthException catch (error) {
       store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.error));
@@ -82,7 +82,7 @@ ThunkAction<AppState> createSignUpThunk(SignUpRequest request) {
         store.dispatch(AuthSuccessfulAction(
             user: UserFirebase(request.name, user.email ?? '', user.uid,
                 user.photoURL ?? '')));
-        store.dispatch(updateScreenThunk(NavigateToHomeAction()));
+        store.dispatch(updateScreenThunk(NavigateFromSignUpToHomeScreenAction()));
       }
     } on FirebaseAuthException catch (error) {
       store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.error));

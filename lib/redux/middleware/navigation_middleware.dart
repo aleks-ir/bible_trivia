@@ -59,23 +59,23 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
       return;
     }else if(action is NavigateFromSignInToHomeScreenAction) {
       store.dispatch(ClearErrorsAction());
-      _navigationService.navigate(RoutePaths.fromSignInToHomeScreen);
+      _navigationService.navigateBack(RoutePaths.fromSignInToHomeScreen);
       return;
     }else if(action is NavigateFromSignInToSignUpScreenAction) {
       _navigationService.navigate(RoutePaths.fromSignInToSignUpScreen);
       return;
     }else if(action is NavigateFromSignUpToHomeScreenAction) {
       store.dispatch(ClearErrorsAction());
-      _navigationService.navigate(RoutePaths.fromSignUpToHomeScreen);
+      _navigationService.navigateBack(RoutePaths.fromSignUpToHomeScreen);
       return;
     }else if(action is NavigateFromTableResultsToHomeScreenAction) {
       _navigationService.navigate(RoutePaths.fromTableResultsToHomeScreen);
       return;
     }else if(action is NavigateFromAboutToHomeScreenAction) {
-      _navigationService.navigate(RoutePaths.fromAboutToHomeScreen);
+      _navigationService.navigateBack(RoutePaths.fromAboutToHomeScreen);
       return;
     }else if(action is NavigateFromEditProfileToHomeScreenAction) {
-      _navigationService.navigate(RoutePaths.fromEditProfileToHomeScreen);
+      _navigationService.navigateBack(RoutePaths.fromEditProfileToHomeScreen);
       return;
     }else if(action is NavigateFromMainTriviaToResultScreenAction) {
       _navigationService.navigate(RoutePaths.fromMainTriviaToResultScreen);
@@ -84,16 +84,16 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
       _navigationService.navigate(RoutePaths.fromPastTriviaToResultScreen);
       return;
     }else if(action is NavigateFromResultToHomeScreenAction) {
-      _navigationService.navigate(RoutePaths.fromResultToHomeScreen);
+      _navigationService.navigateBack(RoutePaths.fromResultToHomeScreen);
       return;
     }else if(action is NavigateFromSearchToHomeScreenAction) {
-      _navigationService.navigate(RoutePaths.fromSearchToHomeScreen);
+      _navigationService.navigateBack(RoutePaths.fromSearchToHomeScreen);
       return;
     }else if(action is NavigateFromSetChapterToHomeScreenAction) {
-      _navigationService.navigate(RoutePaths.fromSetChapterToHomeScreen);
+      _navigationService.navigateBack(RoutePaths.fromSetChapterToHomeScreen);
       return;
     }else if(action is NavigateFromSetTranslationToHomeScreenAction) {
-      _navigationService.navigate(RoutePaths.fromSetTranslationToHomeScreen);
+      _navigationService.navigateBack(RoutePaths.fromSetTranslationToHomeScreen);
       return;
     }
     store.dispatch(action);

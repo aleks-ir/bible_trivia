@@ -17,8 +17,21 @@ class TextStyles {
   static const TextStyle appBarStyle = TextStyle(
     fontSize: 20,
     color: Colors.black,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w300,
   );
 
+
+  static const TextStyle homeInfoCardTitileStyle = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 17,
+    color: Colors.black,
+  );
+
+  static const TextStyle homeInfoCardStyle = TextStyle(
+    fontWeight: FontWeight.normal,
+    fontSize: 15,
+    color: Colors.black,
+    height: 1.3,
+  );
 
 }

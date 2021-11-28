@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:weekly_bible_trivia/constants/strings.dart';
 import 'package:weekly_bible_trivia/redux/states/appbar_state.dart';
@@ -10,8 +9,8 @@ import 'package:weekly_bible_trivia/redux/states/signup_state.dart';
 
 import 'authentication_state.dart';
 import 'bottombar_state.dart';
+import 'info_trivia_state.dart';
 import 'local_storage_state.dart';
-
 
 @immutable
 class AppState {
@@ -24,6 +23,7 @@ class AppState {
   final SignUpState signUpState;
   final LocalStorageState localStorageState;
   final AppBarState appBarState;
+  final InfoTriviaState infoTriviaState;
 
   const AppState({
     required this.bottomBarState,
@@ -35,33 +35,35 @@ class AppState {
     required this.signUpState,
     required this.localStorageState,
     required this.appBarState,
+    required this.infoTriviaState,
   });
 
-  factory AppState.initial(){
+  factory AppState.initial() {
     return AppState(
-        bottomBarState: BottomBarState.initial(),
-        homeState: HomeState(title: 'Home screen'),
-        readerState : ReaderState(title: TEST_TEXT),
-        pastTriviaState : PastTriviaState.initial(),
-        authenticationState : AuthenticationState.initial(),
-        signInState: SignInState.initial(),
-        signUpState: SignUpState.initial(),
-        localStorageState: LocalStorageState.initial(),
-        appBarState: AppBarState.initial(),
+      bottomBarState: BottomBarState.initial(),
+      homeState: HomeState.initial(),
+      readerState: ReaderState(title: TEST_TEXT),
+      pastTriviaState: PastTriviaState.initial(),
+      authenticationState: AuthenticationState.initial(),
+      signInState: SignInState.initial(),
+      signUpState: SignUpState.initial(),
+      localStorageState: LocalStorageState.initial(),
+      appBarState: AppBarState.initial(),
+      infoTriviaState: InfoTriviaState.initial(),
     );
   }
-  
-  AppState copyWith({
-    BottomBarState? bottomBarState,
-    HomeState? homeState,
-    ReaderState? readerState,
-    PastTriviaState? pastTriviaState,
-    AuthenticationState? authorizationState,
-    SignInState? signInState,
-    SignUpState? signUpState,
-    LocalStorageState? localStorageState,
-    AppBarState? homeAppBarState,
-  }) {
+
+  AppState copyWith(
+      {BottomBarState? bottomBarState,
+      HomeState? homeState,
+      ReaderState? readerState,
+      PastTriviaState? pastTriviaState,
+      AuthenticationState? authorizationState,
+      SignInState? signInState,
+      SignUpState? signUpState,
+      LocalStorageState? localStorageState,
+      AppBarState? homeAppBarState,
+      InfoTriviaState? infoTriviaState}) {
     return AppState(
       homeState: homeState ?? this.homeState,
       bottomBarState: bottomBarState ?? this.bottomBarState,
@@ -72,6 +74,7 @@ class AppState {
       readerState: readerState ?? this.readerState,
       localStorageState: localStorageState ?? this.localStorageState,
       appBarState: homeAppBarState ?? this.appBarState,
+      infoTriviaState: infoTriviaState ?? this.infoTriviaState,
     );
   }
 }

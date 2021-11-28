@@ -44,6 +44,7 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
                 ),
               ],
               title: Text(title, style: TextStyles.appBarStyle),
+              centerTitle: true,
               backgroundColor: Colors.white,
             ));
   }

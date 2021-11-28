@@ -9,6 +9,7 @@ import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'appbar_reducer.dart';
 import 'authentication_reducer.dart';
 import 'home_reducer.dart';
+import 'info_trivia_reducer.dart';
 import 'local_storage_reducer.dart';
 
 AppState appReducer(AppState state, action) {
@@ -23,5 +24,6 @@ AppState appReducer(AppState state, action) {
       localStorageState: localStorageReducer(state.localStorageState, action),
       appBarState: appBarReducer(state.appBarState, action),
       bottomBarState: bottomBarReducer(state.bottomBarState, action),
+      infoTriviaState: infoTriviaReducer(state.infoTriviaState, action),
   );
 }

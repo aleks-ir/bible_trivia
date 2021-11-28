@@ -26,7 +26,7 @@ class ModalBottomSheetContainer {
                   MediaQuery.of(context).orientation == Orientation.portrait;
               return Container(
                 height: viewModel.isAuthenticated
-                    ? 170
+                    ? 150
                     : 110,
                 //clipBehavior: Clip.antiAlias,
                 decoration: const BoxDecoration(
@@ -89,9 +89,9 @@ class ModalBottomSheetContainer {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: viewModel.isAuthenticated ?  20 : 0,
-                      ),
+                      // SizedBox(
+                      //   height: viewModel.isAuthenticated ?  5 : 0,
+                      // ),
                       Row(
                         children: [
                           //Expanded(child: SizedBox()),
