@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/constants/strings.dart';
+import 'package:weekly_bible_trivia/global/strings.dart';
 
 @immutable
 class PastTriviaState {

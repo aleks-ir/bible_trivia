@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/constants/text_styles.dart';
+import 'package:weekly_bible_trivia/global/text_styles.dart';
 
 Widget authTextField(
     {required bool obscure, required bool autofocus, required String label, required IconData icon, required TextEditingController controller, required Function(String) onChanged}) {

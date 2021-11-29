@@ -31,7 +31,7 @@ class TextStyles {
     fontWeight: FontWeight.normal,
     fontSize: 15,
     color: Colors.black,
-    height: 1.3,
+      height: 1.3,
   );
 
 }

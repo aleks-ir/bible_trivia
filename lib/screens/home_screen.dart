@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/constants/enums/navigation_tabs.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';
 import 'package:weekly_bible_trivia/containers/appbars/active_appbar.dart';
 import 'package:weekly_bible_trivia/containers/appbars/active_menubar.dart';
@@ -7,19 +6,20 @@ import 'package:weekly_bible_trivia/containers/home_container.dart';
 import 'package:weekly_bible_trivia/containers/past_trivia_container.dart';
 import 'package:weekly_bible_trivia/containers/reader_container.dart';
 import 'package:weekly_bible_trivia/containers/tab_selector.dart';
+import 'package:weekly_bible_trivia/models/enums.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
 
   @override
-  MainScreenState createState() {
+  HomeScreenState createState() {
 
-    return MainScreenState();
+    return HomeScreenState();
   }
 }
 
-class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin  {
+class HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin  {
   late final AnimationController _controller;
   @override
   void initState() {

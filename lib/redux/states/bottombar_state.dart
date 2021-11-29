@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/constants/enums/navigation_tabs.dart';
+import 'package:weekly_bible_trivia/models/enums.dart';
 
 @immutable
 class BottomBarState {

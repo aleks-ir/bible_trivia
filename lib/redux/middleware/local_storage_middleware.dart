@@ -1,9 +1,8 @@
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weekly_bible_trivia/constants/enums/languages.dart';
-import 'package:weekly_bible_trivia/constants/enums/themes.dart';
-import 'package:weekly_bible_trivia/constants/strings.dart';
+import 'package:weekly_bible_trivia/global/strings.dart';
+import 'package:weekly_bible_trivia/models/enums.dart';
 import 'package:weekly_bible_trivia/redux/actions/local_storage_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 

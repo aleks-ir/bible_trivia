@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/constants/text_styles.dart';
+import 'package:weekly_bible_trivia/global/text_styles.dart';
 import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons/menu_buttons.dart';

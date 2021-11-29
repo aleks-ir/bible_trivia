@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/constants/text_styles.dart';
+import 'package:weekly_bible_trivia/global/text_styles.dart';
 import 'package:weekly_bible_trivia/services/navigation_service.dart';
 import 'package:weekly_bible_trivia/utils/locator.dart';
 

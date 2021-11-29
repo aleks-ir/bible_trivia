@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/constants/enums/menu_bars.dart';
-import 'package:weekly_bible_trivia/constants/enums/navigation_tabs.dart';
 import 'package:weekly_bible_trivia/containers/modal_container.dart';
+import 'package:weekly_bible_trivia/models/enums.dart';
 import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';

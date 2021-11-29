@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-import 'package:weekly_bible_trivia/constants/enums/authentication_status.dart';
+import 'package:weekly_bible_trivia/models/enums.dart';
 import 'package:weekly_bible_trivia/models/signin_request.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
@@ -19,7 +19,7 @@ ThunkAction<AppState> createLogOutThunk() {
     try {
       await _auth.signOut();
       store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.noLoaded));
-      store.dispatch(updateScreenThunk(NavigateToHomeAction()));
+      store.dispatch(updateScreenThunk(NavigateBackToHomeAction()));
     } catch (error) {
       print(error);
     }

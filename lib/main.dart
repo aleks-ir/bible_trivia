@@ -13,8 +13,8 @@ import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/services/navigation_service.dart';
 import 'package:weekly_bible_trivia/utils/router.dart';
 
-import 'constants/route_paths.dart';
-import 'constants/strings.dart';
+import 'global/route_paths.dart';
+import 'global/strings.dart';
 import 'utils/locator.dart';
 
 void main() async {
@@ -52,7 +52,7 @@ class WeeklyTriviaBibleApp extends StatelessWidget {
             store: _store,
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
-              initialRoute: RoutePaths.toMainScreen,
+              initialRoute: RoutePaths.toHomeScreen,
               navigatorKey: locator<NavigationService>().navigatorKey,
               onGenerateRoute: _applicationRouter,
             ),

@@ -1,1 +1,0 @@
-enum NavigationTab { home, reader, pastTrivia, more}

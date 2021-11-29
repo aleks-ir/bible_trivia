@@ -1,5 +1,6 @@
-import 'package:weekly_bible_trivia/constants/enums/languages.dart';
-import 'package:weekly_bible_trivia/constants/enums/themes.dart';
+
+
+import 'package:weekly_bible_trivia/models/enums.dart';
 
 class UpdateLanguageAction {
   final Languages language;

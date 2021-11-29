@@ -1,3 +1,0 @@
-enum Screens{
-  SIGNIN,SIGNUP
-}

@@ -1,6 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:weekly_bible_trivia/constants/enums/validation_status.dart';
-import 'package:weekly_bible_trivia/screens/signin_screen.dart';
 
 @immutable
 class InfoTriviaState {

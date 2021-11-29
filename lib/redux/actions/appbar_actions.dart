@@ -1,5 +1,7 @@
-import 'package:weekly_bible_trivia/constants/enums/menu_bars.dart';
 
+
+
+import 'package:weekly_bible_trivia/models/enums.dart';
 
 class UpdateShowMenuBarAction {
   final bool isShowMenuBar ;

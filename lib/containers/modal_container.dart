@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/constants/enums/authentication_status.dart';
-import 'package:weekly_bible_trivia/constants/strings.dart';
-import 'package:weekly_bible_trivia/constants/text_styles.dart';
+import 'package:weekly_bible_trivia/global/strings.dart';
+import 'package:weekly_bible_trivia/global/text_styles.dart';
+import 'package:weekly_bible_trivia/models/enums.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
 import 'package:weekly_bible_trivia/redux/actions/transition_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/authentication_middleware.dart';

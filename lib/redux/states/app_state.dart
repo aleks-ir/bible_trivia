@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/constants/strings.dart';
+import 'package:weekly_bible_trivia/global/strings.dart';
 import 'package:weekly_bible_trivia/redux/states/appbar_state.dart';
 import 'package:weekly_bible_trivia/redux/states/home_state.dart';
 import 'package:weekly_bible_trivia/redux/states/past_trivia_state.dart';

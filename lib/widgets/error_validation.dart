@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/constants/colors.dart';
+import 'package:weekly_bible_trivia/global/colors.dart';
 
 Widget errorValidation(String textError) =>  Text(textError,
     style: const TextStyle(

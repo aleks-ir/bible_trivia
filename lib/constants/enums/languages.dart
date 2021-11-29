@@ -1,3 +1,0 @@
-enum Languages{
-  english, russian
-}

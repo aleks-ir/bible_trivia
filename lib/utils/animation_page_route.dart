@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:weekly_bible_trivia/constants/enums/animation_direction.dart';
+import 'package:weekly_bible_trivia/models/enums.dart';
 
 class AnimationPageRoute extends PageRouteBuilder {
   final Widget endPage;

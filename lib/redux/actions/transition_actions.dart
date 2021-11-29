@@ -1,4 +1,6 @@
-import 'package:weekly_bible_trivia/constants/enums/navigation_tabs.dart';
+
+
+import 'package:weekly_bible_trivia/models/enums.dart';
 
 class UpdateNavigationTabAction {
   final NavigationTab newTab;
@@ -7,6 +9,8 @@ class UpdateNavigationTabAction {
 
 
 class NavigateToHomeAction {}
+
+class NavigateBackToHomeAction {}
 
 class NavigateFromHomeToSignInScreenAction {}
 
