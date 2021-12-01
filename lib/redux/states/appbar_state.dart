@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 
 @immutable
 class AppBarState {

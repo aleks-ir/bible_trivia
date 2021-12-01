@@ -3,7 +3,8 @@ import 'package:weekly_bible_trivia/global/route_paths.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';
 import 'package:weekly_bible_trivia/containers/appbars/simple_appbar.dart';
 import 'package:weekly_bible_trivia/containers/signin_container.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 
 class TableResultsScreen extends StatefulWidget {
   const TableResultsScreen({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class SignInScreenState extends State<TableResultsScreen> {
   Widget build(BuildContext context) => ActiveTab(
         builder: (BuildContext context, NavigationTab activeTab) => Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: SimpleAppBar("Results", RoutePaths.fromResultToHomeScreen),
+          appBar: SimpleAppBar("Results", NavigateFromTableResultsToHomeScreenAction()),
           body: SignInContainer(),
         ),
       );

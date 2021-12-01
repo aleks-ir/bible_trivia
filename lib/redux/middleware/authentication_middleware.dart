@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/models/signin_request.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
 import 'package:weekly_bible_trivia/redux/actions/authentication_actions.dart';
-import 'package:weekly_bible_trivia/redux/actions/transition_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 import 'navigation_middleware.dart';

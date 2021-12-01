@@ -29,7 +29,7 @@ class PastTriviaAppBar extends StatelessWidget implements PreferredSizeWidget {
                     scale: 1.0,
                     child: const Icon(
                       Icons.book,
-                      color: Colors.black54,
+                      color: Colors.teal,
                     ),
                   ),
                   onPressed: () {
@@ -41,23 +41,33 @@ class PastTriviaAppBar extends StatelessWidget implements PreferredSizeWidget {
                   width: 10,
                 ),
               ],
-              title: Text(title, style: TextStyles.appBarStyle),
-              backgroundColor: Colors.white,
+              centerTitle: true,
+              title: Text(
+                title,
+                style: TextStyles.getAppBarStyle(Color(viewModel.textColor)),
+              ),
+              backgroundColor: Color(viewModel.appBarColor),
             ));
   }
 }
 
 class _ViewModel {
+  final int appBarColor;
+  final int textColor;
   final bool isShowMenuBar;
   final Function(bool) changeShowMenuBar;
 
   _ViewModel({
+    required this.appBarColor,
+    required this.textColor,
     required this.isShowMenuBar,
     required this.changeShowMenuBar,
   });
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+      appBarColor: store.state.themeSettingsState.appBarColor,
+      textColor: store.state.themeSettingsState.textColor,
       isShowMenuBar: store.state.appBarState.isShowMenuBar,
       changeShowMenuBar: (value) =>
           store.dispatch(UpdateShowMenuBarAction(value)),

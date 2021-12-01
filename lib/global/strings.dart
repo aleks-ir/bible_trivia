@@ -1,5 +1,7 @@
 
 
+const title_card_info = "Info about trivia";
+
 
 //Errors
 const name_error = "Name can not be empty.";

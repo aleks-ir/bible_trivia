@@ -3,7 +3,8 @@ import 'package:weekly_bible_trivia/global/route_paths.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';
 import 'package:weekly_bible_trivia/containers/appbars/simple_appbar.dart';
 import 'package:weekly_bible_trivia/containers/signin_container.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class SignInScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) => ActiveTab(
         builder: (BuildContext context, NavigationTab activeTab) => Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: SimpleAppBar("Edit profile", RoutePaths.fromEditProfileToHomeScreen),
+          appBar: SimpleAppBar("Edit profile", NavigateFromEditProfileToHomeScreenAction()),
           body: SignInContainer(),
         ),
       );

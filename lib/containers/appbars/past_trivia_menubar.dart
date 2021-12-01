@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -15,11 +14,16 @@ class PastTriviaMenuBar extends StatelessWidget {
     this.title,
     this.controller, {
     Key? key,
-  })  : super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<String> list = ["Item 1", "Item 2", "Item 3", "Item 4",];
+    List<String> list = [
+      "Item 1",
+      "Item 2",
+      "Item 3",
+      "Item 4",
+    ];
     return StoreConnector<AppState, _ViewModel>(
       converter: (Store<AppState> store) => _ViewModel.fromStore(store),
       builder: (context, _ViewModel viewModel) => SlidingAppBar(
@@ -35,15 +39,17 @@ class PastTriviaMenuBar extends StatelessWidget {
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: list.length,
-                      itemBuilder: (BuildContext context,int index){
+                      itemBuilder: (BuildContext context, int index) {
                         return Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 2),
-                                  color: Colors.white,
-                                  child: Center(
-                                      child: menuMaterialButton(viewModel.books[index], viewModel.activeBook == index, (){viewModel.changeActiveBook(index);}, radiusCircular: 10)),
-                                );
-                      }
-                  ),
+                          margin: EdgeInsets.symmetric(horizontal: 2),
+                          color: Color(viewModel.appBarColor),
+                          child: Center(
+                              child: menuMaterialButton(viewModel.books[index],
+                                  viewModel.activeBook == index, () {
+                            viewModel.changeActiveBook(index);
+                          }, radiusCircular: 10)),
+                        );
+                      }),
                 ),
               ),
               Expanded(flex: 1, child: SizedBox()),
@@ -51,20 +57,23 @@ class PastTriviaMenuBar extends StatelessWidget {
             shape: ContinuousRectangleBorder(
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(50.0))),
-          backgroundColor: Colors.white,),
-
+            backgroundColor: Color(
+              viewModel.appBarColor,
+            )),
       ),
     );
   }
 }
 
 class _ViewModel {
+  final int appBarColor;
   final bool isShowMenuBar;
   final int activeBook;
   final List<String> books;
   final Function(int value) changeActiveBook;
 
   _ViewModel({
+    required this.appBarColor,
     required this.isShowMenuBar,
     required this.activeBook,
     required this.books,
@@ -73,6 +82,7 @@ class _ViewModel {
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+        appBarColor: store.state.themeSettingsState.appBarColor,
         isShowMenuBar: store.state.appBarState.isShowMenuBar,
         activeBook: store.state.pastTriviaState.selectedBook,
         books: store.state.pastTriviaState.books,

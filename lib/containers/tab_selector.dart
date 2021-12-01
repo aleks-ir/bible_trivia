@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/containers/modal_container.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
@@ -19,12 +19,12 @@ class TabSelector extends StatelessWidget {
         return BottomNavigationBar(
 
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
+          backgroundColor: Color(viewModel.tabBarColor),
           iconSize: 20,
           unselectedFontSize: 10,
           selectedFontSize: 12,
           showUnselectedLabels: true,
-          unselectedItemColor: Colors.black45,
+          unselectedItemColor: Color(viewModel.unselectedItemColor),
           selectedItemColor: Colors.teal,
           //const Color(0xfff063057),
           currentIndex: NavigationTab.values.indexOf(viewModel.activeTab),
@@ -80,12 +80,16 @@ class TabSelector extends StatelessWidget {
 }
 
 class _ViewModel {
+  final int unselectedItemColor;
+  final int tabBarColor;
   final NavigationTab activeTab;
   final Function onTabSelected;
   final Function hideMenuBar;
   
 
   _ViewModel({
+    required this.unselectedItemColor,
+    required this.tabBarColor,
     required this.activeTab,
     required this.onTabSelected,
     required this.hideMenuBar,
@@ -93,6 +97,8 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
+      unselectedItemColor: store.state.themeSettingsState.shadowColor,
+      tabBarColor: store.state.themeSettingsState.appBarColor,
       activeTab: store.state.bottomBarState.activeTab,
       onTabSelected: (index) {
         store.dispatch(updateTabThunk(NavigationTab.values[index]));

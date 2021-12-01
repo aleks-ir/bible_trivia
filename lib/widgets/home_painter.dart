@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
 class HomePainter extends CustomPainter {
+  Color primaryColor;
+  bool isPortrait;
+
+  HomePainter(this.isPortrait, this.primaryColor);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -12,7 +16,7 @@ class HomePainter extends CustomPainter {
 
     Path mainBackground = Path();
     mainBackground.addRect(Rect.fromLTRB(0, 0, width, height));
-    paint.color = Colors.white;
+    paint.color = primaryColor;
     canvas.drawPath(mainBackground, paint);
 
 
@@ -23,31 +27,36 @@ class HomePainter extends CustomPainter {
     ovalPathBottom.quadraticBezierTo(width * 0.6, height * 0.9, width, height);
     ovalPathBottom.lineTo(0, height);
     ovalPathBottom.close();
-    paint.shader = ui.Gradient.linear(
-      Offset(0, 0), Offset(500, 0),
-      [
-        Colors.greenAccent,
-        Colors.teal,
-      ],
-    );
-    canvas.drawPath(ovalPathBottom, paint);
+
+    if(isPortrait){
+      paint.shader = ui.Gradient.linear(
+        Offset(0, 0), Offset(500, 0),
+        [
+          Colors.greenAccent,
+          Colors.teal,
+        ],
+      );
+      canvas.drawPath(ovalPathBottom, paint);
 
 
-    Path ovalPathTop = Path();
-    ovalPathTop.moveTo(width, height * 0.1);
-    ovalPathTop.quadraticBezierTo(width * 0.75, height * 0.2, width * 0.4, height * 0.1);
-    ovalPathTop.quadraticBezierTo(
-        width * 0.4, height * 0.1, 0, 0);
-    ovalPathTop.lineTo(width, 0);
-    ovalPathTop.close();
-    paint.shader = ui.Gradient.linear(
-      Offset(500, 0), Offset(0, 0),
-      [
-        Colors.greenAccent,
-        Colors.teal,
-      ],
-    );
-    canvas.drawPath(ovalPathTop, paint);
+      Path ovalPathTop = Path();
+      ovalPathTop.moveTo(width, height * 0.1);
+      ovalPathTop.quadraticBezierTo(width * 0.75, height * 0.2, width * 0.4, height * 0.1);
+      ovalPathTop.quadraticBezierTo(
+          width * 0.4, height * 0.1, 0, 0);
+      ovalPathTop.lineTo(width, 0);
+      ovalPathTop.close();
+      paint.shader = ui.Gradient.linear(
+        Offset(500, 0), Offset(0, 0),
+        [
+          Colors.greenAccent,
+          Colors.teal,
+        ],
+      );
+      canvas.drawPath(ovalPathTop, paint);
+    }
+
+
 
   }
 

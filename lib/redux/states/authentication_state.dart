@@ -1,6 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
 
 

@@ -3,8 +3,8 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/text_styles.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
 import 'package:weekly_bible_trivia/redux/actions/home_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons/home_button.dart';
@@ -68,25 +68,17 @@ class _HomeContainerState extends State<HomeContainer>
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
           initData(viewModel);
-
           final Card infoCard = Card(
+            color: Color(viewModel.secondaryColor),
             child: ListTile(
-                minVerticalPadding: 30,
+                minVerticalPadding: 20,
                 title: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                        child: Text(
-                      "Info about current trivia",
-                      style: TextStyles.homeInfoCardTitileStyle,
-                    )),
-                    SizedBox(
-                      height: 10,
-                    ),
                     viewModel.isShowedInfoTrivia
                         ? Text(_infoAboutCurrentTrivia,
-                            style: TextStyles.homeInfoCardStyle)
+                            style: TextStyles.getHomeInfoCardStyle(Color(viewModel.textColor)),)
                         : AnimatedBuilder(
                             animation: _characterCount,
                             builder: (BuildContext context, Widget? child) {
@@ -94,18 +86,19 @@ class _HomeContainerState extends State<HomeContainer>
                                   0, _characterCount.value);
                               return Text(
                                 text,
-                                style: TextStyles.homeInfoCardStyle,
+                                style: TextStyles.getHomeInfoCardStyle(Color(viewModel.textColor)),
                               );
                             },
                           ),
                   ],
                 )),
             elevation: 8,
-            shadowColor: Colors.green,
-            margin: EdgeInsets.only(left: 80, right:  _isPortrait ? 80 : 20),
+            shadowColor: Color(viewModel.secondaryColor),
+            margin: EdgeInsets.only(left: 80, right: _isPortrait ? 80 : 20),
             shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.white, width: 1)),
+                borderSide: BorderSide(
+                    color: Color(viewModel.primaryColor), width: 1)),
           );
 
           final Widget mainButton = GestureDetector(
@@ -122,38 +115,63 @@ class _HomeContainerState extends State<HomeContainer>
           );
 
           return CustomPaint(
-            painter: _isPortrait ? HomePainter() : null,
+            painter: HomePainter(_isPortrait, Color(viewModel.primaryColor)),
             child: isShowDialog
                 ? homeDialog(
                     onPressed: () {
                       isShowDialog = false;
-                      setState(() {});
+                      setState(
+                        () {},
+                      );
                     },
-                    image: Image.asset("assets/images/info.png"))
-                : SizedBox(
-                    height: double.infinity,
-                    width: double.infinity,
+                    image: Image.asset("assets/images/info.png"),
+                    color: Color(viewModel.primaryColor),
+                    textColor: Color(viewModel.textColor))
+                : SizedBox.expand(
                     child: _isPortrait
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              Center(
+                                  child: Text(
+                                "Info about trivia",
+                                style: TextStyles.getHomeInfoCardTitleStyle(Color(viewModel.textColor)),
+                              )),
+                              SizedBox(height: 10),
                               infoCard,
+                              SizedBox(height: 10),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 100, top: 20,),
+                                padding: const EdgeInsets.only(
+                                  left: 0,
+                                  top: 0,
+                                ),
                                 child: mainButton,
                               ),
                             ],
                           )
-                        : Row(
+                        : Container(
+                          color: Color(viewModel.primaryColor),
+                          child: Row(
                             children: [
-                              Expanded(flex: 2, child: SizedBox()),
-                              Expanded(flex: 5, child: infoCard),
-                              Expanded(flex: 1, child: mainButton),
+                              Expanded(flex: 1, child: SizedBox()),
+                              Expanded(flex: 5, child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Info about trivia",
+                                    style: TextStyles.getHomeInfoCardTitleStyle(Color(viewModel.textColor)),
+                                  ),
+                                  SizedBox(height: 10,),
+                                  infoCard,
+                                ],
+                              )),
+                              Expanded(flex: 2, child: mainButton),
                               Expanded(flex: 2, child: SizedBox()),
                             ],
                           ),
+                        ),
                   ),
           );
         });
@@ -171,7 +189,11 @@ class _HomeContainerState extends State<HomeContainer>
     if (_vm.isShowedInfoTrivia) {
       if (_vm.isAuthenticated) {
       } else {
-        isShowDialog = true;
+        Future.delayed(Duration(milliseconds: 500), () async {
+          isShowDialog = true;
+          setState(() {});
+        });
+
       }
     } else {
       _animationControllerText.forward();
@@ -200,8 +222,10 @@ class _HomeContainerState extends State<HomeContainer>
   }
 }
 
-
 class _ViewModel {
+  final int primaryColor;
+  final int secondaryColor;
+  final int textColor;
   final bool isAuthenticated;
   final bool isShowedInfoTrivia;
   final String book;
@@ -213,7 +237,11 @@ class _ViewModel {
   final Function(bool) changeShowedInfoTrivia;
 
   _ViewModel(
-      {required this.isAuthenticated,
+      {
+        required this.primaryColor,
+        required this.secondaryColor,
+        required this.textColor,
+        required this.isAuthenticated,
       required this.isShowedInfoTrivia,
       required this.book,
       required this.chapters,
@@ -224,6 +252,9 @@ class _ViewModel {
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+      primaryColor: store.state.themeSettingsState.primaryColor,
+        secondaryColor: store.state.themeSettingsState.secondaryColor,
+        textColor: store.state.themeSettingsState.textColor,
         isAuthenticated: store.state.authenticationState.status ==
             AuthenticationStatus.loaded,
         countQuestion: store.state.infoTriviaState.countQuestion,

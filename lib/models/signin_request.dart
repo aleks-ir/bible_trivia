@@ -1,5 +1,3 @@
-
-
 class SignInRequest{
   String email;
   String password;

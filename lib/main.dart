@@ -4,60 +4,54 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weekly_bible_trivia/redux/actions/local_storage_actions.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/redux/actions/theme_settings_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/authentication_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/reducers/app_state_reduser.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/services/navigation_service.dart';
 import 'package:weekly_bible_trivia/utils/router.dart';
+import 'package:weekly_bible_trivia/utils/selectors.dart';
 
 import 'global/route_paths.dart';
-import 'global/strings.dart';
+import 'models/app_theme.dart';
 import 'utils/locator.dart';
 
 void main() async {
   setUpLocator();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(WeeklyTriviaBibleApp());
+  runApp(
+    WeeklyTriviaBibleApp(),
+  );
 }
 
-
 class WeeklyTriviaBibleApp extends StatelessWidget {
-
   late Store<AppState> _store = _store = Store<AppState>(appReducer,
       middleware: [thunkMiddleware, LoggingMiddleware.printer()],
       initialState: AppState.initial());
 
   final _applicationRouter = ApplicationRouter();
 
-  void getFontSize() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    double fontSize = prefs.getDouble(FONT_SIZE) ?? 20;
-    _store.dispatch(UpdateFontSizeAction(fontSize));
-  }
-
   @override
   Widget build(BuildContext context) {
-          //createInitAuthThunk();
-          //createInitSettingsThunk();
-          //saveFontSizeThunk(30);
-          //getFontSize();
-
-          _store.dispatch(createInitAuthThunk());
-          _store.dispatch(createInitSettingsThunk());
-          return StoreProvider<AppState>(
-            store: _store,
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              initialRoute: RoutePaths.toHomeScreen,
-              navigatorKey: locator<NavigationService>().navigatorKey,
-              onGenerateRoute: _applicationRouter,
-            ),
-          );
-
-
+    initAppData(_store);
+    return StoreProvider<AppState>(
+      store: _store,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: RoutePaths.toHomeScreen,
+        navigatorKey: locator<NavigationService>().navigatorKey,
+        onGenerateRoute: _applicationRouter,
+      ),
+    );
   }
+
+  void initAppData(Store<AppState> store) async {
+    store.dispatch(createInitAuthThunk());
+    store.dispatch(createInitSettingsThunk());
+    //await initTheme(store);
+  }
+
 }

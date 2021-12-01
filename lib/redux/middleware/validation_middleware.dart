@@ -2,7 +2,7 @@
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:weekly_bible_trivia/global/strings.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/models/signin_request.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
@@ -16,7 +16,7 @@ const String emailPattern =
 
 ThunkAction<AppState> validateSignInThunk(SignInRequest request) {
   return (Store<AppState> store) {
-    Screens screen = Screens.SIGNIN;
+    Screen screen = Screen.SIGNIN;
     bool isValidEmail = validateEmail(request.email, screen, store);
     bool isValidPassword = validatePassword(request.password, screen, store);
     if (isValidEmail && isValidPassword) {
@@ -29,7 +29,7 @@ ThunkAction<AppState> validateSignInThunk(SignInRequest request) {
 
 ThunkAction<AppState> validateSignUpThunk(SignUpRequest request) {
   return (Store<AppState> store) {
-    Screens screen = Screens.SIGNUP;
+    Screen screen = Screen.SIGNUP;
     bool isValidName = validateName(request.name, screen, store);
     bool isValidEmail = validateEmail(request.email, screen, store);
     bool isValidPassword = validatePassword(request.password, screen, store);
@@ -44,25 +44,25 @@ ThunkAction<AppState> validateSignUpThunk(SignUpRequest request) {
 }
 
 
-ThunkAction<AppState> validatePassMatchThunk(String password, String confirmPassword, Screens screen,) {
+ThunkAction<AppState> validatePassMatchThunk(String password, String confirmPassword, Screen screen,) {
   return (Store<AppState> store) {
     validatePassMatch(password, confirmPassword, screen, store);
   };
 }
 
-ThunkAction<AppState> validatePasswordThunk(String password, Screens screen) {
+ThunkAction<AppState> validatePasswordThunk(String password, Screen screen) {
   return (Store<AppState> store) {
     validatePassword(password, screen, store);
   };
 }
 
-ThunkAction<AppState> validateEmailThunk(String email, Screens screen) {
+ThunkAction<AppState> validateEmailThunk(String email, Screen screen) {
   return (Store<AppState> store) {
     validateEmail(email, screen, store);
   };
 }
 
-ThunkAction<AppState> validateNameThunk(String name, Screens screen) {
+ThunkAction<AppState> validateNameThunk(String name, Screen screen) {
   return (Store<AppState> store) {
     validateName(name, screen, store);
   };
@@ -70,7 +70,7 @@ ThunkAction<AppState> validateNameThunk(String name, Screens screen) {
 
 
 bool validatePassMatch(String password, String confirmPassword,
-    Screens screen, Store<AppState> store) {
+    Screen screen, Store<AppState> store) {
   if (password != confirmPassword) {
     store.dispatch(RetypePasswordErrorAction(password_match_error, screen));
     return false;
@@ -81,7 +81,7 @@ bool validatePassMatch(String password, String confirmPassword,
 }
 
 bool validatePassword(
-    String password, Screens screen, Store<AppState> store) {
+    String password, Screen screen, Store<AppState> store) {
   if (password.length < 6) {
     store.dispatch(PasswordErrorAction(password_error, screen));
     return false;
@@ -91,7 +91,7 @@ bool validatePassword(
   }
 }
 
-bool validateEmail(String email, Screens screen, Store<AppState> store) {
+bool validateEmail(String email, Screen screen, Store<AppState> store) {
   RegExp exp = RegExp(emailPattern);
   if (!exp.hasMatch(email)) {
     store.dispatch(EmailErrorAction(email_error, screen));
@@ -102,7 +102,7 @@ bool validateEmail(String email, Screens screen, Store<AppState> store) {
   }
 }
 
-bool validateName(String name, Screens screen, Store<AppState> store) {
+bool validateName(String name, Screen screen, Store<AppState> store) {
   if (name.isEmpty) {
     store.dispatch(NameErrorAction(name_error, screen));
     return false;

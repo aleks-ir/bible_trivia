@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons/menu_buttons.dart';
@@ -34,7 +34,7 @@ class HomeMenuBar extends StatelessWidget{
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 0),
-                  child: menuMaterialButton("Russian", viewModel.language == Languages.russian, () {viewModel.changeLanguage(Languages.russian);}),
+                  child: menuMaterialButton("Russian", viewModel.language == Language.russian, () {viewModel.changeLanguage(Language.russian);}),
                 ),
                 flex: 5,
               ),
@@ -45,7 +45,7 @@ class HomeMenuBar extends StatelessWidget{
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 0),
-                  child: menuMaterialButton("English", viewModel.language == Languages.english, () {viewModel.changeLanguage(Languages.english);}),
+                  child: menuMaterialButton("English", viewModel.language == Language.english, () {viewModel.changeLanguage(Language.english);}),
                 ),
                 flex: 5,
               ),
@@ -57,7 +57,7 @@ class HomeMenuBar extends StatelessWidget{
             shape: ContinuousRectangleBorder(
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(50.0))),
-          backgroundColor: Colors.white,),
+          backgroundColor: Color(viewModel.appBarColor,)),
 
       ),
     );
@@ -65,11 +65,13 @@ class HomeMenuBar extends StatelessWidget{
 }
 
 class _ViewModel {
+  final int appBarColor;
   final bool isMenuBar;
-  final Languages language;
-  final Function(Languages value) changeLanguage;
+  final Language language;
+  final Function(Language value) changeLanguage;
 
   _ViewModel({
+    required this.appBarColor,
     required this.isMenuBar,
     required this.language,
     required this.changeLanguage,
@@ -77,6 +79,7 @@ class _ViewModel {
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+        appBarColor: store.state.themeSettingsState.appBarColor,
         isMenuBar: store.state.appBarState.isShowMenuBar,
         language: store.state.localStorageState.language,
         changeLanguage: (value) => {

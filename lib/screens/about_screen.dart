@@ -4,7 +4,8 @@ import 'package:weekly_bible_trivia/global/route_paths.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';
 import 'package:weekly_bible_trivia/containers/appbars/simple_appbar.dart';
 import 'package:weekly_bible_trivia/containers/signin_container.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 
 
 class AboutScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class SignInScreenState extends State<AboutScreen> {
   Widget build(BuildContext context) => ActiveTab(
         builder: (BuildContext context, NavigationTab activeTab) => Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: SimpleAppBar("About", RoutePaths.fromAboutToHomeScreen),
+          appBar: SimpleAppBar("About", NavigateFromAboutToHomeScreenAction()),
           body: SignInContainer(),
         ),
       );

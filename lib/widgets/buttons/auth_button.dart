@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 MaterialButton authButton(Widget childWidget, VoidCallback callback,
-    {Color color: const Color(0xfff063057), Color textColor: Colors.white}) {
+    {Color color: Colors.teal, Color textColor: Colors.white}) {
   return MaterialButton(
     onPressed: callback,
     textColor: textColor,

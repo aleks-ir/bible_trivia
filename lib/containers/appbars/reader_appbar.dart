@@ -31,7 +31,7 @@ class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
                   child: IconButton(
                     icon: const Icon(
                       Icons.search,
-                      color: Colors.black54,
+                      color: Colors.teal,
                     ),
                     onPressed: () {},
                   ),
@@ -41,19 +41,19 @@ class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
                     flex: 8,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 15.0, 5, 15.0),
-                      child: menuOutlinedButton("Chapter", (){}),
+                      child: menuOutlinedButton("Chapter", (){}, textColor: Color(viewModel.textColor)),
                     )),
                 //Expanded(flex: 1, child: SizedBox()),
                 Expanded(flex: 8, child: Padding(
                   padding: const EdgeInsets.fromLTRB(5, 15.0, 0, 15.0),
-                  child: menuOutlinedButton("Translation", (){}),
+                  child: menuOutlinedButton("Translation", (){}, textColor: Color(viewModel.textColor)),
                 )),
                 const Expanded(flex:1, child: SizedBox()),
                 Expanded(flex: 2,
                   child: IconButton(
                     icon: const Icon(
                       Icons.settings,
-                      color: Colors.black54,
+                      color: Colors.teal,
                     ),
                     onPressed: () {
                       viewModel.changeShowMenuBar(
@@ -63,23 +63,29 @@ class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
                 ),
                 const Expanded(flex: 1, child: SizedBox()),
               ],
-              title: Text(title, style: TextStyles.appBarStyle),
-              backgroundColor: Colors.white,
+              title: Text(title, style: TextStyles.getAppBarStyle(Color(viewModel.textColor))),
+              backgroundColor: Color(viewModel.appBarColor),
             ));
   }
 }
 
 class _ViewModel {
+  final int appBarColor;
+  final int textColor;
   final bool isShowMenuBar;
   final Function(bool) changeShowMenuBar;
 
   _ViewModel({
+    required this.appBarColor,
+    required this.textColor,
     required this.isShowMenuBar,
     required this.changeShowMenuBar,
   });
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+      appBarColor: store.state.themeSettingsState.appBarColor,
+      textColor: store.state.themeSettingsState.textColor,
       isShowMenuBar: store.state.appBarState.isShowMenuBar,
       changeShowMenuBar: (value) => store.dispatch(UpdateShowMenuBarAction(value)),
     );

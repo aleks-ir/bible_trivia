@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 
 @immutable
 class LocalStorageState {
-  final Languages language;
-  final Themes theme;
+  final Language language;
+  final ThemeType theme;
   final double fontSize;
 
   const LocalStorageState({
@@ -14,8 +14,8 @@ class LocalStorageState {
   });
 
   LocalStorageState copyWith({
-    Languages? language,
-    Themes? theme,
+    Language? language,
+    ThemeType? theme,
     double? fontSize,
   }) {
     return LocalStorageState(
@@ -27,8 +27,8 @@ class LocalStorageState {
 
   factory LocalStorageState.initial() {
     return LocalStorageState(
-      language: Languages.english,
-      theme: Themes.light,
+      language: Language.english,
+      theme: ThemeType.light,
       fontSize: 20,
     );
   }

@@ -1,10 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/models/app_theme.dart';
+import 'package:weekly_bible_trivia/redux/actions/theme_settings_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
+import 'package:weekly_bible_trivia/utils/selectors.dart';
 import 'package:weekly_bible_trivia/widgets/buttons/menu_buttons.dart';
 import 'package:weekly_bible_trivia/widgets/sliding_appbar.dart';
 
@@ -33,8 +35,13 @@ class ReaderMenuBar extends StatelessWidget {
                 flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 0),
-                  child: menuFloatingButton(Icon(Icons.dark_mode),
-                      viewModel.theme == Themes.dark, () {viewModel.changeTheme(Themes.dark);}),
+                  child: menuFloatingButton(
+                      Icon(Icons.dark_mode), viewModel.theme == ThemeType.dark,
+                      () {
+                    viewModel.changeTheme(ThemeType.dark);
+                    viewModel.changeThemeSettings(selectTheme(ThemeType.dark));
+                    //DynamicTheme.of(context)!.setTheme(AppTheme.getThemeId(ThemeType.dark));
+                  }),
                 )),
             Expanded(
                 flex: 2,
@@ -42,7 +49,7 @@ class ReaderMenuBar extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 5),
                   child: Icon(
                     Icons.brightness_4,
-                    color: Colors.black54,
+                    color: Color(viewModel.iconColor),
                   ),
                 )),
             Expanded(
@@ -50,7 +57,11 @@ class ReaderMenuBar extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 0),
                   child: menuFloatingButton(Icon(Icons.light_mode),
-                      viewModel.theme == Themes.light, () {viewModel.changeTheme(Themes.light);}),
+                      viewModel.theme == ThemeType.light, () {
+                    viewModel.changeTheme(ThemeType.light);
+                    viewModel.changeThemeSettings(selectTheme(ThemeType.light));
+                    //DynamicTheme.of(context)!.setTheme(AppTheme.getThemeId(ThemeType.light));
+                  }),
                 )),
 
             const Expanded(flex: 3, child: SizedBox()),
@@ -58,7 +69,10 @@ class ReaderMenuBar extends StatelessWidget {
                 flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 0),
-                  child: menuFloatingButton(const Icon(Icons.remove), false, (){viewModel.changeFontSize(viewModel.fontSize - 2);}),
+                  child:
+                      menuFloatingButton(const Icon(Icons.remove), false, () {
+                    viewModel.changeFontSize(viewModel.fontSize - 2);
+                  }),
                 )),
             Expanded(
                 flex: 2,
@@ -66,14 +80,16 @@ class ReaderMenuBar extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 5),
                   child: Icon(
                     Icons.format_size,
-                    color: Colors.black54,
+                    color: Color(viewModel.iconColor),
                   ),
                 )),
             Expanded(
                 flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 0),
-                  child: menuFloatingButton(Icon(Icons.add), false, (){viewModel.changeFontSize(viewModel.fontSize + 2);}),
+                  child: menuFloatingButton(Icon(Icons.add), false, () {
+                    viewModel.changeFontSize(viewModel.fontSize + 2);
+                  }),
                 )),
             //const Expanded(flex:1, child: SizedBox()),
             const Expanded(flex: 2, child: SizedBox()),
@@ -81,7 +97,9 @@ class ReaderMenuBar extends StatelessWidget {
           shape: ContinuousRectangleBorder(
               borderRadius:
                   BorderRadius.vertical(bottom: Radius.circular(50.0))),
-          backgroundColor: Colors.white,
+          backgroundColor: Color(
+            viewModel.appBarColor,
+          ),
         ),
       ),
     );
@@ -89,22 +107,30 @@ class ReaderMenuBar extends StatelessWidget {
 }
 
 class _ViewModel {
+  final int appBarColor;
+  final int iconColor;
   final bool isMenuBar;
-  final Themes theme;
+  final ThemeType theme;
   final double fontSize;
-  final Function(Themes value) changeTheme;
+  final Function(ThemeType value) changeTheme;
+  final Function(AppTheme theme) changeThemeSettings;
   final Function(double value) changeFontSize;
 
   _ViewModel({
+    required this.appBarColor,
+    required this.iconColor,
     required this.isMenuBar,
     required this.theme,
     required this.fontSize,
     required this.changeTheme,
     required this.changeFontSize,
+    required this.changeThemeSettings,
   });
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+        appBarColor: store.state.themeSettingsState.appBarColor,
+        iconColor: store.state.themeSettingsState.shadowColor,
         isMenuBar: store.state.appBarState.isShowMenuBar,
         theme: store.state.localStorageState.theme,
         fontSize: store.state.localStorageState.fontSize,
@@ -113,6 +139,14 @@ class _ViewModel {
             },
         changeFontSize: (value) => {
               store.dispatch(saveFontSizeThunk(value)),
+            },
+        changeThemeSettings: (theme) => {
+              store.dispatch(UpdateThemeSettingsAction(
+                  theme.primaryColor,
+                  theme.secondaryColor,
+                  theme.appBarColor,
+                  theme.shadowColor,
+                  theme.textColor)),
             });
   }
 }

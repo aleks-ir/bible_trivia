@@ -16,19 +16,30 @@ MaterialButton menuMaterialButton(String title, bool isActive, VoidCallback call
 }
 
 OutlinedButton menuOutlinedButton(String title, VoidCallback callback,
-    {Color color: const Color(0xfff063057), Color textColor: Colors.black87}) {
+    {Color textColor: Colors.black87}) {
   return OutlinedButton(
     onPressed: callback,
     style: ButtonStyle(
-      splashFactory: NoSplash.splashFactory,
-      foregroundColor: MaterialStateProperty.all(color),
-      shape: MaterialStateProperty.resolveWith<OutlinedBorder?>((states) {
-        if (states.contains(MaterialState.pressed)) {
-          return RoundedRectangleBorder(borderRadius: BorderRadius.circular(20));
-        }
-      }),
+      overlayColor: MaterialStateProperty.all(Colors.teal.shade100),
+      //splashFactory: NoSplash.splashFactory,
+      //foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+      //MaterialStateProperty.all(color),
+      shape:
+      MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+      // MaterialStateProperty.resolveWith<OutlinedBorder?>((states) {
+      //   //if (states.contains(MaterialState.pressed)) {}
+      //   return
+      //     RoundedRectangleBorder(
+      //       side: BorderSide(
+      //       color: Colors.white, width: 3),
+      //       borderRadius: BorderRadius.circular(20));
+      // }),
     ),
-    child: Text(title, style: TextStyle(color: textColor, fontSize: 10),),
+    child: Text(title, style: TextStyle(color: textColor, fontSize: 12), strutStyle: StrutStyle()),
   );
 }
 

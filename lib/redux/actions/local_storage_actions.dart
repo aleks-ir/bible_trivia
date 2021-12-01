@@ -1,14 +1,14 @@
 
 
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 
 class UpdateLanguageAction {
-  final Languages language;
+  final Language language;
   UpdateLanguageAction(this.language);
 }
 
 class UpdateThemeAction {
-  final Themes theme;
+  final ThemeType theme;
   UpdateThemeAction(this.theme);
 }
 

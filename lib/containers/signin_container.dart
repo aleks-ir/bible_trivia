@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/models/signin_request.dart';
 import 'package:weekly_bible_trivia/redux/actions/authentication_actions.dart';
-import 'package:weekly_bible_trivia/redux/actions/transition_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
@@ -80,56 +80,58 @@ class SignInContainer extends StatelessWidget {
             ],
           );
 
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 40.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(height: 20.0),
-                Center(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: isPortrait ? 48.0 : 0,
-                    child: Image.asset('assets/images/pigeon.png'),
+          return SizedBox.expand(
+            child: Container(
+              color: Color(viewModel.primaryColor),
+              padding: EdgeInsets.symmetric(horizontal: 40.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(height: 20.0),
+                  Center(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: isPortrait ? 48.0 : 0,
+                      child: Image.asset('assets/images/pigeon.png'),
+                    ),
                   ),
-                ),
-                SizedBox(height: 0.0),
-                Text("Email"),
-                SizedBox(height: 5.0),
-                authTextField(
-                    icon: Icons.email,
-                    obscure: false,
-                    label: '',
-                    autofocus: false,
-                    controller: _emailController,
-                    onChanged: (value) => viewModel.validateEmail(value)),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: viewModel.validStatus == ValidationStatus.error &&
-                          viewModel.emailError.isNotEmpty
-                      ? errorValidation(viewModel.emailError)
-                      : const SizedBox(),
-                ),
-                SizedBox(height: isPortrait ? 20 : 10),
-                Text("Password"),
-                SizedBox(height: 5.0),
-                authTextField(
-                    icon: Icons.lock,
-                    obscure: true,
-                    label: '',
-                    autofocus: false,
-                    controller: _passController,
-                    onChanged: (value) => viewModel.validatePassword(value)),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: viewModel.validStatus == ValidationStatus.error &&
-                          viewModel.passwordError.isNotEmpty
-                      ? errorValidation(viewModel.passwordError)
-                      : const SizedBox(),
-                ),
-                SizedBox(height: isPortrait ? 30 : 15),
-                isPortrait ? buttonsGroupColumn : buttonsGroupRow,
-              ],
+                  SizedBox(height: 0.0),
+                  Text("Email", style: TextStyle(color: Color(viewModel.textColor),),),
+                  SizedBox(height: 5.0),
+                  authTextField(
+                      color: Color(viewModel.textColor),
+                      icon: Icons.email,
+                      label: '',
+                      controller: _emailController,
+                      onChanged: (value) => viewModel.validateEmail(value)),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: viewModel.validStatus == ValidationStatus.error &&
+                            viewModel.emailError.isNotEmpty
+                        ? errorValidation(viewModel.emailError)
+                        : const SizedBox(),
+                  ),
+                  SizedBox(height: isPortrait ? 20 : 10),
+                  Text("Password", style: TextStyle(color: Color(viewModel.textColor),),),
+                  SizedBox(height: 5.0),
+                  authTextField(
+                      color: Color(viewModel.textColor),
+                      icon: Icons.lock,
+                      obscure: true,
+                      label: '',
+                      controller: _passController,
+                      onChanged: (value) => viewModel.validatePassword(value)),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: viewModel.validStatus == ValidationStatus.error &&
+                            viewModel.passwordError.isNotEmpty
+                        ? errorValidation(viewModel.passwordError)
+                        : const SizedBox(),
+                  ),
+                  SizedBox(height: isPortrait ? 30 : 15),
+                  isPortrait ? buttonsGroupColumn : buttonsGroupRow,
+                ],
+              ),
             ),
           );
         });
@@ -137,6 +139,8 @@ class SignInContainer extends StatelessWidget {
 }
 
 class _ViewModel {
+  final int primaryColor;
+  final int textColor;
   final ValidationStatus validStatus;
   final AuthenticationStatus authStatus;
   final String password;
@@ -152,6 +156,8 @@ class _ViewModel {
   final Function() resetAuthError;
 
   _ViewModel({
+    required this.primaryColor,
+    required this.textColor,
     required this.validStatus,
     required this.authStatus,
     required this.password,
@@ -168,6 +174,8 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
+        primaryColor: store.state.themeSettingsState.primaryColor,
+        textColor: store.state.themeSettingsState.textColor,
         validStatus: store.state.signInState.validationStatus,
         authStatus: store.state.authenticationState.status,
         password: store.state.signInState.password,
@@ -176,9 +184,9 @@ class _ViewModel {
         emailError: store.state.signInState.emailError,
         authError: store.state.authenticationState.authError,
         validateEmail: (email) =>
-            store.dispatch(validateEmailThunk(email, Screens.SIGNIN)),
+            store.dispatch(validateEmailThunk(email, Screen.SIGNIN)),
         validatePassword: (password) =>
-            store.dispatch(validatePasswordThunk(password, Screens.SIGNIN)),
+            store.dispatch(validatePasswordThunk(password, Screen.SIGNIN)),
         signIn: (request) => store.dispatch(validateSignInThunk(request)),
         navigateToRegistration: () =>
             store.dispatch(updateScreenThunk(NavigateFromSignInToSignUpScreenAction())),

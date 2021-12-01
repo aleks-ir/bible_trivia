@@ -10,7 +10,7 @@ Widget  animatedHomeButton({required String title, double height: 100,
         borderRadius: BorderRadius.circular(100.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.green,
+            color: Colors.black38,
             blurRadius: 6.0,
             offset: Offset(0.0, 5.0),
           ),

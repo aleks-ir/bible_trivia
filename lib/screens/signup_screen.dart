@@ -3,7 +3,8 @@ import 'package:weekly_bible_trivia/global/route_paths.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';
 import 'package:weekly_bible_trivia/containers/appbars/simple_appbar.dart';
 import 'package:weekly_bible_trivia/containers/signup_container.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) => ActiveTab(
       builder: (BuildContext context, NavigationTab activeTab) => Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: SimpleAppBar("Create account", RoutePaths.fromSignUpToHomeScreen),
+          appBar: SimpleAppBar("Create account", NavigateFromSignUpToHomeScreenAction()),
             body: SignUpContainer(),
             ),
           );

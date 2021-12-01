@@ -6,6 +6,7 @@ import 'package:weekly_bible_trivia/redux/states/past_trivia_state.dart';
 import 'package:weekly_bible_trivia/redux/states/reader_state.dart';
 import 'package:weekly_bible_trivia/redux/states/signin_state.dart';
 import 'package:weekly_bible_trivia/redux/states/signup_state.dart';
+import 'package:weekly_bible_trivia/redux/states/theme_settings.dart';
 
 import 'authentication_state.dart';
 import 'bottombar_state.dart';
@@ -24,6 +25,7 @@ class AppState {
   final LocalStorageState localStorageState;
   final AppBarState appBarState;
   final InfoTriviaState infoTriviaState;
+  final ThemeSettingsState themeSettingsState;
 
   const AppState({
     required this.bottomBarState,
@@ -36,6 +38,7 @@ class AppState {
     required this.localStorageState,
     required this.appBarState,
     required this.infoTriviaState,
+    required this.themeSettingsState,
   });
 
   factory AppState.initial() {
@@ -50,6 +53,7 @@ class AppState {
       localStorageState: LocalStorageState.initial(),
       appBarState: AppBarState.initial(),
       infoTriviaState: InfoTriviaState.initial(),
+      themeSettingsState: ThemeSettingsState.initial(),
     );
   }
 
@@ -63,7 +67,8 @@ class AppState {
       SignUpState? signUpState,
       LocalStorageState? localStorageState,
       AppBarState? homeAppBarState,
-      InfoTriviaState? infoTriviaState}) {
+      InfoTriviaState? infoTriviaState,
+      ThemeSettingsState? themeSettingsState}) {
     return AppState(
       homeState: homeState ?? this.homeState,
       bottomBarState: bottomBarState ?? this.bottomBarState,
@@ -75,6 +80,7 @@ class AppState {
       localStorageState: localStorageState ?? this.localStorageState,
       appBarState: homeAppBarState ?? this.appBarState,
       infoTriviaState: infoTriviaState ?? this.infoTriviaState,
+      themeSettingsState: themeSettingsState ?? this.themeSettingsState,
     );
   }
 }

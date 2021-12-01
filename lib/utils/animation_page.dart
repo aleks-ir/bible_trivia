@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 
-class AnimationPageRoute extends PageRouteBuilder {
+class AnimationPage extends PageRouteBuilder {
   final Widget endPage;
   final Widget startPage;
   final AnimationDirection animationDirection;
 
-  AnimationPageRoute(
+  AnimationPage(
       {required this.startPage,
       required this.endPage,
       required this.animationDirection})

@@ -1,37 +1,38 @@
 import 'package:flutter/material.dart';
 
 class TextStyles {
-  static const TextStyle buttonMoreTextStyle = TextStyle(
+  static TextStyle getButtonMoreTextStyle(Color color)
+  {return TextStyle(
     fontSize: 20,
-    color: Colors.brown,
+    color: color,
     fontWeight: FontWeight.w700,
-  );
-
-  static const TextStyle signInInputTextStyle = TextStyle(
-    fontSize: 20,
-    color: Colors.black87,
-    fontWeight: FontWeight.w400,
-  );
+  );}
 
 
-  static const TextStyle appBarStyle = TextStyle(
-    fontSize: 20,
-    color: Colors.black,
-    fontWeight: FontWeight.w300,
-  );
 
 
-  static const TextStyle homeInfoCardTitileStyle = TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 17,
-    color: Colors.black,
-  );
+  static TextStyle getAppBarStyle(Color color)
+  {return TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w300,
+      color: color
+  );}
 
-  static const TextStyle homeInfoCardStyle = TextStyle(
+
+  static TextStyle getHomeInfoCardTitleStyle(Color color)
+  {return TextStyle(
+      fontWeight: FontWeight.normal,
+      fontStyle: FontStyle.italic,
+      fontSize: 20,
+      color: color
+  );}
+
+  static TextStyle getHomeInfoCardStyle(Color color)
+  {return TextStyle(
     fontWeight: FontWeight.normal,
     fontSize: 15,
-    color: Colors.black,
-      height: 1.3,
-  );
+    height: 1.3,
+    color: color
+  );}
 
 }

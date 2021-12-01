@@ -23,7 +23,6 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
     return StoreConnector<AppState, _ViewModel>(
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) => AppBar(
-
               automaticallyImplyLeading: false,
               actions: [
                 IconButton(
@@ -31,7 +30,7 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
                     scale: 1.0,
                     child: const Icon(
                       Icons.language,
-                      color: Colors.black54,
+                      color: Colors.teal,
                     ),
                   ),
                   onPressed: () {
@@ -43,24 +42,30 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
                   width: 10,
                 ),
               ],
-              title: Text(title, style: TextStyles.appBarStyle),
+              title: Text(title, style: TextStyles.getAppBarStyle(Color(viewModel.textColor))),
               centerTitle: true,
-              backgroundColor: Colors.white,
+              backgroundColor: Color(viewModel.primaryColor),
             ));
   }
 }
 
 class _ViewModel {
+  final int primaryColor;
+  final int textColor;
   final bool isShowMenuBar;
   final Function(bool) changeShowMenuBar;
 
   _ViewModel({
     required this.isShowMenuBar,
+    required this.textColor,
     required this.changeShowMenuBar,
+    required this.primaryColor,
   });
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+      primaryColor: store.state.themeSettingsState.primaryColor,
+      textColor: store.state.themeSettingsState.textColor,
       isShowMenuBar: store.state.appBarState.isShowMenuBar,
       changeShowMenuBar: (value) => store.dispatch(UpdateShowMenuBarAction(value)),
     );

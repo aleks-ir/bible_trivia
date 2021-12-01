@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
@@ -28,10 +28,9 @@ class SignUpContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               authTextField(
+                  color: Color(viewModel.textColor),
                   icon: Icons.person,
-                  obscure: false,
                   label: 'Name',
-                  autofocus: false,
                   controller: _nameController,
                   onChanged: (value) => viewModel.validateName(value)),
               viewModel.validStatus == ValidationStatus.error &&
@@ -40,10 +39,9 @@ class SignUpContainer extends StatelessWidget {
                   : const SizedBox(),
               SizedBox(height: 20),
               authTextField(
+                  color: Color(viewModel.textColor),
                   icon: Icons.email,
-                  obscure: false,
                   label: 'Email',
-                  autofocus: false,
                   controller: _emailController,
                   onChanged: (value) => viewModel.validateEmail(value)),
               viewModel.validStatus == ValidationStatus.error &&
@@ -59,10 +57,9 @@ class SignUpContainer extends StatelessWidget {
                 child: Column(
                   children: [
                     authTextField(
+                        color: Color(viewModel.textColor),
                         icon: Icons.person,
-                        obscure: false,
                         label: 'Name',
-                        autofocus: false,
                         controller: _nameController,
                         onChanged: (value) => viewModel.validateName(value)),
                     viewModel.validStatus == ValidationStatus.error &&
@@ -81,10 +78,9 @@ class SignUpContainer extends StatelessWidget {
                 child: Column(
                   children: [
                     authTextField(
+                        color: Color(viewModel.textColor),
                         icon: Icons.email,
-                        obscure: false,
                         label: 'Email',
-                        autofocus: false,
                         controller: _emailController,
                         onChanged: (value) => viewModel.validateEmail(value)),
                     viewModel.validStatus == ValidationStatus.error &&
@@ -102,6 +98,7 @@ class SignUpContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               authTextField(
+                  color: Color(viewModel.textColor),
                   icon: Icons.lock,
                   obscure: true,
                   label: 'Password',
@@ -114,6 +111,7 @@ class SignUpContainer extends StatelessWidget {
                   : const SizedBox(),
               SizedBox(height: 20),
               authTextField(
+                  color: Color(viewModel.textColor),
                   icon: Icons.lock,
                   obscure: true,
                   label: 'Verify',
@@ -134,6 +132,7 @@ class SignUpContainer extends StatelessWidget {
                 child: Column(
                   children: [
                     authTextField(
+                        color: Color(viewModel.textColor),
                         icon: Icons.lock,
                         obscure: true,
                         label: 'Password',
@@ -157,6 +156,7 @@ class SignUpContainer extends StatelessWidget {
                 child: Column(
                   children: [
                     authTextField(
+                        color: Color(viewModel.textColor),
                         icon: Icons.lock,
                         obscure: true,
                         label: 'Verify',
@@ -175,30 +175,33 @@ class SignUpContainer extends StatelessWidget {
             ],
           );
 
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 40),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(height: isPortrait ? 70 : 20),
-                isPortrait ? emailAndNameGroupColumn : emailAndNameGroupRow,
-                SizedBox(height: isPortrait ? 60 : 30),
-                isPortrait
-                    ? passwordAndVerifyGroupColumn
-                    : passwordAndVerifyGroupRow,
-                SizedBox(height: 30),
+          return SizedBox.expand(
+            child: Container(
+              color: Color(viewModel.primaryColor),
+              padding: EdgeInsets.symmetric(horizontal: 40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: isPortrait ? 70 : 20),
+                  isPortrait ? emailAndNameGroupColumn : emailAndNameGroupRow,
+                  SizedBox(height: isPortrait ? 60 : 30),
+                  isPortrait
+                      ? passwordAndVerifyGroupColumn
+                      : passwordAndVerifyGroupRow,
+                  SizedBox(height: 30),
 
-                authButton(viewModel.authStatus != AuthenticationStatus.loading ? Text(
-                  "Create",
-                ) : circularProgressIndicator(), () {
-                  FocusScope.of(context).unfocus();
-                  viewModel.signUp(SignUpRequest(
-                      _nameController.text,
-                      _emailController.text,
-                      _passController.text,
-                      _retypePassController.text));
-                }, color: Colors.brown),
-              ],
+                  authButton(viewModel.authStatus != AuthenticationStatus.loading ? Text(
+                    "Create",
+                  ) : circularProgressIndicator(), () {
+                    FocusScope.of(context).unfocus();
+                    viewModel.signUp(SignUpRequest(
+                        _nameController.text,
+                        _emailController.text,
+                        _passController.text,
+                        _retypePassController.text));
+                  }, color: Colors.brown),
+                ],
+              ),
             ),
           );
         });
@@ -206,6 +209,8 @@ class SignUpContainer extends StatelessWidget {
 }
 
 class _ViewModel {
+  final int primaryColor;
+  final int textColor;
   final ValidationStatus validStatus;
   final AuthenticationStatus authStatus;
   final String name;
@@ -224,6 +229,8 @@ class _ViewModel {
   final Function(SignUpRequest request) signUp;
 
   _ViewModel({
+    required this.primaryColor,
+    required this.textColor,
     required this.validStatus,
     required this.authStatus,
     required this.name,
@@ -243,6 +250,8 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
+      primaryColor: store.state.themeSettingsState.primaryColor,
+      textColor: store.state.themeSettingsState.textColor,
       validStatus: store.state.signUpState.validationStatus,
       authStatus: store.state.authenticationState.status,
       name: store.state.signUpState.name,
@@ -254,13 +263,13 @@ class _ViewModel {
       retypePassword: store.state.signUpState.retypePassword,
       retypePasswordError: store.state.signUpState.retypePasswordError,
       validateName: (name) =>
-          store.dispatch(validateNameThunk(name, Screens.SIGNUP)),
+          store.dispatch(validateNameThunk(name, Screen.SIGNUP)),
       validateEmail: (email) =>
-          store.dispatch(validateEmailThunk(email, Screens.SIGNUP)),
+          store.dispatch(validateEmailThunk(email, Screen.SIGNUP)),
       validatePassword: (password) =>
-          store.dispatch(validatePasswordThunk(password, Screens.SIGNUP)),
+          store.dispatch(validatePasswordThunk(password, Screen.SIGNUP)),
       validatePasswordMatch: (password, retypePassword) => store.dispatch(
-          validatePassMatchThunk(password, retypePassword, Screens.SIGNUP)),
+          validatePassMatchThunk(password, retypePassword, Screen.SIGNUP)),
       signUp: (request) {
         store.dispatch(validateSignUpThunk(request));
       },

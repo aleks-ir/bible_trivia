@@ -3,9 +3,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/strings.dart';
 import 'package:weekly_bible_trivia/global/text_styles.dart';
-import 'package:weekly_bible_trivia/models/enums.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
-import 'package:weekly_bible_trivia/redux/actions/transition_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/authentication_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
@@ -24,13 +24,14 @@ class ModalBottomSheetContainer {
             builder: (context, _ViewModel viewModel) {
               bool isPortrait =
                   MediaQuery.of(context).orientation == Orientation.portrait;
+              Color colorButton = viewModel.themeType == ThemeType.dark ? Colors.white70 : Colors.brown;
               return Container(
                 height: viewModel.isAuthenticated
                     ? 150
                     : 110,
                 //clipBehavior: Clip.antiAlias,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
+                decoration: BoxDecoration(
+                  color: Color(viewModel.primaryColor),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -48,7 +49,7 @@ class ModalBottomSheetContainer {
                         visible: viewModel.isAuthenticated ? true : false,
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                              primary: Colors.black,
+                              primary: Colors.teal,
                               side: BorderSide(color: Colors.white)),
                           onPressed: () {},
                           child: Row(
@@ -71,7 +72,7 @@ class ModalBottomSheetContainer {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(viewModel.user.displayName,
-                                      style: TextStyle(
+                                      style: TextStyle(color: Color(viewModel.textColor),
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20)),
                                   SizedBox(
@@ -80,7 +81,7 @@ class ModalBottomSheetContainer {
                                   Text("Edit profile",
                                       //"Edit profile",
                                       style: TextStyle(
-                                          color: Colors.brown,
+                                          color: colorButton,
                                           fontWeight: FontWeight.w300,
                                           fontSize: 15)),
                                 ],
@@ -101,7 +102,7 @@ class ModalBottomSheetContainer {
                               onPressed: () {},
                               child: Text(
                                 "Results",
-                                style: TextStyles.buttonMoreTextStyle,
+                                style: TextStyles.getButtonMoreTextStyle(colorButton),
                               ),
                             ),
                           ),
@@ -115,7 +116,7 @@ class ModalBottomSheetContainer {
                                   : viewModel.navigateToSignIn,
                               child: Text(
                                 viewModel.isAuthenticated ? "Log out" : "Log in",
-                                style: TextStyles.buttonMoreTextStyle,
+                                style: TextStyles.getButtonMoreTextStyle(colorButton),
                               ),
                             ),
                           ),
@@ -133,12 +134,18 @@ class ModalBottomSheetContainer {
 }
 
 class _ViewModel {
+  final int primaryColor;
+  final int textColor;
+  final ThemeType themeType;
   final Function() navigateToSignIn;
   final Function() navigateToSignOut;
   final bool isAuthenticated;
   final UserFirebase user;
 
   _ViewModel({
+    required this.primaryColor,
+    required this.textColor,
+    required this.themeType,
     required this.navigateToSignIn,
     required this.navigateToSignOut,
     required this.isAuthenticated,
@@ -147,6 +154,9 @@ class _ViewModel {
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+      primaryColor: store.state.themeSettingsState.primaryColor,
+      textColor: store.state.themeSettingsState.textColor,
+      themeType: store.state.localStorageState.theme,
       navigateToSignIn: () => store
           .dispatch(updateScreenThunk(NavigateFromHomeToSignInScreenAction())),
       navigateToSignOut: () => store.dispatch(createLogOutThunk()),

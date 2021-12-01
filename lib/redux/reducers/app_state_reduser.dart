@@ -4,6 +4,7 @@ import 'package:weekly_bible_trivia/redux/reducers/past_trivia_reducer.dart';
 import 'package:weekly_bible_trivia/redux/reducers/reader_reducer.dart';
 import 'package:weekly_bible_trivia/redux/reducers/signin_reducer.dart';
 import 'package:weekly_bible_trivia/redux/reducers/signup_reducer.dart';
+import 'package:weekly_bible_trivia/redux/reducers/theme_settings_reducer.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 import 'appbar_reducer.dart';
@@ -25,5 +26,6 @@ AppState appReducer(AppState state, action) {
       appBarState: appBarReducer(state.appBarState, action),
       bottomBarState: bottomBarReducer(state.bottomBarState, action),
       infoTriviaState: infoTriviaReducer(state.infoTriviaState, action),
+      themeSettingsState: themeSettingsReducer(state.themeSettingsState, action),
   );
 }
