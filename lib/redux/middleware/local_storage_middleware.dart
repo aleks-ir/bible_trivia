@@ -1,9 +1,12 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weekly_bible_trivia/global/strings.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/models/app_theme.dart';
+import 'package:weekly_bible_trivia/redux/actions/load_app_action.dart';
 import 'package:weekly_bible_trivia/redux/actions/local_storage_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/theme_settings_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
@@ -38,7 +41,7 @@ ThunkAction<AppState> saveFontSizeThunk(double fontSize) {
   };
 }
 
-ThunkAction<AppState> createInitSettingsThunk() {
+ThunkAction<AppState> createInitSettingsThunk(BuildContext context) {
   return (Store<AppState> store) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final String english = Language.english.toString();
@@ -47,10 +50,10 @@ ThunkAction<AppState> createInitSettingsThunk() {
     final String dark = ThemeType.dark.toString();
 
     String language = prefs.getString(LANGUAGE) ?? english;
-    if(language == english){
-      store.dispatch(UpdateLanguageAction(Language.english));
-    }else if(language == russian){
+    if(language == russian){
       store.dispatch(UpdateLanguageAction(Language.russian));
+    }else{
+      store.dispatch(UpdateLanguageAction(Language.english));
     }
 
     String theme = prefs.getString(THEME) ?? light;
@@ -61,13 +64,16 @@ ThunkAction<AppState> createInitSettingsThunk() {
       store.dispatch(UpdateThemeAction(ThemeType.dark));
       initTheme(store, ThemeType.dark);
     }
-
     double fontSize = prefs.getDouble(FONT_SIZE) ?? 20;
     store.dispatch(UpdateFontSizeAction(fontSize));
+
+    Future.delayed(Duration(seconds: 1), () async {
+      store.dispatch(LoadAction());
+    });
   };
 }
 
-void initTheme(Store<AppState> store, ThemeType themeType){
+void initTheme(Store<AppState> store, ThemeType themeType)async{
   AppTheme theme;
   if (themeType == ThemeType.dark) {
     theme = selectTheme(ThemeType.dark);

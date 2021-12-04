@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/containers/modal_container.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
@@ -64,13 +65,13 @@ class TabSelector extends StatelessWidget {
 
   String _getLabel(NavigationTab tab) {
     if (tab == NavigationTab.home) {
-      return "Home";
+      return home.i18n;
     } else if (tab == NavigationTab.reader) {
-      return "Bible";
+      return bible.i18n;
     } else if (tab == NavigationTab.pastTrivia) {
-      return "Trivia";
+      return trivia.i18n;
     } else if (tab == NavigationTab.more) {
-      return "More";
+      return more.i18n;
     } else {
       return "Error";
     }

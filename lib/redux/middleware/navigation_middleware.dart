@@ -34,6 +34,7 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
       _navigationService.navigateBack(RoutePaths.toHomeScreen);
       return;
     } else if (action is NavigateFromHomeToSignInScreenAction) {
+      store.dispatch(ClearErrorsAction());
       _navigationService.navigate(RoutePaths.fromHomeToSignInScreen);
       return;
     } else if (action is NavigateFromHomeToTableResultsScreenAction) {
@@ -61,14 +62,13 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
       _navigationService.navigate(RoutePaths.fromHomeToSetTranslationScreen);
       return;
     } else if (action is NavigateFromSignInToHomeScreenAction) {
-      store.dispatch(ClearErrorsAction());
       _navigationService.navigateBack(RoutePaths.fromSignInToHomeScreen);
       return;
     } else if (action is NavigateFromSignInToSignUpScreenAction) {
+      store.dispatch(ClearErrorsAction());
       _navigationService.navigate(RoutePaths.fromSignInToSignUpScreen);
       return;
     } else if (action is NavigateFromSignUpToHomeScreenAction) {
-      store.dispatch(ClearErrorsAction());
       _navigationService.navigateBack(RoutePaths.fromSignUpToHomeScreen);
       return;
     } else if (action is NavigateFromTableResultsToHomeScreenAction) {

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/signin_request.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
@@ -49,13 +50,13 @@ ThunkAction<AppState> createSignInThunk(SignInRequest request) {
     } on FirebaseAuthException catch (error) {
       store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.error));
       if (error.code == 'user-not-found') {
-        store.dispatch(UpdateAuthErrorAction('No user found for that email.'));
+        store.dispatch(UpdateAuthErrorAction(userNotFoundError.i18n));
       } else if (error.code == 'wrong-password') {
         store.dispatch(
-            UpdateAuthErrorAction('Wrong password provided for that user.'));
+            UpdateAuthErrorAction(wrongPasswordError.i18n));
       } else if (error.code == 'too-many-requests') {
         store.dispatch(
-            UpdateAuthErrorAction('Try again later...'));
+            UpdateAuthErrorAction(manyRequestsError));
       } else {
         print(error);
       }
@@ -87,7 +88,7 @@ ThunkAction<AppState> createSignUpThunk(SignUpRequest request) {
     } on FirebaseAuthException catch (error) {
       store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.error));
       if (error.code == 'email-already-in-use') {
-        store.dispatch(UpdateAuthErrorAction('This email is already in use.'));
+        store.dispatch(UpdateAuthErrorAction(createAccountError.i18n));
       } else {
         print(error);
       }
@@ -109,7 +110,6 @@ ThunkAction<AppState> createInitAuthThunk() {
         }
       });
       store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.noLoaded));
-      //store.dispatch(updateScreenThunk(NavigateToHomeAction()));
     } catch (error) {
       print(error);
     }

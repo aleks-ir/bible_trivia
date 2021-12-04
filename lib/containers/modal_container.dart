@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/global/strings.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/text_styles.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/authentication_middleware.dart';
@@ -49,8 +50,7 @@ class ModalBottomSheetContainer {
                         visible: viewModel.isAuthenticated ? true : false,
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                              primary: Colors.teal,
-                              side: BorderSide(color: Colors.white)),
+                              primary: Colors.teal,),
                           onPressed: () {},
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +62,7 @@ class ModalBottomSheetContainer {
                                   placeholder: 'assets/images/loading.gif',
                                   image: viewModel.user.photoURL != ''
                                       ? viewModel.user.photoURL
-                                      : defaultPhotoURL,
+                                      : DEFAULT_PHOTO_URL,
                                 )),
                               ),
                               SizedBox(
@@ -78,8 +78,7 @@ class ModalBottomSheetContainer {
                                   SizedBox(
                                     height: 5,
                                   ),
-                                  Text("Edit profile",
-                                      //"Edit profile",
+                                  Text(editProfile.i18n,
                                       style: TextStyle(
                                           color: colorButton,
                                           fontWeight: FontWeight.w300,
@@ -101,7 +100,7 @@ class ModalBottomSheetContainer {
                             child: TextButton(
                               onPressed: () {},
                               child: Text(
-                                "Results",
+                                results.i18n,
                                 style: TextStyles.getButtonMoreTextStyle(colorButton),
                               ),
                             ),
@@ -115,7 +114,7 @@ class ModalBottomSheetContainer {
                                   ? viewModel.navigateToSignOut
                                   : viewModel.navigateToSignIn,
                               child: Text(
-                                viewModel.isAuthenticated ? "Log out" : "Log in",
+                                viewModel.isAuthenticated ? signOut.i18n : authorization.i18n,
                                 style: TextStyles.getButtonMoreTextStyle(colorButton),
                               ),
                             ),

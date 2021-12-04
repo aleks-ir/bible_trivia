@@ -26,9 +26,9 @@ class InfoTriviaState {
 
   factory InfoTriviaState.initial() {
     return InfoTriviaState(
-      book: "Some book",
-      chapters: "Some chapters",
-      date: "Some date",
+      book: "—",
+      chapters: "—",
+      date: "—",
       countQuestion: 30,
       time: 600,
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/global/strings.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/redux/states/appbar_state.dart';
 import 'package:weekly_bible_trivia/redux/states/home_state.dart';
 import 'package:weekly_bible_trivia/redux/states/past_trivia_state.dart';
@@ -15,6 +15,7 @@ import 'local_storage_state.dart';
 
 @immutable
 class AppState {
+  final bool isLoading;
   final BottomBarState bottomBarState;
   final HomeState homeState;
   final ReaderState readerState;
@@ -28,6 +29,7 @@ class AppState {
   final ThemeSettingsState themeSettingsState;
 
   const AppState({
+    required this.isLoading,
     required this.bottomBarState,
     required this.homeState,
     required this.readerState,
@@ -41,8 +43,11 @@ class AppState {
     required this.themeSettingsState,
   });
 
+
+
   factory AppState.initial() {
     return AppState(
+      isLoading: true,
       bottomBarState: BottomBarState.initial(),
       homeState: HomeState.initial(),
       readerState: ReaderState(title: TEST_TEXT),
@@ -58,7 +63,8 @@ class AppState {
   }
 
   AppState copyWith(
-      {BottomBarState? bottomBarState,
+      {bool? isLoading,
+        BottomBarState? bottomBarState,
       HomeState? homeState,
       ReaderState? readerState,
       PastTriviaState? pastTriviaState,
@@ -70,6 +76,7 @@ class AppState {
       InfoTriviaState? infoTriviaState,
       ThemeSettingsState? themeSettingsState}) {
     return AppState(
+      isLoading: isLoading ?? this.isLoading,
       homeState: homeState ?? this.homeState,
       bottomBarState: bottomBarState ?? this.bottomBarState,
       signUpState: signUpState ?? this.signUpState,

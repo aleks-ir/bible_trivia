@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/signin_request.dart';
 import 'package:weekly_bible_trivia/redux/actions/authentication_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
@@ -38,7 +39,7 @@ class SignInContainer extends StatelessWidget {
             children: [
                   authButton(viewModel.authStatus != AuthenticationStatus.loading ?
                       Text(
-                        "Log in",
+                        signIn.i18n,
                       ) : circularProgressIndicator(), () {
                       FocusScope.of(context).unfocus();
                       viewModel.signIn(SignInRequest(
@@ -47,7 +48,7 @@ class SignInContainer extends StatelessWidget {
               SizedBox(height: 10.0),
               authButton(
               Text(
-                "Create account",
+                createAccount.i18n,
               ), viewModel.navigateToRegistration,
                   color: Colors.brown),
             ],
@@ -58,7 +59,7 @@ class SignInContainer extends StatelessWidget {
               Expanded(
                   child: authButton(viewModel.authStatus != AuthenticationStatus.loading ?
                   Text(
-                    "Log in",
+                      signIn.i18n,
                   ) : circularProgressIndicator(), () {
                     FocusScope.of(context).unfocus();
                     viewModel.signIn(SignInRequest(
@@ -72,7 +73,7 @@ class SignInContainer extends StatelessWidget {
               Expanded(
                 child: authButton(
                 Text(
-                  "Create account",
+                  createAccount.i18n,
                 ), viewModel.navigateToRegistration,
                     color: Colors.brown),
                 flex: 10,
@@ -96,7 +97,7 @@ class SignInContainer extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 0.0),
-                  Text("Email", style: TextStyle(color: Color(viewModel.textColor),),),
+                  Text(email.i18n, style: TextStyle(color: Color(viewModel.textColor),),),
                   SizedBox(height: 5.0),
                   authTextField(
                       color: Color(viewModel.textColor),
@@ -112,7 +113,7 @@ class SignInContainer extends StatelessWidget {
                         : const SizedBox(),
                   ),
                   SizedBox(height: isPortrait ? 20 : 10),
-                  Text("Password", style: TextStyle(color: Color(viewModel.textColor),),),
+                  Text(password.i18n, style: TextStyle(color: Color(viewModel.textColor),),),
                   SizedBox(height: 5.0),
                   authTextField(
                       color: Color(viewModel.textColor),

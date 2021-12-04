@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:i18n_extension/i18n_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
@@ -8,7 +8,7 @@ import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons/menu_buttons.dart';
 import 'package:weekly_bible_trivia/widgets/sliding_appbar.dart';
 
-class HomeMenuBar extends StatelessWidget{
+class HomeMenuBar extends StatelessWidget {
   final String title;
   final AnimationController controller;
 
@@ -16,7 +16,7 @@ class HomeMenuBar extends StatelessWidget{
     this.title,
     this.controller, {
     Key? key,
-  })  : super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,11 @@ class HomeMenuBar extends StatelessWidget{
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 0),
-                  child: menuMaterialButton("Russian", viewModel.language == Language.russian, () {viewModel.changeLanguage(Language.russian);}),
+                  child: menuMaterialButton(
+                      "🇷🇺 Русский ", viewModel.language == Language.russian, () {
+                    viewModel.changeLanguage(Language.russian);
+                    setLocate(context, "ru");
+                  }),
                 ),
                 flex: 5,
               ),
@@ -45,7 +49,11 @@ class HomeMenuBar extends StatelessWidget{
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 0),
-                  child: menuMaterialButton("English", viewModel.language == Language.english, () {viewModel.changeLanguage(Language.english);}),
+                  child: menuMaterialButton(
+                      "🇬🇧 English", viewModel.language == Language.english, () {
+                    viewModel.changeLanguage(Language.english);
+                    setLocate(context, "en");
+                  }),
                 ),
                 flex: 5,
               ),
@@ -57,10 +65,15 @@ class HomeMenuBar extends StatelessWidget{
             shape: ContinuousRectangleBorder(
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(50.0))),
-          backgroundColor: Color(viewModel.appBarColor,)),
-
+            backgroundColor: Color(
+              viewModel.appBarColor,
+            )),
       ),
     );
+  }
+
+  void setLocate(BuildContext context, String locate) {
+    I18n.of(context).locale = Locale(locate);
   }
 }
 

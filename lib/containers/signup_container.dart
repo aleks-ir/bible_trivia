@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
@@ -30,7 +31,7 @@ class SignUpContainer extends StatelessWidget {
               authTextField(
                   color: Color(viewModel.textColor),
                   icon: Icons.person,
-                  label: 'Name',
+                  label: name.i18n,
                   controller: _nameController,
                   onChanged: (value) => viewModel.validateName(value)),
               viewModel.validStatus == ValidationStatus.error &&
@@ -41,7 +42,7 @@ class SignUpContainer extends StatelessWidget {
               authTextField(
                   color: Color(viewModel.textColor),
                   icon: Icons.email,
-                  label: 'Email',
+                  label: email.i18n,
                   controller: _emailController,
                   onChanged: (value) => viewModel.validateEmail(value)),
               viewModel.validStatus == ValidationStatus.error &&
@@ -59,7 +60,7 @@ class SignUpContainer extends StatelessWidget {
                     authTextField(
                         color: Color(viewModel.textColor),
                         icon: Icons.person,
-                        label: 'Name',
+                        label: name.i18n,
                         controller: _nameController,
                         onChanged: (value) => viewModel.validateName(value)),
                     viewModel.validStatus == ValidationStatus.error &&
@@ -80,7 +81,7 @@ class SignUpContainer extends StatelessWidget {
                     authTextField(
                         color: Color(viewModel.textColor),
                         icon: Icons.email,
-                        label: 'Email',
+                        label: email.i18n,
                         controller: _emailController,
                         onChanged: (value) => viewModel.validateEmail(value)),
                     viewModel.validStatus == ValidationStatus.error &&
@@ -101,7 +102,7 @@ class SignUpContainer extends StatelessWidget {
                   color: Color(viewModel.textColor),
                   icon: Icons.lock,
                   obscure: true,
-                  label: 'Password',
+                  label: password.i18n,
                   autofocus: false,
                   controller: _passController,
                   onChanged: (value) => viewModel.validatePassword(value)),
@@ -114,7 +115,7 @@ class SignUpContainer extends StatelessWidget {
                   color: Color(viewModel.textColor),
                   icon: Icons.lock,
                   obscure: true,
-                  label: 'Verify',
+                  label: verify.i18n,
                   autofocus: false,
                   controller: _retypePassController,
                   onChanged: (value) => viewModel.validatePasswordMatch(
@@ -135,7 +136,7 @@ class SignUpContainer extends StatelessWidget {
                         color: Color(viewModel.textColor),
                         icon: Icons.lock,
                         obscure: true,
-                        label: 'Password',
+                        label: password.i18n,
                         autofocus: false,
                         controller: _passController,
                         onChanged: (value) =>
@@ -159,7 +160,7 @@ class SignUpContainer extends StatelessWidget {
                         color: Color(viewModel.textColor),
                         icon: Icons.lock,
                         obscure: true,
-                        label: 'Verify',
+                        label: verify.i18n,
                         autofocus: false,
                         controller: _retypePassController,
                         onChanged: (value) => viewModel.validatePasswordMatch(
@@ -191,7 +192,7 @@ class SignUpContainer extends StatelessWidget {
                   SizedBox(height: 30),
 
                   authButton(viewModel.authStatus != AuthenticationStatus.loading ? Text(
-                    "Create",
+                    create.i18n,
                   ) : circularProgressIndicator(), () {
                     FocusScope.of(context).unfocus();
                     viewModel.signUp(SignUpRequest(

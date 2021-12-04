@@ -6,6 +6,8 @@ Widget homeDialog(
     double avatarRadius: 30,
     required VoidCallback onPressed,
     required Image image,
+    required String title,
+    required String textButton,
     Color color: Colors.white,
     Color textColor: Colors.black}) {
   return Dialog(
@@ -39,7 +41,7 @@ Widget homeDialog(
                   height: 10,
                 ),
                 Text(
-                  "Sign in to begin the trivia, please.",
+                  title,
                   style: TextStyle(fontSize: 16, color: textColor),
                   textAlign: TextAlign.center,
                 ),
@@ -51,7 +53,7 @@ Widget homeDialog(
                   child: TextButton(
                       onPressed: onPressed,
                       child: Text(
-                        "Close",
+                        textButton,
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

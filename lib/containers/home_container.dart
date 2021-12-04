@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/text_styles.dart';
+import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/redux/actions/home_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons/home_button.dart';
@@ -62,6 +63,7 @@ class _HomeContainerState extends State<HomeContainer>
     _animationControllerButton.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
@@ -73,8 +75,7 @@ class _HomeContainerState extends State<HomeContainer>
             child: ListTile(
                 minVerticalPadding: 20,
                 title: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     viewModel.isShowedInfoTrivia
                         ? Text(_infoAboutCurrentTrivia,
@@ -85,7 +86,7 @@ class _HomeContainerState extends State<HomeContainer>
                               String text = _infoAboutCurrentTrivia.substring(
                                   0, _characterCount.value);
                               return Text(
-                                text,
+                                text.isEmpty ? infoTitle.i18n : text,
                                 style: TextStyles.getHomeInfoCardStyle(Color(viewModel.textColor)),
                               );
                             },
@@ -94,7 +95,7 @@ class _HomeContainerState extends State<HomeContainer>
                 )),
             elevation: 8,
             shadowColor: Color(viewModel.secondaryColor),
-            margin: EdgeInsets.only(left: 80, right: _isPortrait ? 80 : 20),
+            margin: EdgeInsets.only(left: _isPortrait ? 80 : 200, right: _isPortrait ? 80 : 200),
             shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
@@ -109,9 +110,9 @@ class _HomeContainerState extends State<HomeContainer>
             child: Transform.scale(
                 scale: _scale,
                 child: animatedHomeButton(
-                    title: viewModel.isShowedInfoTrivia ? "Go" : "Show",
-                    height: _isPortrait ? 140 : 80,
-                    width: _isPortrait ? 60 : 80)),
+                    title: viewModel.isShowedInfoTrivia ? go.i18n : show.i18n,
+                    height: 140,
+                    width: 60)),
           );
 
           return CustomPaint(
@@ -125,53 +126,25 @@ class _HomeContainerState extends State<HomeContainer>
                       );
                     },
                     image: Image.asset("assets/images/info.png"),
+                    title: infoDialog.i18n,
+                    textButton: close.i18n,
                     color: Color(viewModel.primaryColor),
                     textColor: Color(viewModel.textColor))
                 : SizedBox.expand(
-                    child: _isPortrait
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(
-                                  child: Text(
-                                "Info about trivia",
-                                style: TextStyles.getHomeInfoCardTitleStyle(Color(viewModel.textColor)),
-                              )),
-                              SizedBox(height: 10),
-                              infoCard,
-                              SizedBox(height: 10),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 0,
-                                  top: 0,
-                                ),
-                                child: mainButton,
-                              ),
-                            ],
-                          )
-                        : Container(
-                          color: Color(viewModel.primaryColor),
-                          child: Row(
-                            children: [
-                              Expanded(flex: 1, child: SizedBox()),
-                              Expanded(flex: 5, child: Column(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    "Info about trivia",
-                                    style: TextStyles.getHomeInfoCardTitleStyle(Color(viewModel.textColor)),
-                                  ),
-                                  SizedBox(height: 10,),
                                   infoCard,
+                                  SizedBox(height: 10),
+                                  mainButton,
+                                  //SizedBox(height: 100),
                                 ],
-                              )),
-                              Expanded(flex: 2, child: mainButton),
-                              Expanded(flex: 2, child: SizedBox()),
-                            ],
-                          ),
-                        ),
+                              ),
+                      ),
+                    )
                   ),
           );
         });
@@ -218,7 +191,7 @@ class _HomeContainerState extends State<HomeContainer>
     String date = _vm.date;
     String countQuestion = _vm.countQuestion.toString();
     String time = (_vm.time / 60).toString();
-    return "Book: $book\nChapters: $chapters\nDate: $date\nCount Question: $countQuestion\nTime: $time min";
+    return infoCard.i18n.fill([book, chapters, date, countQuestion, time]);
   }
 }
 

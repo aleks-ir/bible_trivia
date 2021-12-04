@@ -1,8 +1,9 @@
 
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-import 'package:weekly_bible_trivia/global/strings.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/signin_request.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
@@ -10,8 +11,7 @@ import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 import 'authentication_middleware.dart';
 
-const String emailPattern =
-    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
 
 
 ThunkAction<AppState> validateSignInThunk(SignInRequest request) {
@@ -72,7 +72,7 @@ ThunkAction<AppState> validateNameThunk(String name, Screen screen) {
 bool validatePassMatch(String password, String confirmPassword,
     Screen screen, Store<AppState> store) {
   if (password != confirmPassword) {
-    store.dispatch(RetypePasswordErrorAction(password_match_error, screen));
+    store.dispatch(RetypePasswordErrorAction(passwordMatchError.i18n, screen));
     return false;
   } else {
     store.dispatch(RetypePasswordErrorAction("", screen));
@@ -83,7 +83,7 @@ bool validatePassMatch(String password, String confirmPassword,
 bool validatePassword(
     String password, Screen screen, Store<AppState> store) {
   if (password.length < 6) {
-    store.dispatch(PasswordErrorAction(password_error, screen));
+    store.dispatch(PasswordErrorAction(passwordError.i18n, screen));
     return false;
   } else {
     store.dispatch(PasswordErrorAction("", screen));
@@ -92,9 +92,9 @@ bool validatePassword(
 }
 
 bool validateEmail(String email, Screen screen, Store<AppState> store) {
-  RegExp exp = RegExp(emailPattern);
+  RegExp exp = RegExp(EMAIL_PATTERN);
   if (!exp.hasMatch(email)) {
-    store.dispatch(EmailErrorAction(email_error, screen));
+    store.dispatch(EmailErrorAction(emailError.i18n, screen));
     return false;
   } else {
     store.dispatch(EmailErrorAction("", screen));
@@ -104,7 +104,7 @@ bool validateEmail(String email, Screen screen, Store<AppState> store) {
 
 bool validateName(String name, Screen screen, Store<AppState> store) {
   if (name.isEmpty) {
-    store.dispatch(NameErrorAction(name_error, screen));
+    store.dispatch(NameErrorAction(nameError.i18n, screen));
     return false;
   } else {
     store.dispatch(NameErrorAction("", screen));
