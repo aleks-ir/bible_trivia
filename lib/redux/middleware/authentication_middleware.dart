@@ -1,27 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-import 'package:weekly_bible_trivia/models/authentication_status.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/signin_request.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
-import 'package:weekly_bible_trivia/redux/actions/authentication_action.dart';
-import 'package:weekly_bible_trivia/redux/actions/transition_actions.dart';
-import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/authentication_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 import 'navigation_middleware.dart';
 
 ThunkAction<AppState> createLogOutThunk() {
   return (Store<AppState> store) async {
-    store.dispatch(ChangeAuthStatusAction(AuthenticationStatus.loading));
+    store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loading));
 
     final FirebaseAuth _auth = FirebaseAuth.instance;
     try {
       await _auth.signOut();
-      store.dispatch(ChangeAuthStatusAction(AuthenticationStatus.noLoaded));
-      store.dispatch(updateScreenThunk(NavigateToHomeAction()));
+      store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.noLoaded));
+      store.dispatch(updateScreenThunk(NavigateBackToHomeAction()));
     } catch (error) {
       print(error);
     }
@@ -30,12 +30,10 @@ ThunkAction<AppState> createLogOutThunk() {
 
 ThunkAction<AppState> createSignInThunk(SignInRequest request) {
   return (Store<AppState> store) async {
-    store.dispatch(ChangeAuthStatusAction(AuthenticationStatus.loading));
-
     final FirebaseAuth _auth = FirebaseAuth.instance;
     final User? user;
     try {
-      store.dispatch(ChangeAuthStatusAction(AuthenticationStatus.loading));
+      store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loading));
       user = (await _auth.signInWithEmailAndPassword(
         email: request.email,
         password: request.password,
@@ -43,21 +41,21 @@ ThunkAction<AppState> createSignInThunk(SignInRequest request) {
           .user;
       if (user != null) {
         store.dispatch(AuthSuccessfulAction(
-            user: UserFirebase(user.displayName ?? '', user.email ?? '',
-                user.uid, user.photoURL ?? '')));
-        store.dispatch(ChangeAuthStatusAction(AuthenticationStatus.loaded));
-        store.dispatch(updateScreenThunk(NavigateToHomeAction()));
+            UserFirebase(user.displayName ?? '', user.email ?? '',
+                user.uid, user.photoURL ?? DEFAULT_PHOTO_URL)));
+        store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loaded));
+        store.dispatch(updateScreenThunk(NavigateFromSignInToHomeScreenAction()));
       }
     } on FirebaseAuthException catch (error) {
-      store.dispatch(ChangeAuthStatusAction(AuthenticationStatus.error));
+      store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.error));
       if (error.code == 'user-not-found') {
-        store.dispatch(AuthErrorAction('No user found for that email.'));
+        store.dispatch(UpdateAuthErrorAction(userNotFoundError.i18n));
       } else if (error.code == 'wrong-password') {
         store.dispatch(
-            AuthErrorAction('Wrong password provided for that user.'));
+            UpdateAuthErrorAction(wrongPasswordError.i18n));
       } else if (error.code == 'too-many-requests') {
         store.dispatch(
-            AuthErrorAction('Try again later...'));
+            UpdateAuthErrorAction(manyRequestsError));
       } else {
         print(error);
       }
@@ -67,11 +65,9 @@ ThunkAction<AppState> createSignInThunk(SignInRequest request) {
 
 ThunkAction<AppState> createSignUpThunk(SignUpRequest request) {
   return (Store<AppState> store) async {
-    store.dispatch(ChangeAuthStatusAction(AuthenticationStatus.loaded));
-
     final FirebaseAuth _auth = FirebaseAuth.instance;
     final User? user;
-    store.dispatch(ChangeAuthStatusAction(AuthenticationStatus.loading));
+    store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loading));
     try {
       user = (await _auth.createUserWithEmailAndPassword(
         email: request.email,
@@ -80,16 +76,16 @@ ThunkAction<AppState> createSignUpThunk(SignUpRequest request) {
           .user;
       if (user != null) {
         user.updateDisplayName(request.name);
-        store.dispatch(ChangeAuthStatusAction(AuthenticationStatus.loaded));
+        store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loaded));
         store.dispatch(AuthSuccessfulAction(
-            user: UserFirebase(request.name, user.email ?? '', user.uid,
-                user.photoURL ?? '')));
-        store.dispatch(updateScreenThunk(NavigateToHomeAction()));
+            UserFirebase(request.name, user.email ?? '', user.uid,
+                user.photoURL ?? DEFAULT_PHOTO_URL)));
+        store.dispatch(updateScreenThunk(NavigateFromSignUpToHomeScreenAction()));
       }
     } on FirebaseAuthException catch (error) {
-      store.dispatch(ChangeAuthStatusAction(AuthenticationStatus.error));
+      store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.error));
       if (error.code == 'email-already-in-use') {
-        store.dispatch(AuthErrorAction('This email is already in use.'));
+        store.dispatch(UpdateAuthErrorAction(createAccountError.i18n));
       } else {
         print(error);
       }
@@ -100,17 +96,17 @@ ThunkAction<AppState> createSignUpThunk(SignUpRequest request) {
 ThunkAction<AppState> createInitAuthThunk() {
   return (Store<AppState> store) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
+    store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loading));
     try {
       await _auth.authStateChanges().listen((User? user) {
         if (user != null) {
           store.dispatch(AuthSuccessfulAction(
-              user: UserFirebase(user.displayName ?? '', user.email ?? '',
-                  user.uid, user.photoURL ?? '')));
-          store.dispatch(ChangeAuthStatusAction(AuthenticationStatus.loaded));
+              UserFirebase(user.displayName ?? '', user.email ?? '',
+                  user.uid, user.photoURL ?? DEFAULT_PHOTO_URL)));
+          store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loaded));
         }
       });
-      store.dispatch(ChangeAuthStatusAction(AuthenticationStatus.noLoaded));
-      //store.dispatch(updateScreenThunk(NavigateToHomeAction()));
+      store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.noLoaded));
     } catch (error) {
       print(error);
     }

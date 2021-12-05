@@ -1,18 +1,31 @@
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/redux/actions/authentication_action.dart';
 import 'package:weekly_bible_trivia/redux/actions/local_storage_actions.dart';
-import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
-import 'package:weekly_bible_trivia/redux/states/authentication_state.dart';
 import 'package:weekly_bible_trivia/redux/states/local_storage_state.dart';
 
 Reducer<LocalStorageState> localStorageReducer = combineReducers([
-  TypedReducer<LocalStorageState, TokenAction>(_saveToken),
+  TypedReducer<LocalStorageState, UpdateLanguageAction>(_saveLanguage),
+  TypedReducer<LocalStorageState, UpdateThemeAction>(_saveTheme),
+  TypedReducer<LocalStorageState, UpdateFontSizeAction>(_saveFontSize),
 ]);
 
-LocalStorageState _saveToken(
-    LocalStorageState prevState, TokenAction action) {
+LocalStorageState _saveLanguage(
+    LocalStorageState prevState, UpdateLanguageAction action) {
   return prevState.copyWith(
-    token: action.token,
+      language: action.language,
+  );
+}
+
+LocalStorageState _saveTheme(
+    LocalStorageState prevState, UpdateThemeAction action) {
+  return prevState.copyWith(
+      theme: action.theme
+  );
+}
+
+LocalStorageState _saveFontSize(
+    LocalStorageState prevState, UpdateFontSizeAction action) {
+  return prevState.copyWith(
+      fontSize: action.fontSize,
   );
 }
 

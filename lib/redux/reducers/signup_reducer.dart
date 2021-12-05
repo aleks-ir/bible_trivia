@@ -1,6 +1,5 @@
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/models/validation_status.dart';
-import 'package:weekly_bible_trivia/models/screens.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/signup_state.dart';
 
@@ -20,7 +19,7 @@ SignUpState _changeValidationStatusAction(
     state.copyWith(validationStatus: action.status);
 
 SignUpState _nameErrorAction(SignUpState state, NameErrorAction action) {
-  if (action.screen == Screens.SIGNUP) {
+  if (action.screen == Screen.signup) {
     return state.copyWith(
         nameError: action.message);
   } else {
@@ -29,7 +28,7 @@ SignUpState _nameErrorAction(SignUpState state, NameErrorAction action) {
 }
 
 SignUpState _emailErrorAction(SignUpState state, EmailErrorAction action) {
-  if (action.screen == Screens.SIGNUP) {
+  if (action.screen == Screen.signup) {
     return state.copyWith(
         emailError: action.message);
   } else {
@@ -39,7 +38,7 @@ SignUpState _emailErrorAction(SignUpState state, EmailErrorAction action) {
 
 SignUpState _passwordErrorAction(
     SignUpState state, PasswordErrorAction action) {
-  if (action.screen == Screens.SIGNUP) {
+  if (action.screen == Screen.signup) {
     return state.copyWith(passwordError: action.message);
   } else {
     return state;
@@ -48,7 +47,7 @@ SignUpState _passwordErrorAction(
 
 SignUpState _retypePasswordErrorAction(
     SignUpState state, RetypePasswordErrorAction action) {
-  if (action.screen == Screens.SIGNUP) {
+  if (action.screen == Screen.signup) {
     return state.copyWith(retypePasswordError: action.message);
   } else {
     return state;

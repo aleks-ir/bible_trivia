@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/models/authentication_status.dart';
-import 'package:weekly_bible_trivia/models/validation_status.dart';
-import 'package:weekly_bible_trivia/redux/states/app_tab.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
+import 'package:weekly_bible_trivia/redux/states/appbar_state.dart';
+import 'package:weekly_bible_trivia/redux/states/edit_profile_state.dart';
 import 'package:weekly_bible_trivia/redux/states/home_state.dart';
 import 'package:weekly_bible_trivia/redux/states/past_trivia_state.dart';
 import 'package:weekly_bible_trivia/redux/states/reader_state.dart';
 import 'package:weekly_bible_trivia/redux/states/signin_state.dart';
 import 'package:weekly_bible_trivia/redux/states/signup_state.dart';
-import 'authentication_state.dart';
-import 'local_storage_state.dart';
+import 'package:weekly_bible_trivia/redux/states/theme_settings.dart';
 
+import 'authentication_state.dart';
+import 'bottombar_state.dart';
+import 'info_trivia_state.dart';
+import 'local_storage_state.dart';
 
 @immutable
 class AppState {
-  final AppTab activeTab;
+  final bool isLoadingApp;
+  final BottomBarState bottomBarState;
   final HomeState homeState;
   final ReaderState readerState;
   final PastTriviaState pastTriviaState;
@@ -21,9 +25,15 @@ class AppState {
   final SignInState signInState;
   final SignUpState signUpState;
   final LocalStorageState localStorageState;
+  final AppBarState appBarState;
+  final InfoTriviaState infoTriviaState;
+  final ThemeSettingsState themeSettingsState;
+  final EditProfileState editProfileState;
+
 
   const AppState({
-    required this.activeTab,
+    required this.isLoadingApp,
+    required this.bottomBarState,
     required this.homeState,
     required this.readerState,
     required this.pastTriviaState,
@@ -31,40 +41,61 @@ class AppState {
     required this.signInState,
     required this.signUpState,
     required this.localStorageState,
+    required this.appBarState,
+    required this.infoTriviaState,
+    required this.themeSettingsState,
+    required this.editProfileState,
   });
 
-  factory AppState.initial(){
+
+
+  factory AppState.initial() {
     return AppState(
-        activeTab : AppTab.home,
-        homeState: HomeState(title: 'Home screen'),
-        readerState : ReaderState(title: 'Reader screen'),
-        pastTriviaState : PastTriviaState(title: 'Past Trivia screen'),
-        authenticationState : AuthenticationState.initial(),
-        signInState: SignInState.initial(),
-        signUpState: SignUpState.initial(),
-        localStorageState: LocalStorageState.initial(),
+      isLoadingApp: true,
+      bottomBarState: BottomBarState.initial(),
+      homeState: HomeState.initial(),
+      readerState: ReaderState(title: TEST_TEXT),
+      pastTriviaState: PastTriviaState.initial(),
+      authenticationState: AuthenticationState.initial(),
+      signInState: SignInState.initial(),
+      signUpState: SignUpState.initial(),
+      localStorageState: LocalStorageState.initial(),
+      appBarState: AppBarState.initial(),
+      infoTriviaState: InfoTriviaState.initial(),
+      themeSettingsState: ThemeSettingsState.initial(),
+      editProfileState: EditProfileState.initial(),
+
     );
   }
-  
-  AppState copyWith({
-    AppTab? activeTab,
-    HomeState? homeState,
-    ReaderState? readerState,
-    PastTriviaState? pastTriviaState,
-    AuthenticationState? authorizationState,
-    SignInState? signInState,
-    SignUpState? signUpState,
-    LocalStorageState? localStorageState,
-  }) {
+
+  AppState copyWith(
+      {bool? isLoading,
+        BottomBarState? bottomBarState,
+      HomeState? homeState,
+      ReaderState? readerState,
+      PastTriviaState? pastTriviaState,
+      AuthenticationState? authorizationState,
+      SignInState? signInState,
+      SignUpState? signUpState,
+      LocalStorageState? localStorageState,
+      AppBarState? homeAppBarState,
+      InfoTriviaState? infoTriviaState,
+      ThemeSettingsState? themeSettingsState,
+      EditProfileState? editProfileState}) {
     return AppState(
+      isLoadingApp: isLoading ?? this.isLoadingApp,
       homeState: homeState ?? this.homeState,
-      activeTab: activeTab ?? this.activeTab,
+      bottomBarState: bottomBarState ?? this.bottomBarState,
       signUpState: signUpState ?? this.signUpState,
       authenticationState: authorizationState ?? this.authenticationState,
       pastTriviaState: pastTriviaState ?? this.pastTriviaState,
       signInState: signInState ?? this.signInState,
       readerState: readerState ?? this.readerState,
       localStorageState: localStorageState ?? this.localStorageState,
+      appBarState: homeAppBarState ?? this.appBarState,
+      infoTriviaState: infoTriviaState ?? this.infoTriviaState,
+      themeSettingsState: themeSettingsState ?? this.themeSettingsState,
+      editProfileState: editProfileState ?? this.editProfileState,
     );
   }
 }

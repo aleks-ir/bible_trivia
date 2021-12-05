@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 
 @immutable
 class PastTriviaState {
-  final String title;
+  final List<String> books;
+  final int selectedBook;
 
   const PastTriviaState({
-    required this.title,
+    required this.books,
+    required this.selectedBook,
   });
 
-  PastTriviaState copyWith({required String title}) {
+  PastTriviaState copyWith({
+    List<String>? books,
+    int? selectedBook,}) {
     return PastTriviaState(
-      title: this.title,
+      selectedBook: selectedBook ?? this.selectedBook,
+      books: books ?? this.books,
     );
+  }
+
+  factory PastTriviaState.initial() {
+    return PastTriviaState(
+      selectedBook: 1,
+      books: TEST_BOOKS,);
   }
 }

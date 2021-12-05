@@ -1,13 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/constants/strings.dart';
-import 'package:weekly_bible_trivia/constants/text_styles.dart';
-import 'package:weekly_bible_trivia/models/authentication_status.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/text_styles.dart';
+import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
-import 'package:weekly_bible_trivia/redux/actions/transition_actions.dart';
-import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/authentication_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
@@ -22,106 +20,111 @@ class ModalBottomSheetContainer {
       context: context,
       builder: (BuildContext context) {
         return StoreConnector<AppState, _ViewModel>(
-            converter: (Store<AppState> store) =>
-                _ViewModel.fromStore(store),
+            converter: (Store<AppState> store) => _ViewModel.fromStore(store),
             builder: (context, _ViewModel viewModel) {
               bool isPortrait =
                   MediaQuery.of(context).orientation == Orientation.portrait;
+              Color colorButton = viewModel.themeType == ThemeType.dark ? Colors.white70 : Colors.brown;
               return Container(
-                height: viewModel.isAuthenticated ? 250 : isPortrait ? 180 : 150,
-                clipBehavior: Clip.antiAlias,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
+                height: viewModel.isAuthenticated
+                    ? 160
+                    : 110,
+                decoration: BoxDecoration(
+                  color: Color(viewModel.primaryColor),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
                   ),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Visibility(
-                      visible: viewModel.isAuthenticated ? true : false,
-                      child: SizedBox(
-                        height: isPortrait ? 20 : 10,
+                child:
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    Visibility(
-                      visible: viewModel.isAuthenticated ? true : false,
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                            primary: Colors.black,
-                            side: BorderSide(color: Colors.white)),
-                        onPressed: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              child: ClipOval(child: FadeInImage.assetNetwork(placeholder: 'assets/images/loading.gif', image: viewModel.user.photoURL != '' ? viewModel.user.photoURL : defaultPhotoURL,)),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(viewModel.user.displayName,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20)),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text("Edit profile",
-                                  //"Edit profile",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 15)),
-                              ],
-                            ),
-                          ],
+                      Visibility(
+                        visible: viewModel.isAuthenticated ? true : false,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: Color(viewModel.primaryColor)),
+                              primary: Colors.teal),
+                          onPressed: viewModel.navigateToEditProfile,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                child: ClipOval(
+                                    child: FadeInImage.assetNetwork(
+                                  placeholder: 'assets/images/loading.gif',
+                                  image:  viewModel.user.photoURL,
+                                )),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(viewModel.user.displayName,
+                                      style: TextStyle(color: Color(viewModel.textColor),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20)),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(editProfile.i18n,
+                                      style: TextStyle(
+                                          color: colorButton,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 15)),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: isPortrait ? 10 : 0,
-                    ),
-                    SizedBox(
-                      width: double.infinity, // <-- match_parent
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text("Table result",
-                          style: TextStyles.buttonMoreTextStyle,),
+                      SizedBox(
+                        height: viewModel.isAuthenticated ? 10 : 0,
                       ),
-                    ),
-                    SizedBox(
-                      height: isPortrait ? 5 : 0,
-                    ),
-                    SizedBox(
-                      width: double.infinity, // <-- match_parent
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text("About",
-                          style: TextStyles.buttonMoreTextStyle,),
+                      Visibility(
+                        visible: viewModel.isAuthenticated,
+                        child: Expanded(
+                            child:  Divider()
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: isPortrait ? 5 : 0,
-                    ),
-                    SizedBox(
-                      width: double.infinity, // <-- match_parent
-                      child: TextButton(
-                        onPressed: viewModel.isAuthenticated
-                            ? viewModel.navigateToSignOut
-                            : viewModel.navigateToSignIn,
-                        child: Text(
-                            viewModel.isAuthenticated ? "Log out" : "Log in",
-                          style: TextStyles.buttonMoreTextStyle,),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: isPortrait ? 6 : 11,
+                            child: TextButton(
+                              onPressed: viewModel.navigateToTableResults,
+                              child: Text(
+                                results.i18n,
+                                style: TextStyles.getButtonMoreTextStyle(colorButton),
+                              ),
+                            ),
+                          ),
+                          Expanded(flex: 3, child: IconButton(icon: Image.asset('assets/images/logo.png'), iconSize: 70, onPressed: viewModel.navigateToAbout,)),
+                          Expanded(flex: isPortrait ? 6 : 11,
+                            child: TextButton(
+                              onPressed: viewModel.isAuthenticated
+                                  ? viewModel.navigateToSignOut
+                                  : viewModel.navigateToSignIn,
+                              child: Text(
+                                viewModel.isAuthenticated ? signOut.i18n : authorization.i18n,
+                                style: TextStyles.getButtonMoreTextStyle(colorButton),
+                              ),
+                            ),
+                          ),
+                          //Expanded(child: SizedBox()),
+                        ],
                       ),
-                    )
-                  ],
-                ),
+                    ],
+                    ),
+
               );
             });
       },
@@ -130,24 +133,48 @@ class ModalBottomSheetContainer {
 }
 
 class _ViewModel {
-  final Function() navigateToSignIn;
-  final Function() navigateToSignOut;
+  final int primaryColor;
+  final int textColor;
+  final ThemeType themeType;
   final bool isAuthenticated;
   final UserFirebase user;
+  
+  final Function() navigateToSignIn;
+  final Function() navigateToSignOut;
+  final Function() navigateToTableResults;
+  final Function() navigateToAbout;
+  final Function() navigateToEditProfile;
 
   _ViewModel({
-    required this.navigateToSignIn,
-    required this.navigateToSignOut,
+    required this.primaryColor,
+    required this.textColor,
+    required this.themeType,
     required this.isAuthenticated,
     required this.user,
+    required this.navigateToSignIn,
+    required this.navigateToSignOut,
+    required this.navigateToTableResults,
+    required this.navigateToAbout,
+    required this.navigateToEditProfile,
   });
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
-      navigateToSignIn: () => store.dispatch(updateScreenThunk(NavigateToSignInAction())),
-      navigateToSignOut: () => store.dispatch(createLogOutThunk()),
-      isAuthenticated: store.state.authenticationState.status == AuthenticationStatus.loaded,
+      primaryColor: store.state.themeSettingsState.primaryColor,
+      textColor: store.state.themeSettingsState.textColor,
+      themeType: store.state.localStorageState.theme,
+      isAuthenticated:
+      store.state.authenticationState.status == AuthenticationStatus.loaded,
       user: store.state.authenticationState.user,
+      navigateToSignIn: () => store
+          .dispatch(updateScreenThunk(NavigateFromHomeToSignInScreenAction())),
+      navigateToSignOut: () => store.dispatch(createLogOutThunk()),
+      navigateToTableResults: () => store
+          .dispatch(updateScreenThunk(NavigateFromHomeToTableResultsScreenAction())),
+      navigateToAbout: () => store
+          .dispatch(updateScreenThunk(NavigateFromHomeToAboutScreenAction())),
+      navigateToEditProfile: () => store
+          .dispatch(updateScreenThunk(NavigateFromHomeToEditProfileScreenAction())),
     );
   }
 }

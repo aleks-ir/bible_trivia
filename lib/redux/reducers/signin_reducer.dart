@@ -1,11 +1,7 @@
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/models/validation_status.dart';
-import 'package:weekly_bible_trivia/models/screens.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
-import 'package:weekly_bible_trivia/redux/actions/home_actions.dart';
-import 'package:weekly_bible_trivia/redux/states/home_state.dart';
 import 'package:weekly_bible_trivia/redux/states/signin_state.dart';
-import 'package:weekly_bible_trivia/redux/states/signup_state.dart';
 
 Reducer<SignInState> signInReducer = combineReducers([
   TypedReducer<SignInState, ChangeValidationStatusAction>(
@@ -20,7 +16,7 @@ SignInState _changeValidationStatusAction(
     state.copyWith(validationStatus: action.status);
 
 SignInState _emailErrorAction(SignInState state, EmailErrorAction action) {
-  if (action.screen == Screens.SIGNIN) {
+  if (action.screen == Screen.signin) {
     return state.copyWith(
         emailError: action.message);
   } else {
@@ -30,7 +26,7 @@ SignInState _emailErrorAction(SignInState state, EmailErrorAction action) {
 
 SignInState _passwordErrorAction(
     SignInState state, PasswordErrorAction action) {
-  if (action.screen == Screens.SIGNIN) {
+  if (action.screen == Screen.signin) {
     return state.copyWith(passwordError: action.message);
   } else {
     return state;
