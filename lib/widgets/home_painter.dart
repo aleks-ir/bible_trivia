@@ -1,6 +1,7 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui' as ui;
 
 class HomePainter extends CustomPainter {
   Color primaryColor;

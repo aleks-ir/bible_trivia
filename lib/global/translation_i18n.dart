@@ -26,7 +26,7 @@ const infoCard = "infoCard";
 const infoDialog = "infoDialog";
 const close = "close";
 const editProfile = "editProfile";
-const aboutApp = "aboutApp";
+const about = "aboutApp";
 
 const nameError = "nameError";
 const emailError = "emailError";
@@ -37,6 +37,9 @@ const userNotFoundError = "userNotFoundError";
 const wrongPasswordError = "wrongPasswordError";
 const manyRequestsError = "manyRequestsError";
 
+const infoAbout = "infoAbout";
+const top = "top";
+const save = "save";
 
 extension Localization on String {
   static final _t = Translations.from("en_us", {
@@ -125,8 +128,8 @@ extension Localization on String {
       "ru": "Информация о викторине",
     },
     infoCard: {
-      "en": "Book: %s\nChapters: %s\nDate: %s\nCount Question: %s\nTime: %s min",
-      "ru": "Книга: %s\nГлавы: %s\nДата: %s\nКоличество вопросов: %s\nВремя: %s мин",
+      "en": "Book: %s\nChapters: %s\nDate: %s\nQuestion: %s\nTime: %s min",
+      "ru": "Книга: %s\nГлавы: %s\nДата: %s\nВопросов: %s\nВремя: %s мин",
     },
     infoDialog: {
       "en": "Sign in to begin the trivia, please.",
@@ -140,7 +143,7 @@ extension Localization on String {
       "en": "Edit profile",
       "ru": "Изменить профиль",
     },
-    aboutApp: {
+    about: {
       "en": "About application",
       "ru": "О приложении",
     },
@@ -150,7 +153,7 @@ extension Localization on String {
     },
     emailError: {
       "en": "Email is not valaid",
-      "ru": "Email не валидный",
+      "ru": "Некорректный email",
     },
     passwordError: {
       "en": "Password should be at least 6 symbols long",
@@ -176,7 +179,18 @@ extension Localization on String {
       "en": "Try again later...",
       "ru": "Попробуйте позже...",
     },
-
+    infoAbout: {
+      "en": "\t\tThis app will help you read your Bible step by step in its entirety. \n\n\t\tParticipate in a weekly quiz. All you have to do is read a few chapters from one book and answer the questions. It\'s easy and doesn\'t take much time.",
+      "ru": "\t\tЭто приложение поможет тебе шаг за шагом полностью прочитать Библию. \n\n\t\tПрими участие в еженедельной викторине. Все что нужно будет - это прочитать несколько глав из одной книги и ответить на вопросы. Это просто и не займет много времени.",
+    },
+    top: {
+      "en": "Top",
+      "ru": "Рейтинг",
+    },
+    save: {
+      "en": "Save changes",
+      "ru": "Сохранить изменения",
+    },
   });
 
   String get i18n => localize(this, _t);

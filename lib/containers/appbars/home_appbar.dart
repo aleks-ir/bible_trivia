@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:i18n_extension/i18n_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/text_styles.dart';
 import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';

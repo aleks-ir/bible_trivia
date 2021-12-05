@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/signin_request.dart';
@@ -29,8 +30,6 @@ ThunkAction<AppState> createLogOutThunk() {
 
 ThunkAction<AppState> createSignInThunk(SignInRequest request) {
   return (Store<AppState> store) async {
-    store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loading));
-
     final FirebaseAuth _auth = FirebaseAuth.instance;
     final User? user;
     try {
@@ -42,8 +41,8 @@ ThunkAction<AppState> createSignInThunk(SignInRequest request) {
           .user;
       if (user != null) {
         store.dispatch(AuthSuccessfulAction(
-            user: UserFirebase(user.displayName ?? '', user.email ?? '',
-                user.uid, user.photoURL ?? '')));
+            UserFirebase(user.displayName ?? '', user.email ?? '',
+                user.uid, user.photoURL ?? DEFAULT_PHOTO_URL)));
         store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loaded));
         store.dispatch(updateScreenThunk(NavigateFromSignInToHomeScreenAction()));
       }
@@ -66,8 +65,6 @@ ThunkAction<AppState> createSignInThunk(SignInRequest request) {
 
 ThunkAction<AppState> createSignUpThunk(SignUpRequest request) {
   return (Store<AppState> store) async {
-    store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loaded));
-
     final FirebaseAuth _auth = FirebaseAuth.instance;
     final User? user;
     store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loading));
@@ -81,8 +78,8 @@ ThunkAction<AppState> createSignUpThunk(SignUpRequest request) {
         user.updateDisplayName(request.name);
         store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loaded));
         store.dispatch(AuthSuccessfulAction(
-            user: UserFirebase(request.name, user.email ?? '', user.uid,
-                user.photoURL ?? '')));
+            UserFirebase(request.name, user.email ?? '', user.uid,
+                user.photoURL ?? DEFAULT_PHOTO_URL)));
         store.dispatch(updateScreenThunk(NavigateFromSignUpToHomeScreenAction()));
       }
     } on FirebaseAuthException catch (error) {
@@ -104,8 +101,8 @@ ThunkAction<AppState> createInitAuthThunk() {
       await _auth.authStateChanges().listen((User? user) {
         if (user != null) {
           store.dispatch(AuthSuccessfulAction(
-              user: UserFirebase(user.displayName ?? '', user.email ?? '',
-                  user.uid, user.photoURL ?? '')));
+              UserFirebase(user.displayName ?? '', user.email ?? '',
+                  user.uid, user.photoURL ?? DEFAULT_PHOTO_URL)));
           store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loaded));
         }
       });

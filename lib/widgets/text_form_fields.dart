@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/global/text_styles.dart';
 
 Widget authTextField(
-    {bool obscure: false, bool autofocus: false, Color color: Colors.black,  required String label, required IconData icon, required TextEditingController controller, required Function(String) onChanged}) {
+    {bool obscure: false, bool autofocus: false, Color color: Colors.black, IconData? icon : null, String label: '', required TextEditingController controller, required Function(String) onChanged}) {
   return TextField(
       keyboardType: TextInputType.emailAddress,
       autofocus: autofocus,
@@ -20,7 +19,7 @@ Widget authTextField(
           fontSize: 15,
           color: color,
         ),
-        prefixIcon: Icon(icon, color: color),
+        prefixIcon: icon != null ? Icon(icon, color: color) : null,
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       )

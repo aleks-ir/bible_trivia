@@ -1,6 +1,7 @@
 
 class AppColors{
-
+  static const greyLightest = 0xFFEEEEEE; // Colors.grey[200]
+  static const greyDark = 0xFF303030; // Colors.grey[850]
 
 
   static const blueBubbly = 0xff4476CC;
@@ -10,8 +11,6 @@ class AppColors{
 
   static const greyDefault = 0xFF9E9E9E; // Colors.grey[500]
   static const greyLight = 0xFFE0E0E0; // Colors.grey[300]
-  static const greyLightest = 0xFFEEEEEE; // Colors.grey[200]
-  static const greyDark = 0xFF616161; // Colors.grey[700]
   static const greyDarkest = 0xFF303030; // Colors.grey[850]
 
   static const blackFull = 0xff000000;

@@ -5,7 +5,7 @@ import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
-import 'package:weekly_bible_trivia/widgets/buttons/menu_buttons.dart';
+import 'package:weekly_bible_trivia/widgets/buttons.dart';
 import 'package:weekly_bible_trivia/widgets/sliding_appbar.dart';
 
 class HomeMenuBar extends StatelessWidget {
@@ -26,6 +26,7 @@ class HomeMenuBar extends StatelessWidget {
         controller: controller,
         visible: viewModel.isMenuBar,
         child: AppBar(
+            automaticallyImplyLeading: false,
             actions: [
               Expanded(
                 child: SizedBox(),

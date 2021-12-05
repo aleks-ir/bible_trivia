@@ -7,7 +7,7 @@ import 'package:weekly_bible_trivia/redux/actions/theme_settings_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/utils/selectors.dart';
-import 'package:weekly_bible_trivia/widgets/buttons/menu_buttons.dart';
+import 'package:weekly_bible_trivia/widgets/buttons.dart';
 import 'package:weekly_bible_trivia/widgets/sliding_appbar.dart';
 
 class ReaderMenuBar extends StatelessWidget {
@@ -28,6 +28,7 @@ class ReaderMenuBar extends StatelessWidget {
         controller: controller,
         visible: viewModel.isMenuBar,
         child: AppBar(
+          automaticallyImplyLeading: false,
           actions: [
             const Expanded(flex: 2, child: SizedBox()),
             //Expanded(flex: 1, child: SizedBox()),

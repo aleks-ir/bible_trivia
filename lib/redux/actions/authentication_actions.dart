@@ -4,8 +4,9 @@ import 'package:weekly_bible_trivia/models/user_firebase.dart';
 
 class AuthSuccessfulAction {
   final UserFirebase user;
-  AuthSuccessfulAction({ required this.user});
+  AuthSuccessfulAction(this.user);
 }
+
 
 class UpdateAuthErrorAction {
   final String authError;

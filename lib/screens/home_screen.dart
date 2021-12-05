@@ -9,8 +9,8 @@ import 'package:weekly_bible_trivia/containers/loading_app.dart';
 import 'package:weekly_bible_trivia/containers/past_trivia_container.dart';
 import 'package:weekly_bible_trivia/containers/reader_container.dart';
 import 'package:weekly_bible_trivia/containers/tab_selector.dart';
-import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
+import 'package:weekly_bible_trivia/global/enums.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

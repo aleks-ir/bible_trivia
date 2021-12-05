@@ -9,6 +9,7 @@ import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 import 'appbar_reducer.dart';
 import 'authentication_reducer.dart';
+import 'edit_profile_reducer.dart';
 import 'home_reducer.dart';
 import 'info_trivia_reducer.dart';
 import 'loading_reducer.dart';
@@ -16,7 +17,7 @@ import 'local_storage_reducer.dart';
 
 AppState appReducer(AppState state, action) {
   return AppState(
-      isLoading: loadingReducer(state.isLoading, action),
+      isLoadingApp: loadingReducer(state.isLoadingApp, action),
       homeState: homeReducer(state.homeState, action),
       readerState: readerReducer(state.readerState, action),
       pastTriviaState: pastTriviaReducer(state.pastTriviaState, action),
@@ -29,5 +30,6 @@ AppState appReducer(AppState state, action) {
       bottomBarState: bottomBarReducer(state.bottomBarState, action),
       infoTriviaState: infoTriviaReducer(state.infoTriviaState, action),
       themeSettingsState: themeSettingsReducer(state.themeSettingsState, action),
+      editProfileState: editProfileReducer(state.editProfileState, action)
   );
 }

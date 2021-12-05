@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/redux/states/appbar_state.dart';
+import 'package:weekly_bible_trivia/redux/states/edit_profile_state.dart';
 import 'package:weekly_bible_trivia/redux/states/home_state.dart';
 import 'package:weekly_bible_trivia/redux/states/past_trivia_state.dart';
 import 'package:weekly_bible_trivia/redux/states/reader_state.dart';
@@ -15,7 +16,7 @@ import 'local_storage_state.dart';
 
 @immutable
 class AppState {
-  final bool isLoading;
+  final bool isLoadingApp;
   final BottomBarState bottomBarState;
   final HomeState homeState;
   final ReaderState readerState;
@@ -27,9 +28,11 @@ class AppState {
   final AppBarState appBarState;
   final InfoTriviaState infoTriviaState;
   final ThemeSettingsState themeSettingsState;
+  final EditProfileState editProfileState;
+
 
   const AppState({
-    required this.isLoading,
+    required this.isLoadingApp,
     required this.bottomBarState,
     required this.homeState,
     required this.readerState,
@@ -41,13 +44,14 @@ class AppState {
     required this.appBarState,
     required this.infoTriviaState,
     required this.themeSettingsState,
+    required this.editProfileState,
   });
 
 
 
   factory AppState.initial() {
     return AppState(
-      isLoading: true,
+      isLoadingApp: true,
       bottomBarState: BottomBarState.initial(),
       homeState: HomeState.initial(),
       readerState: ReaderState(title: TEST_TEXT),
@@ -59,6 +63,8 @@ class AppState {
       appBarState: AppBarState.initial(),
       infoTriviaState: InfoTriviaState.initial(),
       themeSettingsState: ThemeSettingsState.initial(),
+      editProfileState: EditProfileState.initial(),
+
     );
   }
 
@@ -74,9 +80,10 @@ class AppState {
       LocalStorageState? localStorageState,
       AppBarState? homeAppBarState,
       InfoTriviaState? infoTriviaState,
-      ThemeSettingsState? themeSettingsState}) {
+      ThemeSettingsState? themeSettingsState,
+      EditProfileState? editProfileState}) {
     return AppState(
-      isLoading: isLoading ?? this.isLoading,
+      isLoadingApp: isLoading ?? this.isLoadingApp,
       homeState: homeState ?? this.homeState,
       bottomBarState: bottomBarState ?? this.bottomBarState,
       signUpState: signUpState ?? this.signUpState,
@@ -88,6 +95,7 @@ class AppState {
       appBarState: homeAppBarState ?? this.appBarState,
       infoTriviaState: infoTriviaState ?? this.infoTriviaState,
       themeSettingsState: themeSettingsState ?? this.themeSettingsState,
+      editProfileState: editProfileState ?? this.editProfileState,
     );
   }
 }

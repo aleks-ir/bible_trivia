@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/global/route_paths.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
-
+import 'package:weekly_bible_trivia/global/route_paths.dart';
 import 'package:weekly_bible_trivia/screens/about_screen.dart';
 import 'package:weekly_bible_trivia/screens/edit_profile_screen.dart';
 import 'package:weekly_bible_trivia/screens/home_screen.dart';

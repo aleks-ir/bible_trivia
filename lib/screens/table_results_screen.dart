@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/global/route_paths.dart';
 import 'package:weekly_bible_trivia/containers/active_tab.dart';
 import 'package:weekly_bible_trivia/containers/appbars/simple_appbar.dart';
-import 'package:weekly_bible_trivia/containers/signin_container.dart';
+import 'package:weekly_bible_trivia/containers/table_results_container.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
@@ -28,7 +27,7 @@ class SignInScreenState extends State<TableResultsScreen> {
         builder: (BuildContext context, NavigationTab activeTab) => Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: SimpleAppBar(results.i18n, NavigateFromTableResultsToHomeScreenAction()),
-          body: SignInContainer(),
+          body: TableResultsContainer(),
         ),
       );
 }

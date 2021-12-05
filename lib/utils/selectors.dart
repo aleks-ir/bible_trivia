@@ -15,7 +15,7 @@ AppTheme selectTheme(ThemeType themeType) {
     default:
       return AppTheme(
           primaryColor: AppColors.whiteDefault,
-          secondaryColor: Colors.white70.value,
+          secondaryColor: AppColors.greyLightest,
           appBarColor: AppColors.whiteDefault,
           shadowColor: Colors.black54.value,
           textColor: AppColors.blackDefault);

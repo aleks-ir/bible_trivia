@@ -6,10 +6,10 @@ import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
-import 'package:weekly_bible_trivia/widgets/buttons/auth_button.dart';
+import 'package:weekly_bible_trivia/widgets/buttons.dart';
 import 'package:weekly_bible_trivia/widgets/circular_progress_indicator.dart';
 import 'package:weekly_bible_trivia/widgets/error_validation.dart';
-import 'package:weekly_bible_trivia/widgets/text_form_fields/auth_text_form_field.dart';
+import 'package:weekly_bible_trivia/widgets/text_form_fields.dart';
 
 class SignUpContainer extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
@@ -214,13 +214,9 @@ class _ViewModel {
   final int textColor;
   final ValidationStatus validStatus;
   final AuthenticationStatus authStatus;
-  final String name;
   final String nameError;
-  final String password;
   final String passwordError;
-  final String email;
   final String emailError;
-  final String retypePassword;
   final String retypePasswordError;
 
   final Function(String) validateName;
@@ -234,13 +230,9 @@ class _ViewModel {
     required this.textColor,
     required this.validStatus,
     required this.authStatus,
-    required this.name,
     required this.nameError,
-    required this.password,
     required this.passwordError,
-    required this.email,
     required this.emailError,
-    required this.retypePassword,
     required this.retypePasswordError,
     required this.validateName,
     required this.validateEmail,
@@ -255,22 +247,18 @@ class _ViewModel {
       textColor: store.state.themeSettingsState.textColor,
       validStatus: store.state.signUpState.validationStatus,
       authStatus: store.state.authenticationState.status,
-      name: store.state.signUpState.name,
       nameError: store.state.signUpState.nameError,
-      password: store.state.signUpState.password,
       passwordError: store.state.signUpState.passwordError,
-      email: store.state.signUpState.email,
       emailError: store.state.signUpState.emailError,
-      retypePassword: store.state.signUpState.retypePassword,
       retypePasswordError: store.state.signUpState.retypePasswordError,
       validateName: (name) =>
-          store.dispatch(validateNameThunk(name, Screen.SIGNUP)),
+          store.dispatch(validateNameThunk(name, Screen.signup)),
       validateEmail: (email) =>
-          store.dispatch(validateEmailThunk(email, Screen.SIGNUP)),
+          store.dispatch(validateEmailThunk(email, Screen.signup)),
       validatePassword: (password) =>
-          store.dispatch(validatePasswordThunk(password, Screen.SIGNUP)),
+          store.dispatch(validatePasswordThunk(password, Screen.signup)),
       validatePasswordMatch: (password, retypePassword) => store.dispatch(
-          validatePassMatchThunk(password, retypePassword, Screen.SIGNUP)),
+          validatePassMatchThunk(password, retypePassword, Screen.signup)),
       signUp: (request) {
         store.dispatch(validateSignUpThunk(request));
       },

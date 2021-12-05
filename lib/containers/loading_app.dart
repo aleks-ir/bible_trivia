@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/containers/modal_container.dart';
-import 'package:weekly_bible_trivia/global/enums.dart';
-import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
-import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 class LoadingApp extends StatelessWidget {
@@ -16,7 +12,7 @@ class LoadingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, bool>(
       distinct: true,
-      converter: (Store<AppState> store) => store.state.isLoading,
+      converter: (Store<AppState> store) => store.state.isLoadingApp,
       builder: builder,
     );
   }

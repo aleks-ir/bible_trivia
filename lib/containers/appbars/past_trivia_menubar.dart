@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/redux/actions/past_trivia_action.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
-import 'package:weekly_bible_trivia/widgets/buttons/menu_buttons.dart';
+import 'package:weekly_bible_trivia/widgets/buttons.dart';
 import 'package:weekly_bible_trivia/widgets/sliding_appbar.dart';
 
 class PastTriviaMenuBar extends StatelessWidget {
@@ -30,6 +30,7 @@ class PastTriviaMenuBar extends StatelessWidget {
         controller: controller,
         visible: viewModel.isShowMenuBar,
         child: AppBar(
+            automaticallyImplyLeading: false,
             actions: [
               Expanded(flex: 1, child: SizedBox()),
               Expanded(

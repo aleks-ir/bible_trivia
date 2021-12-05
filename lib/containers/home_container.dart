@@ -8,7 +8,7 @@ import 'package:weekly_bible_trivia/global/text_styles.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/redux/actions/home_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
-import 'package:weekly_bible_trivia/widgets/buttons/home_button.dart';
+import 'package:weekly_bible_trivia/widgets/buttons.dart';
 import 'package:weekly_bible_trivia/widgets/home_dialog.dart';
 import 'package:weekly_bible_trivia/widgets/home_painter.dart';
 
@@ -75,7 +75,7 @@ class _HomeContainerState extends State<HomeContainer>
             child: ListTile(
                 minVerticalPadding: 20,
                 title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     viewModel.isShowedInfoTrivia
                         ? Text(_infoAboutCurrentTrivia,
@@ -94,7 +94,7 @@ class _HomeContainerState extends State<HomeContainer>
                   ],
                 )),
             elevation: 8,
-            shadowColor: Color(viewModel.secondaryColor),
+            shadowColor: Color(viewModel.shadowColor),
             margin: EdgeInsets.only(left: _isPortrait ? 80 : 200, right: _isPortrait ? 80 : 200),
             shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -198,6 +198,7 @@ class _HomeContainerState extends State<HomeContainer>
 class _ViewModel {
   final int primaryColor;
   final int secondaryColor;
+  final int shadowColor;
   final int textColor;
   final bool isAuthenticated;
   final bool isShowedInfoTrivia;
@@ -213,6 +214,7 @@ class _ViewModel {
       {
         required this.primaryColor,
         required this.secondaryColor,
+        required this.shadowColor,
         required this.textColor,
         required this.isAuthenticated,
       required this.isShowedInfoTrivia,
@@ -227,6 +229,7 @@ class _ViewModel {
     return _ViewModel(
       primaryColor: store.state.themeSettingsState.primaryColor,
         secondaryColor: store.state.themeSettingsState.secondaryColor,
+        shadowColor: store.state.themeSettingsState.shadowColor,
         textColor: store.state.themeSettingsState.textColor,
         isAuthenticated: store.state.authenticationState.status ==
             AuthenticationStatus.loaded,

@@ -13,7 +13,7 @@ enum MenuBar { home, reader, pastTrivia }
 
 enum NavigationTab { home, reader, pastTrivia, more }
 
-enum Screen { SIGNIN, SIGNUP }
+enum Screen { signin, signup, editProfile }
 
 enum ThemeType { dark, light }
 

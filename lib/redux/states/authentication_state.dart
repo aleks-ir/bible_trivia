@@ -1,8 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
-
 
 @immutable
 class AuthenticationState {
@@ -26,6 +25,9 @@ class AuthenticationState {
   }
 
   factory AuthenticationState.initial() {
-    return AuthenticationState(authError: '', status: AuthenticationStatus.noLoaded, user: UserFirebase('', '', '', ''));
+    return AuthenticationState(
+        authError: '',
+        status: AuthenticationStatus.noLoaded,
+        user: UserFirebase('', '', '', DEFAULT_PHOTO_URL));
   }
 }

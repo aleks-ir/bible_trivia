@@ -4,19 +4,21 @@ import 'package:redux_thunk/redux_thunk.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
+import 'package:weekly_bible_trivia/models/edit_profile_request.dart';
 import 'package:weekly_bible_trivia/models/signin_request.dart';
 import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 import 'authentication_middleware.dart';
+import 'edit_profile_middleware.dart';
 
 
 
 
 ThunkAction<AppState> validateSignInThunk(SignInRequest request) {
   return (Store<AppState> store) {
-    Screen screen = Screen.SIGNIN;
+    Screen screen = Screen.signin;
     bool isValidEmail = validateEmail(request.email, screen, store);
     bool isValidPassword = validatePassword(request.password, screen, store);
     if (isValidEmail && isValidPassword) {
@@ -29,7 +31,7 @@ ThunkAction<AppState> validateSignInThunk(SignInRequest request) {
 
 ThunkAction<AppState> validateSignUpThunk(SignUpRequest request) {
   return (Store<AppState> store) {
-    Screen screen = Screen.SIGNUP;
+    Screen screen = Screen.signup;
     bool isValidName = validateName(request.name, screen, store);
     bool isValidEmail = validateEmail(request.email, screen, store);
     bool isValidPassword = validatePassword(request.password, screen, store);
@@ -37,6 +39,18 @@ ThunkAction<AppState> validateSignUpThunk(SignUpRequest request) {
         request.password, request.retypePassword, screen, store);
     if (isValidName && isValidEmail && isValidPassword && isValidPasswordMatch) {
       store.dispatch(createSignUpThunk(request));
+    } else {
+      store.dispatch(ChangeValidationStatusAction(ValidationStatus.error));
+    }
+  };
+}
+
+ThunkAction<AppState> validateEditProfileThunk(EditProfileRequest request) {
+  return (Store<AppState> store) {
+    Screen screen = Screen.editProfile;
+    bool isValidName = validateName(request.name, screen, store);
+    if (isValidName) {
+      store.dispatch(createEditProfileThunk(request));
     } else {
       store.dispatch(ChangeValidationStatusAction(ValidationStatus.error));
     }

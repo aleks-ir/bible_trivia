@@ -38,19 +38,7 @@ class WeeklyTriviaBibleApp extends StatelessWidget {
     return StoreProvider<AppState>(
       store: _store,
       child: I18n(
-        child:
-        // _store.state.isLoading
-        //     ? MaterialApp(
-        //         home: Scaffold(
-        //           backgroundColor: Colors.white,
-        //           body: Center(
-        //             child: Image.asset('assets/images/logo.png'),
-        //            // CircularProgressIndicator(),
-        //           ),
-        //         ),
-        //       )
-        //     :
-        MaterialApp(
+        child: MaterialApp(
                 debugShowCheckedModeBanner: false,
                 initialRoute: RoutePaths.toHomeScreen,
                 navigatorKey: locator<NavigationService>().navigatorKey,

@@ -16,7 +16,7 @@ SignInState _changeValidationStatusAction(
     state.copyWith(validationStatus: action.status);
 
 SignInState _emailErrorAction(SignInState state, EmailErrorAction action) {
-  if (action.screen == Screen.SIGNIN) {
+  if (action.screen == Screen.signin) {
     return state.copyWith(
         emailError: action.message);
   } else {
@@ -26,7 +26,7 @@ SignInState _emailErrorAction(SignInState state, EmailErrorAction action) {
 
 SignInState _passwordErrorAction(
     SignInState state, PasswordErrorAction action) {
-  if (action.screen == Screen.SIGNIN) {
+  if (action.screen == Screen.signin) {
     return state.copyWith(passwordError: action.message);
   } else {
     return state;
