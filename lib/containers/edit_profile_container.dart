@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
@@ -25,7 +27,6 @@ class EditProfileContainer extends StatefulWidget {
 }
 
 class _EditProfileContainerState extends State<EditProfileContainer> {
-
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _nameController = TextEditingController();
   bool isInitName = false;
@@ -51,8 +52,15 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                       height: 50,
                     ),
                     CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: _imageFile != null ? FileImage(_imageFile!) as ImageProvider : NetworkImage(viewModel.user.photoURL),
+                      onBackgroundImageError: (exception, context) {
+                        print(
+                            'Cannot be loaded. Error msg : ${exception.toString()}');
+                      },
+                      backgroundColor: Color(viewModel.secondaryColor),
+                      backgroundImage: _imageFile != null
+                          ? FileImage(_imageFile!) as ImageProvider
+                          : _getNetworkImage(viewModel.user.photoURL)
+                              as ImageProvider,
                       radius: 80.0,
                       child: Stack(children: [
                         Align(
@@ -67,7 +75,15 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                                 Icons.add,
                                 color: Colors.white,
                               ),
-                              onPressed: () {_getImageFile();},
+                              onPressed: () async {
+                                //final status = await Permission.manageExternalStorage.request();
+                                //_getImageFile();
+                                if (await Permission.storage
+                                    .request()
+                                    .isGranted) {
+                                  _getImageFile();
+                                }
+                              },
                             ),
                           ),
                         ),
@@ -91,14 +107,15 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                     SizedBox(
                       height: 30,
                     ),
-                    authButton(viewModel.loading ? circularProgressIndicator() :
-                        Text(
-                          save.i18n,
-                        ), () {
+                    authButton(
+                        viewModel.loading
+                            ? circularProgressIndicator()
+                            : Text(
+                                save.i18n,
+                              ), () {
                       FocusScope.of(context).unfocus();
-                      viewModel.editProfile(EditProfileRequest(
-                          _nameController.text,
-                          _imageFile));
+                      viewModel.editProfile(
+                          EditProfileRequest(_nameController.text, _imageFile));
                     }, color: Colors.brown),
                   ],
                 ),
@@ -114,7 +131,7 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
         source: ImageSource.gallery,
       );
       setState(() {
-        if(pickedFile != null){
+        if (pickedFile != null) {
           _imageFile = File(pickedFile.path);
         }
       });
@@ -122,12 +139,16 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
       print(e);
     }
   }
-
 }
 
+NetworkImage _getNetworkImage(String photoURL) {
+  NetworkImage image = NetworkImage(photoURL);
+  return image;
+}
 
 class _ViewModel {
   final int primaryColor;
+  final int secondaryColor;
   final int textColor;
   final bool loading;
   final UserFirebase user;
@@ -139,6 +160,7 @@ class _ViewModel {
 
   _ViewModel({
     required this.primaryColor,
+    required this.secondaryColor,
     required this.textColor,
     required this.loading,
     required this.user,
@@ -151,6 +173,7 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
       primaryColor: store.state.themeSettingsState.primaryColor,
+      secondaryColor: store.state.themeSettingsState.secondaryColor,
       textColor: store.state.themeSettingsState.textColor,
       loading: store.state.editProfileState.loading,
       user: store.state.authenticationState.user,

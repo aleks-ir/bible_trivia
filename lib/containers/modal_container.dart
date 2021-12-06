@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/text_styles.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
@@ -53,17 +54,24 @@ class ModalBottomSheetContainer {
                           onPressed: viewModel.navigateToEditProfile,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                child: ClipOval(
-                                    child: FadeInImage.assetNetwork(
+                            children: [CircleAvatar(
+                              //width: 40,
+                              backgroundColor: Colors.transparent,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: FadeInImage.assetNetwork(
                                   placeholder: 'assets/images/loading.gif',
-                                  image:  viewModel.user.photoURL,
-                                )),
+                                  image:  viewModel.user.photoURL.isNotEmpty ? viewModel.user.photoURL : DEFAULT_PHOTO_URL,
+                                  imageErrorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(
+                                        'assets/images/default_user.jpg',
+                                        fit: BoxFit.fitWidth);
+                                  },
+                                )
                               ),
+                            ),
                               const SizedBox(
-                                width: 20,
+                                width: 10,
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +146,7 @@ class _ViewModel {
   final ThemeType themeType;
   final bool isAuthenticated;
   final UserFirebase user;
-  
+
   final Function() navigateToSignIn;
   final Function() navigateToSignOut;
   final Function() navigateToTableResults;
