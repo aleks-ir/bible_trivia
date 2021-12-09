@@ -76,11 +76,9 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                                 color: Colors.white,
                               ),
                               onPressed: () async {
-                                //final status = await Permission.manageExternalStorage.request();
-                                //_getImageFile();
-                                if (await Permission.storage
-                                    .request()
-                                    .isGranted) {
+                                final status = await Permission.storage
+                                    .request();
+                                if (status.isGranted) {
                                   _getImageFile();
                                 }
                               },

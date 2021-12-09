@@ -1,0 +1,196 @@
+[
+  {
+    "book": "Exodus",
+    "chapter": "1",
+    "date": "13.12.2021",
+    "runtime": "300",
+    "questions": [
+      {
+        "question_ru": "Вместе с Иаковом в Египет отправились его сыновья с домами своими. Сколько было сыновей?",
+        "question_en": "Jacob and his sons went with him to Egypt with their homes. How many sons were there?",
+        "answers_ru": [
+          "10",
+          "11",
+          "12",
+          "13"
+        ],
+        "answers_en": [
+          "10",
+          "11",
+          "12",
+          "13"
+        ],
+        "correct_answer": 1,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Чего боялся фараон, обнаружив рост еврейского населения?",
+        "question_en": "What was Pharaoh afraid of when he discovered the growing Jewish population?",
+        "answers_ru": [
+          "Во время войны они перейдут на сторону врага",
+          "Они свергнут его с престола",
+          "Они не станут почитать богов Египта"
+        ],
+        "answers_en": [
+          "In time of war they will go over to the side of the enemy",
+          "They will dethrone him",
+          "They will not venerate the gods of Egypt."
+        ],
+        "correct_answer": 0,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Первая попытка фараона решить \"еврейский вопрос\"",
+        "question_en": "Pharaoh's first attempt to solve the \"Jewish question\"",
+        "answers_ru": [
+          "Уменьшение оплаты труда",
+          "Назначение начальников для изнурения",
+          "Запрет поклоняться Богу",
+          "Налог на землю"
+        ],
+        "answers_en": [
+          "Reduced pay",
+          "Appointing Bosses to Wear Out",
+          "The prohibition of worshipping God",
+          "Land tax"
+        ],
+        "correct_answer": 1,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Как назывались города для запасов?",
+        "question_en": "What were the names of the cities for stockpiles?",
+        "answers_ru": [
+          "Гихон и Раамсес",
+          "Фарес и Пифос",
+          "Пифом и Амос",
+          "Пифом и Раамсес"
+        ],
+        "answers_en": [
+          "Gihon and Rameses",
+          "Phares and Pythos",
+          "Pythos and Amos",
+          "Pythos and Rameses"
+        ],
+        "correct_answer": 3,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Какая была работа евреев в Египте?",
+        "question_en": "What was the job of the Jews in Egypt?",
+        "answers_ru": [
+          "Строительство пирамид",
+          "Обработка почвы",
+          "Изготовление кирпичей",
+          "Животноводство"
+        ],
+        "answers_en": [
+          "Building pyramids",
+          "Soil processing",
+          "Brick making",
+          "Livestock farming"
+        ],
+        "correct_answer": 2,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "В чём заключался геноцид евреев в Египте?",
+        "question_en": "What was the genocide of the Jews in Egypt?",
+        "answers_ru": [
+          "Истребление стариков и больных",
+          "Истребление женщин",
+          "Истребление детей мужского пола",
+          "Истребление детей"
+        ],
+        "answers_en": [
+          "The extermination of the old and the sick",
+          "The extermination of women",
+          "The extermination of male children",
+          "The extermination of children"
+        ],
+        "correct_answer": 2,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Вторая попытка фараона решить \"еврейский вопрос\"",
+        "question_en": "Pharaoh's Second Attempt to Solve the \"Jewish Question\"",
+        "answers_ru": [
+          "Выселение из земли Гесем",
+          "Ограничение евреев в пище",
+          "Гонения за веру",
+          "Указ для акушерок"
+        ],
+        "answers_en": [
+          "Eviction from the land of Goshen",
+          "Restricting the Jews from eating",
+          "Persecution for their faith",
+          "An edict for midwives"
+        ],
+        "correct_answer": 3,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Почему Шифра не послушалась фараона?",
+        "question_en": "Why didn't Shiphrah listen to Pharaoh?",
+        "answers_ru": [
+          "Была недовольна политикой фараона",
+          "Была недовольна оплатой труда",
+          "Была еврейкой",
+          "Боялась Бога"
+        ],
+        "answers_en": [
+          "She was dissatisfied with Pharaoh's policies",
+          "She was dissatisfied with the wages",
+          "She was Jewish",
+          "She was afraid of God"
+        ],
+        "correct_answer": 3,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Как Бог отблагодарил Шифру и Фуу?",
+        "question_en": "How did God thank Shifra and Fuu?",
+        "answers_ru": [
+          "Бог их спас",
+          "Фараон повысил их в должности",
+          "Бог устраивал их домы",
+          "Бог дал им детей"
+        ],
+        "answers_en": [
+          "God saved them",
+          "Pharaoh promoted them",
+          "God arranged their homes",
+          "God gave them children"
+        ],
+        "correct_answer": 2,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Третья попытка фараона решить \"еврейский вопрос\"",
+        "question_en": "Pharaoh's Third Attempt to Solve the \"Jewish Question\"",
+        "answers_ru": [
+          "Обращение к египетским богам",
+          "Приказ жрецам наслать на евреев проклятие",
+          "Издание указа о убийстве каждого ребёнка мужского пола"
+        ],
+        "answers_en": [
+          "An appeal to the Egyptian gods",
+          "Ordering the priests to put a curse on the Jews",
+          "Issuing a decree to kill every male child"
+        ],
+        "correct_answer": 2,
+        "explanation_ru": "",
+        "explanation_en": ""
+      }
+    ]
+  }
+]
