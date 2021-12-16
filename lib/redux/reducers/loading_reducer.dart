@@ -1,11 +1,26 @@
 
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/redux/actions/load_app_action.dart';
+import 'package:weekly_bible_trivia/redux/actions/loading_actions.dart';
+import 'package:weekly_bible_trivia/redux/states/loading_state.dart';
 
-final loadingReducer = combineReducers<bool>([
-  TypedReducer<bool, LoadAction>(_setLoaded),
+
+Reducer<LoadingState> loadingReducer = combineReducers([
+  TypedReducer<LoadingState, LoadedAppAction>(
+      _changeLoadingApp),
+  TypedReducer<LoadingState, UpdateLoadingAppDataFromApiAction>(
+      _changeLoadingDataFromApi),
 ]);
 
-bool _setLoaded(bool state, action) {
-  return false;
+LoadingState _changeLoadingApp(
+    LoadingState prevState, LoadedAppAction action) {
+  return prevState.copyWith(
+    isLoadingApp: false,
+  );
+}
+
+LoadingState _changeLoadingDataFromApi(
+    LoadingState prevState, UpdateLoadingAppDataFromApiAction action) {
+  return prevState.copyWith(
+    isLoadingDataFromApi: action.loadingDataFromApi,
+  );
 }

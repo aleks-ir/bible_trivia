@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weekly_bible_trivia/containers/active_tab.dart';
+import 'package:weekly_bible_trivia/containers/active_container.dart';
 import 'package:weekly_bible_trivia/containers/appbars/active_appbar.dart';
 import 'package:weekly_bible_trivia/containers/appbars/active_menubar.dart';
-import 'package:weekly_bible_trivia/containers/home_container.dart';
 import 'package:weekly_bible_trivia/containers/loading_app.dart';
-import 'package:weekly_bible_trivia/containers/past_trivia_container.dart';
-import 'package:weekly_bible_trivia/containers/reader_container.dart';
 import 'package:weekly_bible_trivia/containers/tab_selector.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
-import 'package:weekly_bible_trivia/global/enums.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,23 +18,42 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
+    with TickerProviderStateMixin {
+  late final AnimationController _animationControllerMenuBar;
+  late final AnimationController _animationControllerAppBar;
+  late final AnimationController _animationControllerBottomNavigationBar;
 
   @override
   void initState() {
-    _controller = AnimationController(
+    _animationControllerMenuBar = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 400),
+      duration: Duration(milliseconds: 600),
+    );
+    _animationControllerAppBar = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 1200),
+    );
+    _animationControllerBottomNavigationBar = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 1200),
     );
     super.initState();
     _initLanguage();
   }
 
+  @override
+  void dispose(){
+    _animationControllerMenuBar.dispose();
+    _animationControllerAppBar.dispose();
+    _animationControllerBottomNavigationBar.dispose();
+    super.dispose();
+  }
+
+
   _initLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String language = prefs.getString(LANGUAGE) ?? "";
-    if (language == Language.russian.toString()) {
+    if (language == RUSSIAN) {
       I18n.of(context).locale = Locale("ru");
     } else {
       I18n.of(context).locale = Locale("en");
@@ -47,41 +62,32 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) => LoadingApp(
-        builder: (BuildContext context, bool loading) => ActiveTab(
-            builder: (BuildContext context, NavigationTab activeTab) => loading
-                ? //     ? MaterialApp(
+        builder: (BuildContext context, bool loading) => loading
+                ?
                 Scaffold(
                     backgroundColor: Colors.white,
                     body: Center(
                       child:
-                      //Image.asset('assets/images/logo.png'),
-                      CircularProgressIndicator(),
+                          //Image.asset('assets/images/logo.png'),
+                          CircularProgressIndicator(),
                     ),
                   )
                 : Scaffold(
-                    appBar: ActiveAppBar(),
+                    extendBodyBehindAppBar: true,
+                    appBar: ActiveAppBar(_animationControllerAppBar),
                     body: Scaffold(
+                      extendBody: true,
                       extendBodyBehindAppBar: true,
                       resizeToAvoidBottomInset: false,
-                      appBar: ActiveMenuBar(_controller),
-                      body: _getContainer(activeTab),
-                      bottomNavigationBar: //TabSelector(),
+                      appBar: ActiveMenuBar(_animationControllerMenuBar),
+                      body: ActiveContainer(),
+                      bottomNavigationBar:
                           Theme(
                         data: Theme.of(context)
                             .copyWith(canvasColor: Colors.transparent),
-                        child: const TabSelector(),
+                        child: TabSelector(_animationControllerBottomNavigationBar),
                       ),
                     ),
-                  )),
+                  ),
       );
-
-  dynamic _getContainer(NavigationTab activeTab) {
-    if (activeTab == NavigationTab.home) {
-      return HomeContainer();
-    } else if (activeTab == NavigationTab.reader) {
-      return ReaderContainer();
-    } else if (activeTab == NavigationTab.pastTrivia) {
-      return PastTriviaContainer();
-    }
-  }
 }

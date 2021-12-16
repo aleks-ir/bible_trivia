@@ -7,13 +7,13 @@ Reducer<ThemeSettingsState> themeSettingsReducer = combineReducers([
       _saveThemeSetting),
 ]);
 
-ThemeSettingsState _saveThemeSetting(ThemeSettingsState prevState,
-    UpdateThemeSettingsAction action) {
-  return prevState.copyWith(primaryColor: action.primaryColor,
+ThemeSettingsState _saveThemeSetting(
+    ThemeSettingsState prevState, UpdateThemeSettingsAction action) {
+  return prevState.copyWith(
+      primaryColor: action.primaryColor,
       secondaryColor: action.secondaryColor,
       appBarColor: action.appBarColor,
       shadowColor: action.shadowColor,
-      textColor: action.textColor);
+      textColor: action.textColor,
+      iconColor: action.iconColor);
 }
-
-

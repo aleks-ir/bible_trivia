@@ -55,11 +55,11 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
     } else if (action is NavigateFromHomeToSearchScreenAction) {
       _navigationService.navigate(RoutePaths.fromHomeToSearchScreen);
       return;
-    } else if (action is NavigateFromHomeToSetChapterScreenAction) {
-      _navigationService.navigate(RoutePaths.fromHomeToSetChapterScreen);
+    } else if (action is NavigateFromHomeToSelectionScreenAction) {
+      _navigationService.navigate(RoutePaths.fromHomeToSelectionScreen);
       return;
-    } else if (action is NavigateFromHomeToSetTranslationScreenAction) {
-      _navigationService.navigate(RoutePaths.fromHomeToSetTranslationScreen);
+    } else if (action is NavigateFromSelectionToTranslationScreenAction) {
+      _navigationService.navigate(RoutePaths.fromSelectionToTranslationScreen);
       return;
     } else if (action is NavigateFromSignInToHomeScreenAction) {
       _navigationService.navigateBack(RoutePaths.fromSignInToHomeScreen);
@@ -92,12 +92,16 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
     } else if (action is NavigateFromSearchToHomeScreenAction) {
       _navigationService.navigateBack(RoutePaths.fromSearchToHomeScreen);
       return;
-    } else if (action is NavigateFromSetChapterToHomeScreenAction) {
-      _navigationService.navigateBack(RoutePaths.fromSetChapterToHomeScreen);
+    } else if (action is NavigateFromSelectionToHomeScreenAction) {
+      _navigationService.navigateBack(RoutePaths.fromSelectionToHomeScreen);
       return;
-    } else if (action is NavigateFromSetTranslationToHomeScreenAction) {
+    } else if (action is NavigateFromTranslationToSelectionScreenAction) {
       _navigationService
-          .navigateBack(RoutePaths.fromSetTranslationToHomeScreen);
+          .navigateBack(RoutePaths.fromTranslationToSelectionScreen);
+      return;
+    }else if (action is NavigateFromTranslationToHomeScreenAction) {
+      _navigationService
+          .navigateBack(RoutePaths.fromTranslationToHomeScreen);
       return;
     }
     store.dispatch(action);

@@ -12,10 +12,13 @@ import 'home_appbar.dart';
 
 class ActiveAppBar extends StatelessWidget with PreferredSizeWidget {
 
+  final AnimationController controller;
+
   @override
   final Size preferredSize;
 
   ActiveAppBar(
+      this.controller,
      {
     Key? key,
   })  : preferredSize = const Size.fromHeight(50.0),
@@ -28,9 +31,9 @@ class ActiveAppBar extends StatelessWidget with PreferredSizeWidget {
         builder: (context, _ViewModel viewModel) {
           switch (viewModel.activeTab) {
             case NavigationTab.home:
-              return HomeAppBar(homeAppBar.i18n);
+              return HomeAppBar("WT Bible");
             case NavigationTab.reader:
-              return ReaderAppBar("");
+              return ReaderAppBar(controller);
             case NavigationTab.pastTrivia:
               return PastTriviaAppBar(trivia.i18n);
             default:

@@ -26,9 +26,9 @@ class NavigateFromHomeToPastTriviaScreenAction {}
 
 class NavigateFromHomeToSearchScreenAction {}
 
-class NavigateFromHomeToSetChapterScreenAction {}
+class NavigateFromHomeToSelectionScreenAction {}
 
-class NavigateFromHomeToSetTranslationScreenAction {}
+class NavigateFromSelectionToTranslationScreenAction {}
 
 class NavigateFromSignInToHomeScreenAction {}
 
@@ -50,6 +50,8 @@ class NavigateFromResultToHomeScreenAction {}
 
 class NavigateFromSearchToHomeScreenAction {}
 
-class NavigateFromSetChapterToHomeScreenAction {}
+class NavigateFromSelectionToHomeScreenAction {}
 
-class NavigateFromSetTranslationToHomeScreenAction {}
+class NavigateFromTranslationToSelectionScreenAction {}
+
+class NavigateFromTranslationToHomeScreenAction{}

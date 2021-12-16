@@ -40,6 +40,10 @@ const manyRequestsError = "manyRequestsError";
 const infoAbout = "infoAbout";
 const top = "top";
 const save = "save";
+const translation = "translation";
+const search = "search";
+const oldTestament = "oldTestament";
+const newTestament = "newTestament";
 
 extension Localization on String {
   static final _t = Translations.from("en_us", {
@@ -190,6 +194,22 @@ extension Localization on String {
     save: {
       "en": "Save changes",
       "ru": "Сохранить изменения",
+    },
+    translation: {
+      "en": "Translation",
+      "ru": "Перевод",
+    },
+    search: {
+      "en": "Search",
+      "ru": "Поиск",
+    },
+    oldTestament: {
+      "en": "Old",
+      "ru": "Ветхий",
+    },
+    newTestament: {
+      "en": "New",
+      "ru": "Новый",
     },
   });
 

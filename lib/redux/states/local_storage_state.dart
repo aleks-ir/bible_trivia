@@ -1,24 +1,40 @@
 import 'package:flutter/cupertino.dart';
-import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 
 @immutable
 class LocalStorageState {
-  final Language language;
-  final ThemeType theme;
+  final String bookName;
+  final String displayBookName;
+  final String translationId;
+  final int chapter;
+  final String language;
+  final String theme;
   final double fontSize;
 
   const LocalStorageState({
+    required this.bookName,
+    required this.displayBookName,
+    required this.translationId,
+    required this.chapter,
     required this.language,
     required this.theme,
     required this.fontSize,
   });
 
   LocalStorageState copyWith({
-    Language? language,
-    ThemeType? theme,
+    String? bookName,
+    String? displayBookName,
+    String? translationId,
+    int? chapter,
+    String? language,
+    String? theme,
     double? fontSize,
   }) {
     return LocalStorageState(
+      bookName: bookName ?? this.bookName,
+      displayBookName: displayBookName ?? this.displayBookName,
+      translationId: translationId ?? this.translationId,
+      chapter: chapter ?? this.chapter,
       language: language ?? this.language,
       theme: theme ?? this.theme,
       fontSize: fontSize ?? this.fontSize,
@@ -27,9 +43,13 @@ class LocalStorageState {
 
   factory LocalStorageState.initial() {
     return LocalStorageState(
-      language: Language.english,
-      theme: ThemeType.light,
-      fontSize: 20,
+      bookName: DEFAULT_BOOK_NAME,
+      displayBookName: DEFAULT_DISPLAY_BOOK_NAME,
+      translationId: DEFAULT_TRARSLATION_ID,
+      chapter: 1,
+      language: ENGLISH,
+      theme: LIGHT,
+      fontSize: DEFAULT_FONT_SIZE,
     );
   }
 }

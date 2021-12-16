@@ -1,14 +1,33 @@
 
 
-import 'package:weekly_bible_trivia/global/enums.dart';
+class UpdateBookNameAction {
+  final String bookName;
+  UpdateBookNameAction(this.bookName);
+}
+
+class UpdateDisplayBookNameAction {
+  final String displayBookName;
+  UpdateDisplayBookNameAction(this.displayBookName);
+}
+
+class UpdateChapterAction {
+  final int chapter;
+  UpdateChapterAction(this.chapter);
+}
+
+class UpdateTranslationIdAction {
+  final String translationId;
+  UpdateTranslationIdAction(this.translationId);
+}
+
 
 class UpdateLanguageAction {
-  final Language language;
+  final String language;
   UpdateLanguageAction(this.language);
 }
 
 class UpdateThemeAction {
-  final ThemeType theme;
+  final String theme;
   UpdateThemeAction(this.theme);
 }
 

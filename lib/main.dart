@@ -7,6 +7,7 @@ import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:weekly_bible_trivia/redux/middleware/authentication_middleware.dart';
+import 'package:weekly_bible_trivia/redux/middleware/database_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/reducers/app_state_reduser.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
@@ -59,6 +60,8 @@ class WeeklyTriviaBibleApp extends StatelessWidget {
 
   void initAppData(Store<AppState> store, BuildContext context)async {
     store.dispatch(createInitAuthThunk());
-    store.dispatch(createInitSettingsThunk(context));
+    store.dispatch(createInitDatabaseThunk());
+    store.dispatch(createInitSettingsThunk());
+
   }
 }

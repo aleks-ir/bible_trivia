@@ -6,14 +6,11 @@ import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/text_styles.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
-import 'package:weekly_bible_trivia/services/navigation_service.dart';
-import 'package:weekly_bible_trivia/utils/locator.dart';
 
 class SimpleAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final dynamic actionNavigateRoute;
-
-  final NavigationService _navigationService = locator<NavigationService>();
+  
 
   @override
   final Size preferredSize;
@@ -37,9 +34,9 @@ class SimpleAppBar extends StatelessWidget with PreferredSizeWidget {
               IconButton(
                   icon: Transform.rotate(
                     angle: 90 * pi / 180,
-                    child: Icon(Icons.chevron_right, color: Colors.teal),
+                    child: Icon(Icons.chevron_right, color: Color(viewModel.iconColor)),
                   ),
-                  onPressed: () => viewModel.make(actionNavigateRoute)),
+                  onPressed: () => viewModel.navigateTo(actionNavigateRoute)),
             ],
             title: Text(this.title, style: TextStyles.getAppBarStyle(Color(viewModel.textColor))),
             backgroundColor: Color(viewModel.appBarColor),
@@ -49,21 +46,24 @@ class SimpleAppBar extends StatelessWidget with PreferredSizeWidget {
 }
 
 class _ViewModel {
+  final int iconColor;
   final int appBarColor;
   final int textColor;
-  final Function(dynamic) make;
+  final Function(dynamic) navigateTo;
 
   _ViewModel({
+    required this.iconColor,
     required this.appBarColor,
     required this.textColor,
-    required this.make,
+    required this.navigateTo,
   });
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+      iconColor: store.state.themeSettingsState.iconColor,
       appBarColor: store.state.themeSettingsState.appBarColor,
       textColor: store.state.themeSettingsState.textColor,
-      make: (actionRoute) => store.dispatch(updateScreenThunk(actionRoute)),
+      navigateTo: (actionRoute) => store.dispatch(updateScreenThunk(actionRoute)),
     );
   }
 }

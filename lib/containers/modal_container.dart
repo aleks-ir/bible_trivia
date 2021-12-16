@@ -25,7 +25,7 @@ class ModalBottomSheetContainer {
             builder: (context, _ViewModel viewModel) {
               bool isPortrait =
                   MediaQuery.of(context).orientation == Orientation.portrait;
-              Color colorButton = viewModel.themeType == ThemeType.dark ? Colors.white70 : Colors.brown;
+              Color colorButton = viewModel.themeType == DARK ? Colors.white70 : Colors.brown;
               return Container(
                 height: viewModel.isAuthenticated
                     ? 160
@@ -143,7 +143,7 @@ class ModalBottomSheetContainer {
 class _ViewModel {
   final int primaryColor;
   final int textColor;
-  final ThemeType themeType;
+  final String themeType;
   final bool isAuthenticated;
   final UserFirebase user;
 

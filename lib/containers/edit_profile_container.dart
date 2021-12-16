@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';

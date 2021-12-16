@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/models/app_theme.dart';
 import 'package:weekly_bible_trivia/redux/actions/theme_settings_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/utils/selectors.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
-import 'package:weekly_bible_trivia/widgets/sliding_appbar.dart';
+import 'package:weekly_bible_trivia/widgets/sliding_menubar.dart';
 
 class ReaderMenuBar extends StatelessWidget {
   final String title;
@@ -24,25 +24,22 @@ class ReaderMenuBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       converter: (Store<AppState> store) => _ViewModel.fromStore(store),
-      builder: (context, _ViewModel viewModel) => SlidingAppBar(
+      builder: (context, _ViewModel viewModel) => SlidingMenuBar(
         controller: controller,
         visible: viewModel.isMenuBar,
         child: AppBar(
           automaticallyImplyLeading: false,
           actions: [
             const Expanded(flex: 2, child: SizedBox()),
-            //Expanded(flex: 1, child: SizedBox()),
             Expanded(
                 flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 0),
                   child: menuFloatingButton(
-                      Icon(Icons.dark_mode), viewModel.theme == ThemeType.dark,
-                      () {
-                    viewModel.changeTheme(ThemeType.dark);
-                    viewModel.changeThemeSettings(selectTheme(ThemeType.dark));
-                    //DynamicTheme.of(context)!.setTheme(AppTheme.getThemeId(ThemeType.dark));
-                  }),
+                      Icon(Icons.dark_mode), viewModel.theme == DARK, () {
+                    viewModel.changeTheme(DARK);
+                    viewModel.changeThemeSettings(selectTheme(DARK));
+                  }, activeColor: Color(viewModel.iconColor)),
                 )),
             Expanded(
                 flex: 2,
@@ -50,19 +47,19 @@ class ReaderMenuBar extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 5),
                   child: Icon(
                     Icons.brightness_4,
-                    color: Color(viewModel.iconColor),
+                    color:
+                        viewModel.theme == DARK ? Colors.white : Colors.black54,
                   ),
                 )),
             Expanded(
                 flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 0),
-                  child: menuFloatingButton(Icon(Icons.light_mode),
-                      viewModel.theme == ThemeType.light, () {
-                    viewModel.changeTheme(ThemeType.light);
-                    viewModel.changeThemeSettings(selectTheme(ThemeType.light));
-                    //DynamicTheme.of(context)!.setTheme(AppTheme.getThemeId(ThemeType.light));
-                  }),
+                  child: menuFloatingButton(
+                      Icon(Icons.light_mode), viewModel.theme == LIGHT, () {
+                    viewModel.changeTheme(LIGHT);
+                    viewModel.changeThemeSettings(selectTheme(LIGHT));
+                  }, activeColor: Color(viewModel.iconColor)),
                 )),
 
             const Expanded(flex: 3, child: SizedBox()),
@@ -73,7 +70,7 @@ class ReaderMenuBar extends StatelessWidget {
                   child:
                       menuFloatingButton(const Icon(Icons.remove), false, () {
                     viewModel.changeFontSize(viewModel.fontSize - 2);
-                  }),
+                  }, activeColor: Color(viewModel.iconColor)),
                 )),
             Expanded(
                 flex: 2,
@@ -81,7 +78,8 @@ class ReaderMenuBar extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 5),
                   child: Icon(
                     Icons.format_size,
-                    color: Color(viewModel.iconColor),
+                    color:
+                        viewModel.theme == DARK ? Colors.white : Colors.black54,
                   ),
                 )),
             Expanded(
@@ -90,7 +88,7 @@ class ReaderMenuBar extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 0),
                   child: menuFloatingButton(Icon(Icons.add), false, () {
                     viewModel.changeFontSize(viewModel.fontSize + 2);
-                  }),
+                  }, activeColor: Color(viewModel.iconColor)),
                 )),
             //const Expanded(flex:1, child: SizedBox()),
             const Expanded(flex: 2, child: SizedBox()),
@@ -108,18 +106,20 @@ class ReaderMenuBar extends StatelessWidget {
 }
 
 class _ViewModel {
-  final int appBarColor;
   final int iconColor;
+  final int appBarColor;
+  final int shadowColor;
   final bool isMenuBar;
-  final ThemeType theme;
+  final String theme;
   final double fontSize;
-  final Function(ThemeType value) changeTheme;
-  final Function(AppTheme theme) changeThemeSettings;
-  final Function(double value) changeFontSize;
+  final Function(String) changeTheme;
+  final Function(AppTheme) changeThemeSettings;
+  final Function(double) changeFontSize;
 
   _ViewModel({
-    required this.appBarColor,
     required this.iconColor,
+    required this.appBarColor,
+    required this.shadowColor,
     required this.isMenuBar,
     required this.theme,
     required this.fontSize,
@@ -130,8 +130,9 @@ class _ViewModel {
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+        iconColor: store.state.themeSettingsState.iconColor,
         appBarColor: store.state.themeSettingsState.appBarColor,
-        iconColor: store.state.themeSettingsState.shadowColor,
+        shadowColor: store.state.themeSettingsState.shadowColor,
         isMenuBar: store.state.appBarState.isShowMenuBar,
         theme: store.state.localStorageState.theme,
         fontSize: store.state.localStorageState.fontSize,
@@ -147,7 +148,8 @@ class _ViewModel {
                   theme.secondaryColor,
                   theme.appBarColor,
                   theme.shadowColor,
-                  theme.textColor)),
+                  theme.textColor,
+                  theme.iconColor)),
             });
   }
 }

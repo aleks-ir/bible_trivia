@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/redux/states/appbar_state.dart';
 import 'package:weekly_bible_trivia/redux/states/edit_profile_state.dart';
 import 'package:weekly_bible_trivia/redux/states/home_state.dart';
+import 'package:weekly_bible_trivia/redux/states/loading_state.dart';
 import 'package:weekly_bible_trivia/redux/states/past_trivia_state.dart';
 import 'package:weekly_bible_trivia/redux/states/reader_state.dart';
 import 'package:weekly_bible_trivia/redux/states/signin_state.dart';
@@ -16,7 +16,7 @@ import 'local_storage_state.dart';
 
 @immutable
 class AppState {
-  final bool isLoadingApp;
+  final LoadingState loading;
   final BottomBarState bottomBarState;
   final HomeState homeState;
   final ReaderState readerState;
@@ -32,7 +32,7 @@ class AppState {
 
 
   const AppState({
-    required this.isLoadingApp,
+    required this.loading,
     required this.bottomBarState,
     required this.homeState,
     required this.readerState,
@@ -51,10 +51,10 @@ class AppState {
 
   factory AppState.initial() {
     return AppState(
-      isLoadingApp: true,
+      loading: LoadingState.initial(),
       bottomBarState: BottomBarState.initial(),
       homeState: HomeState.initial(),
-      readerState: ReaderState(title: TEST_TEXT),
+      readerState: ReaderState.initial(),
       pastTriviaState: PastTriviaState.initial(),
       authenticationState: AuthenticationState.initial(),
       signInState: SignInState.initial(),
@@ -69,7 +69,7 @@ class AppState {
   }
 
   AppState copyWith(
-      {bool? isLoading,
+      {LoadingState? loading,
         BottomBarState? bottomBarState,
       HomeState? homeState,
       ReaderState? readerState,
@@ -83,7 +83,7 @@ class AppState {
       ThemeSettingsState? themeSettingsState,
       EditProfileState? editProfileState}) {
     return AppState(
-      isLoadingApp: isLoading ?? this.isLoadingApp,
+      loading: loading ?? this.loading,
       homeState: homeState ?? this.homeState,
       bottomBarState: bottomBarState ?? this.bottomBarState,
       signUpState: signUpState ?? this.signUpState,

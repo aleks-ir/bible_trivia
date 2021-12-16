@@ -17,7 +17,7 @@ import 'local_storage_reducer.dart';
 
 AppState appReducer(AppState state, action) {
   return AppState(
-      isLoadingApp: loadingReducer(state.isLoadingApp, action),
+      loading: loadingReducer(state.loading, action),
       homeState: homeReducer(state.homeState, action),
       readerState: readerReducer(state.readerState, action),
       pastTriviaState: pastTriviaReducer(state.pastTriviaState, action),
@@ -30,6 +30,7 @@ AppState appReducer(AppState state, action) {
       bottomBarState: bottomBarReducer(state.bottomBarState, action),
       infoTriviaState: infoTriviaReducer(state.infoTriviaState, action),
       themeSettingsState: themeSettingsReducer(state.themeSettingsState, action),
-      editProfileState: editProfileReducer(state.editProfileState, action)
+      editProfileState: editProfileReducer(state.editProfileState, action),
+
   );
 }

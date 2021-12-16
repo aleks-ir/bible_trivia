@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
-import 'package:weekly_bible_trivia/widgets/sliding_appbar.dart';
+import 'package:weekly_bible_trivia/widgets/sliding_menubar.dart';
 
 class HomeMenuBar extends StatelessWidget {
   final String title;
@@ -22,7 +22,7 @@ class HomeMenuBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       converter: (Store<AppState> store) => _ViewModel.fromStore(store),
-      builder: (context, _ViewModel viewModel) => SlidingAppBar(
+      builder: (context, _ViewModel viewModel) => SlidingMenuBar(
         controller: controller,
         visible: viewModel.isMenuBar,
         child: AppBar(
@@ -36,10 +36,10 @@ class HomeMenuBar extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 0),
                   child: menuMaterialButton(
-                      "🇷🇺 Русский ", viewModel.language == Language.russian, () {
-                    viewModel.changeLanguage(Language.russian);
+                      "🇷🇺 Русский ", viewModel.language == RUSSIAN, () {
+                    viewModel.changeLanguage(RUSSIAN);
                     setLocate(context, "ru");
-                  }),
+                  }, activeColor: Color(viewModel.iconColor),),
                 ),
                 flex: 5,
               ),
@@ -51,10 +51,10 @@ class HomeMenuBar extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 0),
                   child: menuMaterialButton(
-                      "🇬🇧 English", viewModel.language == Language.english, () {
-                    viewModel.changeLanguage(Language.english);
+                      "🇬🇧 English", viewModel.language == ENGLISH, () {
+                    viewModel.changeLanguage(ENGLISH);
                     setLocate(context, "en");
-                  }),
+                  }, activeColor: Color(viewModel.iconColor),),
                 ),
                 flex: 5,
               ),
@@ -79,12 +79,14 @@ class HomeMenuBar extends StatelessWidget {
 }
 
 class _ViewModel {
+  final int iconColor;
   final int appBarColor;
   final bool isMenuBar;
-  final Language language;
-  final Function(Language value) changeLanguage;
+  final String language;
+  final Function(String) changeLanguage;
 
   _ViewModel({
+    required this.iconColor,
     required this.appBarColor,
     required this.isMenuBar,
     required this.language,
@@ -93,11 +95,13 @@ class _ViewModel {
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+        iconColor: store.state.themeSettingsState.iconColor,
         appBarColor: store.state.themeSettingsState.appBarColor,
         isMenuBar: store.state.appBarState.isShowMenuBar,
         language: store.state.localStorageState.language,
         changeLanguage: (value) => {
               store.dispatch(saveLanguageThunk(value)),
+              store.dispatch(saveDisplayBookNameThunk(TITLE_BIBLE)),
             });
   }
 }

@@ -4,7 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/redux/actions/past_trivia_action.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
-import 'package:weekly_bible_trivia/widgets/sliding_appbar.dart';
+import 'package:weekly_bible_trivia/widgets/sliding_menubar.dart';
 
 class PastTriviaMenuBar extends StatelessWidget {
   final String title;
@@ -26,7 +26,7 @@ class PastTriviaMenuBar extends StatelessWidget {
     ];
     return StoreConnector<AppState, _ViewModel>(
       converter: (Store<AppState> store) => _ViewModel.fromStore(store),
-      builder: (context, _ViewModel viewModel) => SlidingAppBar(
+      builder: (context, _ViewModel viewModel) => SlidingMenuBar(
         controller: controller,
         visible: viewModel.isShowMenuBar,
         child: AppBar(
@@ -48,7 +48,7 @@ class PastTriviaMenuBar extends StatelessWidget {
                               child: menuMaterialButton(viewModel.books[index],
                                   viewModel.activeBook == index, () {
                             viewModel.changeActiveBook(index);
-                          }, radiusCircular: 10)),
+                          }, radiusCircular: 10, activeColor: Color(viewModel.iconColor))),
                         );
                       }),
                 ),
@@ -67,6 +67,7 @@ class PastTriviaMenuBar extends StatelessWidget {
 }
 
 class _ViewModel {
+  final int iconColor;
   final int appBarColor;
   final bool isShowMenuBar;
   final int activeBook;
@@ -74,6 +75,7 @@ class _ViewModel {
   final Function(int value) changeActiveBook;
 
   _ViewModel({
+    required this.iconColor,
     required this.appBarColor,
     required this.isShowMenuBar,
     required this.activeBook,
@@ -83,6 +85,7 @@ class _ViewModel {
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+        iconColor: store.state.themeSettingsState.iconColor,
         appBarColor: store.state.themeSettingsState.appBarColor,
         isShowMenuBar: store.state.appBarState.isShowMenuBar,
         activeBook: store.state.pastTriviaState.selectedBook,
