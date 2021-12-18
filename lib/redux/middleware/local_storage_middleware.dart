@@ -109,7 +109,7 @@ ThunkAction<AppState> createInitSettingsThunk() {
     double fontSize = prefs.getDouble(FONT_SIZE) ?? DEFAULT_FONT_SIZE;
     store.dispatch(UpdateFontSizeAction(fontSize));
 
-    Future.delayed(Duration(seconds: 1), () async {
+    Future.delayed(const Duration(seconds: 2), () async {
       store.dispatch(LoadedAppAction());
     });
   };

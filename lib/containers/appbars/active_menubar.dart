@@ -12,7 +12,7 @@ import 'home_menubar.dart';
 class ActiveMenuBar extends StatelessWidget with PreferredSizeWidget {
   final AnimationController controller;
   @override
-  Size get preferredSize => const Size.fromHeight(70);
+  Size get preferredSize => const Size.fromHeight(90);
 
   ActiveMenuBar(this.controller, {
     Key? key,

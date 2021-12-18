@@ -8,7 +8,7 @@ import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
-import 'package:weekly_bible_trivia/widgets/sliding_appbar.dart';
+import 'package:weekly_bible_trivia/utils/sliding_appbar.dart';
 
 class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
   final AnimationController controller;
@@ -33,7 +33,6 @@ class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
             child: AppBar(
               automaticallyImplyLeading: false,
               actions: [
-                //const Expanded(flex: 1, child: SizedBox()),
                 Expanded(
                   flex: 3,
                   child: IconButton(

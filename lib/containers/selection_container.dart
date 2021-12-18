@@ -73,7 +73,7 @@ class _ViewModel {
         store.dispatch(saveBookNameThunk(bookName));
         store.dispatch(saveDisplayBookNameThunk(displayBookName));
         store.dispatch(saveChapterThunk(chapter));
-        store.dispatch(updateChapterThunk());
+        store.dispatch(updateTextReaderThunk());
         store.dispatch(updateScreenThunk(
             NavigateFromSelectionToHomeScreenAction()));
       },

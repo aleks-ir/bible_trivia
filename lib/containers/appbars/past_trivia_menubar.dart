@@ -3,8 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/redux/actions/past_trivia_action.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
+import 'package:weekly_bible_trivia/utils/sliding_menubar.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
-import 'package:weekly_bible_trivia/widgets/sliding_menubar.dart';
 
 class PastTriviaMenuBar extends StatelessWidget {
   final String title;
@@ -31,30 +31,36 @@ class PastTriviaMenuBar extends StatelessWidget {
         visible: viewModel.isShowMenuBar,
         child: AppBar(
             automaticallyImplyLeading: false,
-            actions: [
-              Expanded(flex: 1, child: SizedBox()),
-              Expanded(
-                flex: 10,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 5),
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: list.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(horizontal: 2),
-                          color: Color(viewModel.appBarColor),
-                          child: Center(
-                              child: menuMaterialButton(viewModel.books[index],
-                                  viewModel.activeBook == index, () {
-                            viewModel.changeActiveBook(index);
-                          }, radiusCircular: 10, activeColor: Color(viewModel.iconColor))),
-                        );
-                      }),
-                ),
+            flexibleSpace: Container(
+              padding: EdgeInsets.only(top: 100),
+              height: 150,
+              child: Row(
+                children: [
+                  Expanded(flex: 1, child: SizedBox()),
+                  Expanded(
+                    flex: 20,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: list.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(horizontal: 2),
+                            color: Color(viewModel.appBarColor),
+                            child: Center(
+                                child: menuMaterialButton(
+                                    viewModel.books[index],
+                                    viewModel.activeBook == index, () {
+                              viewModel.changeActiveBook(index);
+                            },
+                                    radiusCircular: 10,
+                                    activeColor: Color(viewModel.iconColor))),
+                          );
+                        }),
+                  ),
+                  Expanded(flex: 1, child: SizedBox()),
+                ],
               ),
-              Expanded(flex: 1, child: SizedBox()),
-            ],
+            ),
             shape: ContinuousRectangleBorder(
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(50.0))),

@@ -12,7 +12,7 @@ import 'package:weekly_bible_trivia/redux/middleware/database_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
-import 'package:weekly_bible_trivia/widgets/circular_progress_indicator.dart';
+import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 import 'package:weekly_bible_trivia/widgets/text_rich.dart';
 
 class ReaderContainer extends StatefulWidget {
@@ -74,76 +74,81 @@ class ReaderContainerState extends State<ReaderContainer>
           return SizedBox.expand(
             child: Container(
                 color: Color(viewModel.primaryColor),
-                child: viewModel.isLoadingData ? Center(child: circularProgressIndicator()) : Stack(children: [
-                  MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    removeBottom: true,
-                    child: ScrollConfiguration(
-                      behavior: CustomScrollBehavior(),
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: viewModel.listVerses.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onHorizontalDragEnd: (drag) {
-                              if (drag.primaryVelocity == null) return;
-                              if (drag.primaryVelocity! < 0) {
-                                viewModel.changePage(
-                                  _getNextChapter(),
+                child: viewModel.isLoadingData
+                    ? Center(
+                        child: defaultCircularProgressIndicator(
+                            Color(viewModel.iconColor)))
+                    : Stack(children: [
+                        MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          removeBottom: true,
+                          child: ScrollConfiguration(
+                            behavior: CustomScrollBehavior(),
+                            child: ListView.builder(
+                              controller: _scrollController,
+                              itemCount: viewModel.listVerses.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onHorizontalDragEnd: (drag) {
+                                    if (drag.primaryVelocity == null) return;
+                                    if (drag.primaryVelocity! < 0) {
+                                      viewModel.changePage(
+                                        _getNextChapter(),
+                                      );
+                                    } else {
+                                      viewModel.changePage(
+                                        _getPrevChapter(),
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+                                        top: index == 0 ? 90 : 5,
+                                        bottom: index ==
+                                                viewModel.listVerses.length - 1
+                                            ? 90
+                                            : 0,
+                                        right: 15,
+                                        left: 15),
+                                    color: Color(viewModel.primaryColor),
+                                    child: Center(
+                                      child: getTextRich(
+                                          index,
+                                          viewModel.listVerses[index].text,
+                                          viewModel.fontSize,
+                                          Color(viewModel.textColor)),
+                                    ),
+                                  ),
                                 );
-                              } else {
-                                viewModel.changePage(
-                                  _getPrevChapter(),
-                                );
-                              }
-                            },
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                  top: index == 0 ? 90 : 5,
-                                  bottom:
-                                  index == viewModel.listVerses.length - 1
-                                      ? 90
-                                      : 0,
-                                  right: 15,
-                                  left: 15),
-                              color: Color(viewModel.primaryColor),
-                              child: Center(
-                                child: getTextRich(
-                                    index,
-                                    viewModel.listVerses[index].text,
-                                    viewModel.fontSize,
-                                    Color(viewModel.textColor)),
-                              ),
+                              },
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  FadeTransition(
-                    opacity: _scaleAnimations,
-                    child: readerFloatingActionButton(
-                        Icon(Icons.navigate_next, color: Color(viewModel.iconColor)),
-                        Alignment.bottomRight, () {
-                      viewModel.changePage(_getNextChapter());
-                    }, color: Color(viewModel.primaryColor)),
-                  ),
-                  FadeTransition(
-                    opacity: _scaleAnimations,
-                    child: readerFloatingActionButton(
-                        Transform.rotate(
-                          angle: pi,
-                          child: Icon(Icons.navigate_next,
-                              color: Color(viewModel.iconColor)),
+                          ),
                         ),
-                        Alignment.bottomLeft, () {
-                      viewModel.changePage(
-                        _getPrevChapter(),
-                      );
-                    }, color: Color(viewModel.primaryColor)),
-                  ),
-                ])),
+                        FadeTransition(
+                          opacity: _scaleAnimations,
+                          child: readerFloatingActionButton(
+                              Icon(Icons.navigate_next,
+                                  color: Color(viewModel.iconColor)),
+                              Alignment.bottomRight, () {
+                            viewModel.changePage(_getNextChapter());
+                          }, color: Color(viewModel.primaryColor)),
+                        ),
+                        FadeTransition(
+                          opacity: _scaleAnimations,
+                          child: readerFloatingActionButton(
+                              Transform.rotate(
+                                angle: pi,
+                                child: Icon(Icons.navigate_next,
+                                    color: Color(viewModel.iconColor)),
+                              ),
+                              Alignment.bottomLeft, () {
+                            viewModel.changePage(
+                              _getPrevChapter(),
+                            );
+                          }, color: Color(viewModel.primaryColor)),
+                        ),
+                      ])),
           );
         });
   }
@@ -170,8 +175,7 @@ class ReaderContainerState extends State<ReaderContainer>
 
 class CustomScrollBehavior extends MaterialScrollBehavior {
   @override
-  Set<PointerDeviceKind> get dragDevices =>
-      {
+  Set<PointerDeviceKind> get dragDevices => {
         PointerDeviceKind.touch,
       };
 }
@@ -187,10 +191,8 @@ class _ViewModel {
   final bool isReaderMod;
   final bool isLoadingData;
 
-
   final Function(bool) changeReaderMod;
   final Function(int) changePage;
-
 
   _ViewModel({
     required this.iconColor,
@@ -203,7 +205,8 @@ class _ViewModel {
     required this.isReaderMod,
     required this.isLoadingData,
     required this.changeReaderMod,
-    required this.changePage,});
+    required this.changePage,
+  });
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
@@ -222,7 +225,7 @@ class _ViewModel {
       },
       changePage: (chapter) {
         store.dispatch(saveChapterThunk(chapter));
-        store.dispatch(updateChapterThunk());
+        store.dispatch(updateTextReaderThunk());
       },
     );
   }

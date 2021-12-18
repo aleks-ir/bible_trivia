@@ -7,7 +7,7 @@ import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
-import 'package:weekly_bible_trivia/widgets/circular_progress_indicator.dart';
+import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 import 'package:weekly_bible_trivia/widgets/error_validation.dart';
 import 'package:weekly_bible_trivia/widgets/text_form_fields.dart';
 
@@ -26,10 +26,12 @@ class SignUpContainer extends StatelessWidget {
               MediaQuery.of(context).orientation == Orientation.portrait;
 
           final Column emailAndNameGroupColumn = Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               authTextField(
-                  color: Color(viewModel.textColor),
+                  textColor: Color(viewModel.textColor),
+                  borderColor: Color(viewModel.textColor),
+                  focusedBorderColor: Color(viewModel.iconColor),
                   icon: Icons.person,
                   label: name.i18n,
                   controller: _nameController,
@@ -40,7 +42,9 @@ class SignUpContainer extends StatelessWidget {
                   : const SizedBox(),
               SizedBox(height: 20),
               authTextField(
-                  color: Color(viewModel.textColor),
+                  textColor: Color(viewModel.textColor),
+                  borderColor: Color(viewModel.textColor),
+                  focusedBorderColor: Color(viewModel.iconColor),
                   icon: Icons.email,
                   label: email.i18n,
                   controller: _emailController,
@@ -58,7 +62,9 @@ class SignUpContainer extends StatelessWidget {
                 child: Column(
                   children: [
                     authTextField(
-                        color: Color(viewModel.textColor),
+                        textColor: Color(viewModel.textColor),
+                        borderColor: Color(viewModel.textColor),
+                        focusedBorderColor: Color(viewModel.iconColor),
                         icon: Icons.person,
                         label: name.i18n,
                         controller: _nameController,
@@ -79,7 +85,9 @@ class SignUpContainer extends StatelessWidget {
                 child: Column(
                   children: [
                     authTextField(
-                        color: Color(viewModel.textColor),
+                        textColor: Color(viewModel.textColor),
+                        borderColor: Color(viewModel.textColor),
+                        focusedBorderColor: Color(viewModel.iconColor),
                         icon: Icons.email,
                         label: email.i18n,
                         controller: _emailController,
@@ -96,10 +104,12 @@ class SignUpContainer extends StatelessWidget {
           );
 
           final Column passwordAndVerifyGroupColumn = Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               authTextField(
-                  color: Color(viewModel.textColor),
+                  textColor: Color(viewModel.textColor),
+                  borderColor: Color(viewModel.textColor),
+                  focusedBorderColor: Color(viewModel.iconColor),
                   icon: Icons.lock,
                   obscure: true,
                   label: password.i18n,
@@ -112,7 +122,9 @@ class SignUpContainer extends StatelessWidget {
                   : const SizedBox(),
               SizedBox(height: 20),
               authTextField(
-                  color: Color(viewModel.textColor),
+                  textColor: Color(viewModel.textColor),
+                  borderColor: Color(viewModel.textColor),
+                  focusedBorderColor: Color(viewModel.iconColor),
                   icon: Icons.lock,
                   obscure: true,
                   label: verify.i18n,
@@ -133,7 +145,9 @@ class SignUpContainer extends StatelessWidget {
                 child: Column(
                   children: [
                     authTextField(
-                        color: Color(viewModel.textColor),
+                        textColor: Color(viewModel.textColor),
+                        borderColor: Color(viewModel.textColor),
+                        focusedBorderColor: Color(viewModel.iconColor),
                         icon: Icons.lock,
                         obscure: true,
                         label: password.i18n,
@@ -157,7 +171,9 @@ class SignUpContainer extends StatelessWidget {
                 child: Column(
                   children: [
                     authTextField(
-                        color: Color(viewModel.textColor),
+                        textColor: Color(viewModel.textColor),
+                        borderColor: Color(viewModel.textColor),
+                        focusedBorderColor: Color(viewModel.iconColor),
                         icon: Icons.lock,
                         obscure: true,
                         label: verify.i18n,
@@ -179,7 +195,7 @@ class SignUpContainer extends StatelessWidget {
           return SizedBox.expand(
             child: Container(
               color: Color(viewModel.primaryColor),
-              padding: EdgeInsets.symmetric(horizontal: 40),
+              padding: EdgeInsets.symmetric(horizontal: 50),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -193,7 +209,7 @@ class SignUpContainer extends StatelessWidget {
 
                   authButton(viewModel.authStatus != AuthenticationStatus.loading ? Text(
                     create.i18n,
-                  ) : circularProgressIndicator(), () {
+                  ) : miniCircularProgressIndicator(), () {
                     FocusScope.of(context).unfocus();
                     viewModel.signUp(SignUpRequest(
                         _nameController.text,
@@ -210,6 +226,7 @@ class SignUpContainer extends StatelessWidget {
 }
 
 class _ViewModel {
+  final int iconColor;
   final int primaryColor;
   final int textColor;
   final ValidationStatus validStatus;
@@ -226,6 +243,7 @@ class _ViewModel {
   final Function(SignUpRequest request) signUp;
 
   _ViewModel({
+    required this.iconColor,
     required this.primaryColor,
     required this.textColor,
     required this.validStatus,
@@ -243,6 +261,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
+      iconColor: store.state.themeSettingsState.iconColor,
       primaryColor: store.state.themeSettingsState.primaryColor,
       textColor: store.state.themeSettingsState.textColor,
       validStatus: store.state.signUpState.validationStatus,

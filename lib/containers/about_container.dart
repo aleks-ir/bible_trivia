@@ -19,7 +19,11 @@ class AboutContainer extends StatelessWidget {
                   children: [
                     Image.asset('assets/images/bible.jpg'),
                     Padding(
-                      padding: const EdgeInsets.all(40.0),
+                      padding: const EdgeInsets.only(bottom: 10.0, top: 30),
+                      child: Center(child: Text("WT Bible", style: TextStyle(fontSize: 20, color: Color(viewModel.textColor)),), ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 40.0, right: 40.0),
                       child: Text(infoAbout.i18n, style: TextStyle(fontSize: 20, color: Color(viewModel.textColor)),),
                     ),
                   ],

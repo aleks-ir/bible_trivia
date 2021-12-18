@@ -25,16 +25,18 @@ ThunkAction<AppState> createInitDatabaseThunk() {
       var verses = await apiProvider.loadFromApi(ASV_URL);
       await bookDao.runInsertVerses(verses).then((value) {
         store.dispatch(saveDBHasDataThunk(true));
-        store.dispatch(updateChapterThunk());
+        store.dispatch(updateTextReaderThunk());
         store.dispatch(UpdateLoadingAppDataFromApiAction(false));
       });
+    }else{
+      store.dispatch(updateTextReaderThunk());
     }
 
 
   };
 }
 
-ThunkAction<AppState> updateChapterThunk() {
+ThunkAction<AppState> updateTextReaderThunk() {
   return (Store<AppState> store) async {
     DatabaseHelper databaseHelper = DatabaseHelper();
     BookDao bookDao = await databaseHelper.bookDao;
@@ -56,16 +58,9 @@ ThunkAction<AppState> updateDatabaseThunk(String translationUrl) {
     var verses = await apiProvider.loadFromApi(translationUrl);
     await bookDao.runInsertVerses(verses).then((value) {
       store.dispatch(saveDBHasDataThunk(true));
-      store.dispatch(updateChapterThunk());
+      store.dispatch(updateTextReaderThunk());
       store.dispatch(UpdateLoadingAppDataFromApiAction(false));
     });
   };
 }
 
-ThunkAction<AppState> updateTextReaderThunk() {
-  return (Store<AppState> store) async {
-    DatabaseHelper databaseHelper = DatabaseHelper();
-    BookDao bookDao = await databaseHelper.bookDao;
-    //store.dispatch(UpdateTextReaderAction(await bookDao.readChapter(1)));
-  };
-}

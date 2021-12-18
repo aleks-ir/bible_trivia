@@ -16,7 +16,7 @@ class ModalBottomSheetContainer {
 
   ModalBottomSheetContainer(this.context);
 
-  showModal() {
+  showModal(Function callback) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -136,7 +136,7 @@ class ModalBottomSheetContainer {
               );
             });
       },
-    );
+    ).whenComplete(() => callback());
   }
 }
 

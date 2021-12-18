@@ -27,7 +27,7 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
               actions: [
                 IconButton(
                   icon: Icon(
-                    Icons.language,
+                    Icons.public,
                     color: Color(viewModel.iconColor),
                   ),
                   onPressed: () {

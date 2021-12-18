@@ -10,7 +10,7 @@ AppTheme selectTheme(String themeType) {
     case DARK:
       return AppTheme(
           primaryColor: AppColors.greyDark,
-          secondaryColor: Colors.black12.value,
+          secondaryColor: Colors.white12.value,
           appBarColor: AppColors.greyDark,
           shadowColor: Colors.white54.value,
           textColor: AppColors.whiteDefault,
@@ -72,15 +72,15 @@ List<String> selectListDisplayBooks(bool isOldTestament, bool isEnglish) {
   }
 }
 
-Icon selectIconBottomBar(NavigationTab tab) {
+Icon selectIconBottomBar(NavigationTab tab, Color color) {
   if (tab == NavigationTab.home) {
-    return Icon(Icons.home);
+    return Icon(Icons.home, color: color);
   } else if (tab == NavigationTab.reader) {
-    return Icon(Icons.book);
+    return Icon(Icons.auto_stories, color: color);
   } else if (tab == NavigationTab.pastTrivia) {
-    return Icon(Icons.library_books_sharp);
+    return Icon(Icons.library_books_sharp, color: color);
   } else if (tab == NavigationTab.more) {
-    return Icon(Icons.list);
+    return Icon(Icons.list, color: color);
   }
   return Icon(Icons.error);
 }

@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 MaterialButton menuMaterialButton(
     String title, bool isActive, VoidCallback callback,
     {Color activeColor: Colors.teal,
-    Color colorBackground: Colors.black12,
-    Color textColor: Colors.white,
-    double radiusCircular: 30}) {
+    Color colorBackground: Colors.white30,
+    double radiusCircular: 10}) {
   return MaterialButton(
+    height: 40,
     highlightElevation: 0,
     onPressed: callback,
-    textColor: textColor,
     color: isActive ? activeColor : colorBackground,
     child: SizedBox(
-      child: Text(title),
+      child: Text(title, style: TextStyle(wordSpacing: 5, fontWeight: FontWeight.w400, letterSpacing: 1, color: isActive ? Colors.white : Colors.black, fontSize: 15),),
     ),
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(radiusCircular))),
@@ -39,7 +38,7 @@ OutlinedButton menuOutlinedButton(String title, VoidCallback callback,
 
 FloatingActionButton menuFloatingButton(
     Icon icon, bool isActive, VoidCallback callback,
-    {Color activeColor: Colors.teal}) {
+    {Color color: Colors.black26, Color activeColor: Colors.teal}) {
   return FloatingActionButton(
     highlightElevation: 0,
     splashColor: activeColor,
@@ -47,7 +46,7 @@ FloatingActionButton menuFloatingButton(
     child: icon,
     foregroundColor: Colors.white,
     elevation: 0,
-    backgroundColor: isActive ? activeColor : Colors.black38,
+    backgroundColor: isActive ? activeColor : color,
   );
 }
 
@@ -98,7 +97,7 @@ MaterialButton authButton(Widget childWidget, VoidCallback callback,
     height: 45,
     minWidth: 600,
     shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10))),
+        borderRadius: BorderRadius.all(Radius.circular(30))),
   );
 }
 

@@ -12,7 +12,7 @@ import 'package:weekly_bible_trivia/models/user_firebase.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
-import 'package:weekly_bible_trivia/widgets/circular_progress_indicator.dart';
+import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 import 'package:weekly_bible_trivia/widgets/error_validation.dart';
 import 'package:weekly_bible_trivia/widgets/text_form_fields.dart';
 
@@ -68,7 +68,7 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                             width: 40.0,
                             height: 40.0,
                             child: RawMaterialButton(
-                              fillColor: Colors.teal,
+                              fillColor: Color(viewModel.iconColor),
                               shape: CircleBorder(),
                               child: Icon(
                                 Icons.add,
@@ -90,7 +90,7 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                       height: 50,
                     ),
                     authTextField(
-                        color: Color(viewModel.textColor),
+                        textColor: Color(viewModel.textColor),
                         controller: _nameController,
                         onChanged: (value) => viewModel.validateName(value),
                         label: name.i18n),
@@ -106,7 +106,7 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                     ),
                     authButton(
                         viewModel.loading
-                            ? circularProgressIndicator()
+                            ? miniCircularProgressIndicator()
                             : Text(
                                 save.i18n,
                               ), () {
@@ -144,6 +144,7 @@ NetworkImage _getNetworkImage(String photoURL) {
 }
 
 class _ViewModel {
+  final int iconColor;
   final int primaryColor;
   final int secondaryColor;
   final int textColor;
@@ -156,6 +157,7 @@ class _ViewModel {
   final Function(EditProfileRequest) editProfile;
 
   _ViewModel({
+    required this.iconColor,
     required this.primaryColor,
     required this.secondaryColor,
     required this.textColor,
@@ -169,6 +171,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
+      iconColor: store.state.themeSettingsState.iconColor,
       primaryColor: store.state.themeSettingsState.primaryColor,
       secondaryColor: store.state.themeSettingsState.secondaryColor,
       textColor: store.state.themeSettingsState.textColor,

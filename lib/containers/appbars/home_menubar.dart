@@ -5,8 +5,8 @@ import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
+import 'package:weekly_bible_trivia/utils/sliding_menubar.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
-import 'package:weekly_bible_trivia/widgets/sliding_menubar.dart';
 
 class HomeMenuBar extends StatelessWidget {
   final String title;
@@ -27,42 +27,47 @@ class HomeMenuBar extends StatelessWidget {
         visible: viewModel.isMenuBar,
         child: AppBar(
             automaticallyImplyLeading: false,
-            actions: [
-              Expanded(
-                child: SizedBox(),
-                flex: 2,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 0),
-                  child: menuMaterialButton(
-                      "🇷🇺 Русский ", viewModel.language == RUSSIAN, () {
-                    viewModel.changeLanguage(RUSSIAN);
-                    setLocate(context, "ru");
-                  }, activeColor: Color(viewModel.iconColor),),
-                ),
-                flex: 5,
-              ),
-              Expanded(
-                child: SizedBox(),
-                flex: 1,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 0),
-                  child: menuMaterialButton(
-                      "🇬🇧 English", viewModel.language == ENGLISH, () {
-                    viewModel.changeLanguage(ENGLISH);
-                    setLocate(context, "en");
-                  }, activeColor: Color(viewModel.iconColor),),
-                ),
-                flex: 5,
-              ),
-              Expanded(
-                child: SizedBox(),
-                flex: 2,
-              ),
-            ],
+            flexibleSpace: Container(
+                padding: EdgeInsets.only(top: 100),
+                height: 155,
+                child: Row(children: [
+                  Expanded(
+                    child: SizedBox(),
+                    flex: 4,
+                  ),
+                  Expanded(
+                    child:
+                    menuMaterialButton(
+                      "🇷🇺 Русский ",
+                      viewModel.language == RUSSIAN,
+                      () {
+                        viewModel.changeLanguage(RUSSIAN);
+                        setLocate(context, "ru");
+                      },
+                    ),
+                    flex: 10,
+                  ),
+                  Expanded(
+                    child: SizedBox(),
+                    flex: 1,
+                  ),
+                  Expanded(
+                    child: menuMaterialButton(
+                      "🇬🇧 English",
+                      viewModel.language == ENGLISH,
+                      () {
+                        viewModel.changeLanguage(ENGLISH);
+                        setLocate(context, "en");
+                      },
+                      activeColor: Color(viewModel.iconColor),
+                    ),
+                    flex: 10,
+                  ),
+                  Expanded(
+                    child: SizedBox(),
+                    flex: 3,
+                  ),
+                ])),
             shape: ContinuousRectangleBorder(
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(50.0))),
@@ -81,6 +86,7 @@ class HomeMenuBar extends StatelessWidget {
 class _ViewModel {
   final int iconColor;
   final int appBarColor;
+  final int textColor;
   final bool isMenuBar;
   final String language;
   final Function(String) changeLanguage;
@@ -88,6 +94,7 @@ class _ViewModel {
   _ViewModel({
     required this.iconColor,
     required this.appBarColor,
+    required this.textColor,
     required this.isMenuBar,
     required this.language,
     required this.changeLanguage,
@@ -97,6 +104,7 @@ class _ViewModel {
     return _ViewModel(
         iconColor: store.state.themeSettingsState.iconColor,
         appBarColor: store.state.themeSettingsState.appBarColor,
+        textColor: store.state.themeSettingsState.textColor,
         isMenuBar: store.state.appBarState.isShowMenuBar,
         language: store.state.localStorageState.language,
         changeLanguage: (value) => {

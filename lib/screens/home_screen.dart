@@ -7,6 +7,7 @@ import 'package:weekly_bible_trivia/containers/appbars/active_menubar.dart';
 import 'package:weekly_bible_trivia/containers/loading_app.dart';
 import 'package:weekly_bible_trivia/containers/tab_selector.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
+import 'package:weekly_bible_trivia/widgets/splash.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -63,14 +64,9 @@ class HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) => LoadingApp(
         builder: (BuildContext context, bool loading) => loading
-                ?
-                Scaffold(
+                ? Scaffold(
                     backgroundColor: Colors.white,
-                    body: Center(
-                      child:
-                          //Image.asset('assets/images/logo.png'),
-                          CircularProgressIndicator(),
-                    ),
+                    body: splash(Image.asset('assets/images/logo.png', width: 90, height: 90,),),
                   )
                 : Scaffold(
                     extendBodyBehindAppBar: true,

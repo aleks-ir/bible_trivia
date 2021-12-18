@@ -184,8 +184,8 @@ extension Localization on String {
       "ru": "Попробуйте позже...",
     },
     infoAbout: {
-      "en": "\t\tThis app will help you read your Bible step by step in its entirety. \n\n\t\tParticipate in a weekly quiz. All you have to do is read a few chapters from one book and answer the questions. It\'s easy and doesn\'t take much time.",
-      "ru": "\t\tЭто приложение поможет тебе шаг за шагом полностью прочитать Библию. \n\n\t\tПрими участие в еженедельной викторине. Все что нужно будет - это прочитать несколько глав из одной книги и ответить на вопросы. Это просто и не займет много времени.",
+      "en": "\t\tThe app will help you read your Bible step by step. \n\n\t\tEach week, take a trivia. \n\n\t\tYou need to log in to your account and find the \"Start\" button on the home screen. \n\n\t\tDon't forget about time - it's limited.",
+      "ru": "\t\tПриложение поможет тебе шаг за шагом прочитать Библию. \n\n\t\tКаждую неделю, принимай участие в викторине. \n\n\t\tДля этого необходимо войти под своей учетной записью и найти кнопку \"Начать\" на главном экране. \n\n\t\tНе забудь про время - оно ограничено.",
     },
     top: {
       "en": "Top",
