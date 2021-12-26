@@ -8,12 +8,14 @@ import 'package:redux_logging/redux_logging.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:weekly_bible_trivia/redux/middleware/authentication_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/database_middleware.dart';
+import 'package:weekly_bible_trivia/redux/middleware/info_trivia_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/reducers/app_state_reduser.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/services/navigation_service.dart';
 import 'package:weekly_bible_trivia/utils/router.dart';
 
+import 'global/constants.dart';
 import 'global/route_paths.dart';
 import 'utils/locator.dart';
 
@@ -27,7 +29,7 @@ void main() async {
 }
 
 class WeeklyTriviaBibleApp extends StatelessWidget {
-  late Store<AppState> _store = _store = Store<AppState>(appReducer,
+  late final Store<AppState> _store = Store<AppState>(appReducer,
       middleware: [thunkMiddleware, LoggingMiddleware.printer()],
       initialState: AppState.initial());
 
@@ -62,6 +64,17 @@ class WeeklyTriviaBibleApp extends StatelessWidget {
     store.dispatch(createInitAuthThunk());
     store.dispatch(createInitDatabaseThunk());
     store.dispatch(createInitSettingsThunk());
+    precacheImages(context);
+    store.dispatch(initInfoTriviaThunk());
+  }
 
+  void precacheImages(BuildContext context) {
+    precacheImage(const AssetImage(LOGO_IMG), context);
+    precacheImage(const AssetImage(HOME_DV_IMG), context);
+    precacheImage(const AssetImage(HOME_DH_IMG), context);
+    precacheImage(const AssetImage(HOME_LV_IMG), context);
+    precacheImage(const AssetImage(HOME_LH_IMG), context);
+    precacheImage(const AssetImage(BIBLE_IMG), context);
+    precacheImage(const AssetImage(PIGEON_IMG), context);
   }
 }

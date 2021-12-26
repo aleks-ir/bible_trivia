@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 
 Widget getTextRich(int index, String text, double fontSize, Color textColor){
   return Text.rich(
@@ -20,7 +21,8 @@ Widget getTextRich(int index, String text, double fontSize, Color textColor){
           text: text,
           style: TextStyle(
               fontSize: fontSize,
-              color: textColor),
+              color: textColor,
+              fontFamily: VERDANA),
         ),
       ],
     ),

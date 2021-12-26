@@ -2,15 +2,17 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'grids_view.dart';
+
 ListView selectionListView(
     {required List<String> listBooks,
-    required List<String> listDisplayBooks,
-    required Map<String, int> mapCountChapters,
-    required Function(String, String, int) callback,
-    bool isPortrait: true,
-    Color primaryColor: Colors.white,
-    Color secondaryColor: Colors.black12,
-    Color textColor: Colors.black}) {
+      required List<String> listDisplayBooks,
+      required Map<String, int> mapCountChapters,
+      required Function(String, int) callback,
+      bool isPortrait: true,
+      Color primaryColor: Colors.white,
+      Color secondaryColor: Colors.black12,
+      Color textColor: Colors.black}) {
   return ListView.builder(
     shrinkWrap: true,
     itemCount: listBooks.length,
@@ -41,9 +43,8 @@ ListView selectionListView(
               child: Container(
                 alignment: Alignment.center,
                 height: isPortrait ? 200 : 100,
-                child: selectionGridView(
+                child: selectionReaderGridView(
                     bookName: listBooks[index],
-                    displayBookName: listDisplayBooks[index],
                     countChapters: mapCountChapters[listBooks[index]],
                     callback: callback,
                     secondaryColor: secondaryColor,
@@ -55,37 +56,6 @@ ListView selectionListView(
       );
     },
   );
-}
-
-GridView selectionGridView(
-    {required String bookName,
-      required String displayBookName,
-    required int? countChapters,
-    required Function(String, String, int) callback,
-    Color secondaryColor: Colors.black12,
-    Color textColor: Colors.white}) {
-  return GridView.builder(
-      scrollDirection: Axis.horizontal,
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 50,
-          childAspectRatio: 1,
-          crossAxisSpacing: 5,
-          mainAxisSpacing: 5),
-      itemCount: countChapters,
-      itemBuilder: (BuildContext ctx, index) {
-        return GestureDetector(
-          onTap: () {
-            callback(bookName, displayBookName, index + 1);
-          },
-          child: Container(
-            alignment: Alignment.center,
-            child: Text((index + 1).toString(), style: TextStyle(color: textColor),),
-            decoration: BoxDecoration(
-                color: secondaryColor, borderRadius: BorderRadius.circular(10)),
-          ),
-        );
-      });
 }
 
 ListView translationListView(
@@ -107,9 +77,14 @@ ListView translationListView(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Center(
             child: GestureDetector(
-              onTap: (){callback(listTranslationsId[index]);},
+              onTap: () {
+                callback(listTranslationsId[index]);
+              },
               child: Text(listTranslationsName[index],
-                  style: TextStyle(color: indexSelectedTranslation != index ? noActiveTextColor : activeTextColor)),
+                  style: TextStyle(
+                      color: indexSelectedTranslation != index
+                          ? noActiveTextColor
+                          : activeTextColor)),
             ),
           ),
         ),

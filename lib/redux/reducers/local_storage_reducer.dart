@@ -3,9 +3,8 @@ import 'package:weekly_bible_trivia/redux/actions/local_storage_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/local_storage_state.dart';
 
 Reducer<LocalStorageState> localStorageReducer = combineReducers([
-  TypedReducer<LocalStorageState, UpdateBookNameAction>(_saveBookName),
-  TypedReducer<LocalStorageState, UpdateDisplayBookNameAction>(_saveDisplayBookName),
-  TypedReducer<LocalStorageState, UpdateChapterAction>(_saveChapter),
+  TypedReducer<LocalStorageState, UpdateReaderBookNameAction>(_saveBookName),
+  TypedReducer<LocalStorageState, UpdateReaderChapterAction>(_saveChapter),
   TypedReducer<LocalStorageState, UpdateTranslationIdAction>(_saveTranslationId),
   TypedReducer<LocalStorageState, UpdateLanguageAction>(_saveLanguage),
   TypedReducer<LocalStorageState, UpdateThemeAction>(_saveTheme),
@@ -13,21 +12,14 @@ Reducer<LocalStorageState> localStorageReducer = combineReducers([
 ]);
 
 LocalStorageState _saveBookName(
-    LocalStorageState prevState, UpdateBookNameAction action) {
+    LocalStorageState prevState, UpdateReaderBookNameAction action) {
   return prevState.copyWith(
     bookName: action.bookName,
   );
 }
 
-LocalStorageState _saveDisplayBookName(
-    LocalStorageState prevState, UpdateDisplayBookNameAction action) {
-  return prevState.copyWith(
-    displayBookName: action.displayBookName,
-  );
-}
-
 LocalStorageState _saveChapter(
-    LocalStorageState prevState, UpdateChapterAction action) {
+    LocalStorageState prevState, UpdateReaderChapterAction action) {
   return prevState.copyWith(
     chapter: action.chapter,
   );

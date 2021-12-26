@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/global/constants.dart';
 
 @immutable
 class PastTriviaState {
-  final List<String> books;
-  final int selectedBook;
+  final String bookName;
+  final int chapter;
+  final bool isShowDialog;
 
   const PastTriviaState({
-    required this.books,
-    required this.selectedBook,
+    required this.bookName,
+    required this.chapter,
+    required this.isShowDialog,
   });
 
   PastTriviaState copyWith({
-    List<String>? books,
-    int? selectedBook,}) {
+    String? bookName,
+    int? chapter,
+    bool? isShowDialog,
+  }) {
     return PastTriviaState(
-      selectedBook: selectedBook ?? this.selectedBook,
-      books: books ?? this.books,
+      bookName: bookName ?? this.bookName,
+      chapter: chapter ?? this.chapter,
+      isShowDialog: isShowDialog ?? this.isShowDialog,
     );
   }
 
   factory PastTriviaState.initial() {
-    return PastTriviaState(
-      selectedBook: 1,
-      books: TEST_BOOKS,);
+    return const PastTriviaState(
+        bookName: "",
+        chapter: -1,
+        isShowDialog: false,);
   }
 }

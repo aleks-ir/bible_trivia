@@ -12,8 +12,8 @@ import 'package:weekly_bible_trivia/models/user_firebase.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
-import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 import 'package:weekly_bible_trivia/widgets/error_validation.dart';
+import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 import 'package:weekly_bible_trivia/widgets/text_form_fields.dart';
 
 class EditProfileContainer extends StatefulWidget {
@@ -68,7 +68,7 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                             width: 40.0,
                             height: 40.0,
                             child: RawMaterialButton(
-                              fillColor: Color(viewModel.iconColor),
+                              fillColor: Colors.brown,
                               shape: CircleBorder(),
                               child: Icon(
                                 Icons.add,
@@ -91,6 +91,8 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                     ),
                     authTextField(
                         textColor: Color(viewModel.textColor),
+                        borderColor: Color(viewModel.textColor),
+                        focusedBorderColor: Colors.brown,
                         controller: _nameController,
                         onChanged: (value) => viewModel.validateName(value),
                         label: name.i18n),
@@ -104,16 +106,19 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                     SizedBox(
                       height: 30,
                     ),
-                    authButton(
-                        viewModel.loading
-                            ? miniCircularProgressIndicator()
-                            : Text(
-                                save.i18n,
-                              ), () {
-                      FocusScope.of(context).unfocus();
-                      viewModel.editProfile(
-                          EditProfileRequest(_nameController.text, _imageFile));
-                    }, color: Colors.brown),
+                    SizedBox(
+                      width: double.infinity,
+                      child: authMaterialButton(
+                          viewModel.loading
+                              ? miniCircularProgressIndicator()
+                              : Text(
+                                  save.i18n,
+                                ), () {
+                        FocusScope.of(context).unfocus();
+                        viewModel.editProfile(
+                            EditProfileRequest(_nameController.text, _imageFile));
+                      }, color: Colors.brown),
+                    ),
                   ],
                 ),
               ),

@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
 
 MaterialButton menuMaterialButton(
-    String title, bool isActive, VoidCallback callback,
+    String title,
+    Image image, bool isActive, VoidCallback callback,
     {Color activeColor: Colors.teal,
     Color colorBackground: Colors.white30,
-    double radiusCircular: 10}) {
+    double radiusCircular: 30}) {
   return MaterialButton(
-    height: 40,
     highlightElevation: 0,
     onPressed: callback,
     color: isActive ? activeColor : colorBackground,
-    child: SizedBox(
-      child: Text(title, style: TextStyle(wordSpacing: 5, fontWeight: FontWeight.w400, letterSpacing: 1, color: isActive ? Colors.white : Colors.black, fontSize: 15),),
+    child: SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text(title, style: TextStyle(color: Colors.white),),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: image,
+          ),
+        ],
+      ),
     ),
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(radiusCircular))),
@@ -54,6 +67,8 @@ Widget animatedHomeButton({
   required String title,
   double height: 100,
   double width: 100,
+  Color backgroundColor: Colors.white,
+  Color textColor: Colors.black,
 }) {
   return Container(
     height: width,
@@ -67,25 +82,19 @@ Widget animatedHomeButton({
             offset: Offset(0.0, 5.0),
           ),
         ],
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Colors.greenAccent,
-            Colors.teal,
-          ],
-        )),
+        color: backgroundColor,
+    ),
     child: Center(
       child: Text(
         title,
         style: TextStyle(
-            fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
+            fontSize: 20.0, fontWeight: FontWeight.bold, color: textColor),
       ),
     ),
   );
 }
 
-MaterialButton authButton(Widget childWidget, VoidCallback callback,
+MaterialButton authMaterialButton(Widget childWidget, VoidCallback callback,
     {Color color: Colors.teal, Color textColor: Colors.white}) {
   return MaterialButton(
     onPressed: callback,
@@ -95,9 +104,29 @@ MaterialButton authButton(Widget childWidget, VoidCallback callback,
       child: childWidget,
     ),
     height: 45,
-    minWidth: 600,
     shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(30))),
+        borderRadius: BorderRadius.all(Radius.circular(25))),
+  );
+}
+
+OutlinedButton authOutlinedButton(String title, VoidCallback callback,
+    {Color color: Colors.teal, Color textColor: Colors.white}) {
+  return OutlinedButton(
+    onPressed: callback,
+    style: ButtonStyle(
+      padding: MaterialStateProperty.all<EdgeInsets>(
+          EdgeInsets.all(15)),
+      overlayColor: MaterialStateProperty.all(Colors.black12),
+      side: MaterialStateProperty.all(BorderSide(color: Colors.teal, width: 2)),
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+      ),
+    ),
+    child: Text(title,
+        style: TextStyle(color: textColor, fontSize: 12),
+        strutStyle: StrutStyle()),
   );
 }
 

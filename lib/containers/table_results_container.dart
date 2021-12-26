@@ -25,12 +25,12 @@ class TableResultsContainer extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       color: Color(viewModel.secondaryColor),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
                     child: Row(
                       children: [
                         Expanded(
-                            flex: 2,
+                            flex: 3,
                             child: Container(
                                 child: Center(
                                     child: Padding(
@@ -55,7 +55,7 @@ class TableResultsContainer extends StatelessWidget {
                                   TextStyle(color: Color(viewModel.textColor)),
                             ))),
                         Expanded(
-                            flex: 2,
+                            flex: 3,
                             child: Container(
                                 child: Center(
                                     child: Padding(
@@ -86,7 +86,7 @@ class TableResultsContainer extends StatelessWidget {
                             child: Row(
                               children: [
                                 Expanded(
-                                    flex: 2,
+                                    flex: 3,
                                     child: Center(
                                         child: Text(
                                       (index + 1).toString(),
@@ -101,7 +101,7 @@ class TableResultsContainer extends StatelessWidget {
                                                 color: Color(
                                                     viewModel.textColor))))),
                                 Expanded(
-                                    flex: 2,
+                                    flex: 3,
                                     child: Center(
                                         child: Text(listResults[index] + " %",
                                             style: TextStyle(

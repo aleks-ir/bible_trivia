@@ -4,7 +4,6 @@ import 'package:weekly_bible_trivia/global/constants.dart';
 @immutable
 class LocalStorageState {
   final String bookName;
-  final String displayBookName;
   final String translationId;
   final int chapter;
   final String language;
@@ -13,7 +12,6 @@ class LocalStorageState {
 
   const LocalStorageState({
     required this.bookName,
-    required this.displayBookName,
     required this.translationId,
     required this.chapter,
     required this.language,
@@ -23,7 +21,6 @@ class LocalStorageState {
 
   LocalStorageState copyWith({
     String? bookName,
-    String? displayBookName,
     String? translationId,
     int? chapter,
     String? language,
@@ -32,7 +29,6 @@ class LocalStorageState {
   }) {
     return LocalStorageState(
       bookName: bookName ?? this.bookName,
-      displayBookName: displayBookName ?? this.displayBookName,
       translationId: translationId ?? this.translationId,
       chapter: chapter ?? this.chapter,
       language: language ?? this.language,
@@ -44,7 +40,6 @@ class LocalStorageState {
   factory LocalStorageState.initial() {
     return LocalStorageState(
       bookName: DEFAULT_BOOK_NAME,
-      displayBookName: DEFAULT_DISPLAY_BOOK_NAME,
       translationId: DEFAULT_TRARSLATION_ID,
       chapter: 1,
       language: ENGLISH,

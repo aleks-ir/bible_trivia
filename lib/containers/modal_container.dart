@@ -25,11 +25,10 @@ class ModalBottomSheetContainer {
             builder: (context, _ViewModel viewModel) {
               bool isPortrait =
                   MediaQuery.of(context).orientation == Orientation.portrait;
-              Color colorButton = viewModel.themeType == DARK ? Colors.white70 : Colors.brown;
+              Color colorButton =
+                  viewModel.themeType == DARK ? Colors.white70 : Colors.brown;
               return Container(
-                height: viewModel.isAuthenticated
-                    ? 160
-                    : 110,
+                height: viewModel.isAuthenticated ? 170 : 110,
                 decoration: BoxDecoration(
                   color: Color(viewModel.primaryColor),
                   borderRadius: BorderRadius.only(
@@ -37,102 +36,115 @@ class ModalBottomSheetContainer {
                     topRight: Radius.circular(20),
                   ),
                 ),
-                child:
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Visibility(
-                        visible: viewModel.isAuthenticated ? true : false,
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(color: Color(viewModel.primaryColor)),
-                              primary: Colors.teal),
-                          onPressed: viewModel.navigateToEditProfile,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [CircleAvatar(
-                              //width: 40,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Visibility(
+                      visible: viewModel.isAuthenticated ? true : false,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                                color: Color(viewModel.primaryColor)),
+                            primary: Colors.teal),
+                        onPressed: viewModel.navigateToEditProfile,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
                               backgroundColor: Colors.transparent,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: FadeInImage.assetNetwork(
-                                  placeholder: 'assets/images/loading.gif',
-                                  image:  viewModel.user.photoURL.isNotEmpty ? viewModel.user.photoURL : DEFAULT_PHOTO_URL,
-                                  imageErrorBuilder: (context, error, stackTrace) {
-                                    return Image.asset(
-                                        'assets/images/default_user.jpg',
-                                        fit: BoxFit.fitWidth);
-                                  },
-                                )
-                              ),
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: FadeInImage.assetNetwork(
+                                    placeholder: LOADING_GIF,
+                                    image: viewModel.user.photoURL.isNotEmpty
+                                        ? viewModel.user.photoURL
+                                        : DEFAULT_PHOTO_URL,
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      return Image.asset(DEFAULT_USER_IMG,
+                                          fit: BoxFit.fitWidth);
+                                    },
+                                  )),
                             ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(viewModel.user.displayName,
-                                      style: TextStyle(color: Color(viewModel.textColor),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20)),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(editProfile.i18n,
-                                      style: TextStyle(
-                                          color: colorButton,
-                                          fontWeight: FontWeight.w300,
-                                          fontSize: 15)),
-                                ],
-                              ),
-                            ],
-                          ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(viewModel.user.displayName,
+                                    style: TextStyle(
+                                        color: Color(viewModel.textColor),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20)),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(editProfile.i18n,
+                                    style: TextStyle(
+                                        color: colorButton,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 15)),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(
-                        height: viewModel.isAuthenticated ? 10 : 0,
-                      ),
-                      Visibility(
-                        visible: viewModel.isAuthenticated,
-                        child: Expanded(
-                            child:  Divider()
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: isPortrait ? 6 : 11,
-                            child: TextButton(
-                              onPressed: viewModel.navigateToTableResults,
-                              child: Text(
-                                results.i18n,
-                                style: TextStyles.getButtonMoreTextStyle(colorButton),
-                              ),
-                            ),
-                          ),
-                          Expanded(flex: 3, child: IconButton(icon: Image.asset('assets/images/logo.png'), iconSize: 70, onPressed: viewModel.navigateToAbout,)),
-                          Expanded(flex: isPortrait ? 6 : 11,
-                            child: TextButton(
-                              onPressed: viewModel.isAuthenticated
-                                  ? viewModel.navigateToSignOut
-                                  : viewModel.navigateToSignIn,
-                              child: Text(
-                                viewModel.isAuthenticated ? signOut.i18n : authorization.i18n,
-                                style: TextStyles.getButtonMoreTextStyle(colorButton),
-                              ),
-                            ),
-                          ),
-                          //Expanded(child: SizedBox()),
-                        ],
-                      ),
-                    ],
                     ),
-
+                    SizedBox(
+                      height: viewModel.isAuthenticated ? 10 : 0,
+                    ),
+                    Visibility(
+                      visible: viewModel.isAuthenticated,
+                      child: Expanded(child: Divider()),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: isPortrait ? 6 : 11,
+                          child: TextButton(
+                            onPressed: viewModel.navigateToTableResults,
+                            child: Text(
+                              results.i18n,
+                              style: TextStyles.getButtonMoreTextStyle(
+                                  colorButton),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                            flex: 3,
+                            child: IconButton(
+                              icon: Image.asset(LOGO_IMG),
+                              iconSize: 70,
+                              onPressed: viewModel.navigateToAbout,
+                            )),
+                        Expanded(
+                          flex: isPortrait ? 6 : 11,
+                          child: TextButton(
+                            onPressed: viewModel.isAuthenticated
+                                ? viewModel.navigateToSignOut
+                                : viewModel.navigateToSignIn,
+                            child: Text(
+                              viewModel.isAuthenticated
+                                  ? signOut.i18n
+                                  : authorization.i18n,
+                              style: TextStyles.getButtonMoreTextStyle(
+                                  colorButton),
+                            ),
+                          ),
+                        ),
+                        //Expanded(child: SizedBox()),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
               );
             });
       },
@@ -172,17 +184,17 @@ class _ViewModel {
       textColor: store.state.themeSettingsState.textColor,
       themeType: store.state.localStorageState.theme,
       isAuthenticated:
-      store.state.authenticationState.status == AuthenticationStatus.loaded,
+          store.state.authenticationState.status == AuthenticationStatus.loaded,
       user: store.state.authenticationState.user,
       navigateToSignIn: () => store
           .dispatch(updateScreenThunk(NavigateFromHomeToSignInScreenAction())),
       navigateToSignOut: () => store.dispatch(createLogOutThunk()),
-      navigateToTableResults: () => store
-          .dispatch(updateScreenThunk(NavigateFromHomeToTableResultsScreenAction())),
+      navigateToTableResults: () => store.dispatch(
+          updateScreenThunk(NavigateFromHomeToTableResultsScreenAction())),
       navigateToAbout: () => store
           .dispatch(updateScreenThunk(NavigateFromHomeToAboutScreenAction())),
-      navigateToEditProfile: () => store
-          .dispatch(updateScreenThunk(NavigateFromHomeToEditProfileScreenAction())),
+      navigateToEditProfile: () => store.dispatch(
+          updateScreenThunk(NavigateFromHomeToEditProfileScreenAction())),
     );
   }
 }

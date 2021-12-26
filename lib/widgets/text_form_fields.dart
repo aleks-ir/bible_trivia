@@ -15,7 +15,7 @@ Widget authTextField(
       keyboardType: TextInputType.emailAddress,
       autofocus: autofocus,
       style: TextStyle(
-        fontSize: 20,
+        fontSize: 15,
         color: textColor,
         fontWeight: FontWeight.w400,
       ),
@@ -37,7 +37,7 @@ Widget authTextField(
             : null,
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25)),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
           borderSide: BorderSide(width: 2, color: focusedBorderColor),
         ),
         enabledBorder: OutlineInputBorder(

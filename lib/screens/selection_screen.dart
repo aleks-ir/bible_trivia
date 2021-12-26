@@ -1,11 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:weekly_bible_trivia/containers/appbars/selection_appbar.dart';
-import 'package:weekly_bible_trivia/containers/selection_container.dart';
+import 'package:weekly_bible_trivia/containers/selection_reader_container.dart';
 
 
-class SelectionScreen extends StatefulWidget {
-  const SelectionScreen({Key? key}) : super(key: key);
+class SelectionReaderScreen extends StatefulWidget {
+  const SelectionReaderScreen({Key? key}) : super(key: key);
 
 
 
@@ -15,7 +15,7 @@ class SelectionScreen extends StatefulWidget {
   }
 }
 
-class SignInScreenState extends State<SelectionScreen> {
+class SignInScreenState extends State<SelectionReaderScreen> {
   @override
   void initState() {
     super.initState();
@@ -25,6 +25,6 @@ class SignInScreenState extends State<SelectionScreen> {
   Widget build(BuildContext context) => Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: SelectionAppBar(),
-          body: SelectionContainer(),
+          body: SelectionReaderContainer(),
       );
 }

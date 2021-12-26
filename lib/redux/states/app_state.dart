@@ -8,10 +8,12 @@ import 'package:weekly_bible_trivia/redux/states/reader_state.dart';
 import 'package:weekly_bible_trivia/redux/states/signin_state.dart';
 import 'package:weekly_bible_trivia/redux/states/signup_state.dart';
 import 'package:weekly_bible_trivia/redux/states/theme_settings.dart';
+import 'package:weekly_bible_trivia/redux/states/trivia_state.dart';
+import 'package:weekly_bible_trivia/redux/states/weekly_trivia_state.dart';
 
 import 'authentication_state.dart';
 import 'bottombar_state.dart';
-import 'info_trivia_state.dart';
+import 'info_state.dart';
 import 'local_storage_state.dart';
 
 @immutable
@@ -20,13 +22,15 @@ class AppState {
   final BottomBarState bottomBarState;
   final HomeState homeState;
   final ReaderState readerState;
+  final TriviaState triviaState;
   final PastTriviaState pastTriviaState;
+  final WeeklyTriviaState weeklyTriviaState;
   final AuthenticationState authenticationState;
   final SignInState signInState;
   final SignUpState signUpState;
   final LocalStorageState localStorageState;
   final AppBarState appBarState;
-  final InfoTriviaState infoTriviaState;
+  final InfoState infoState;
   final ThemeSettingsState themeSettingsState;
   final EditProfileState editProfileState;
 
@@ -36,13 +40,15 @@ class AppState {
     required this.bottomBarState,
     required this.homeState,
     required this.readerState,
+    required this.triviaState,
     required this.pastTriviaState,
+    required this.weeklyTriviaState,
     required this.authenticationState,
     required this.signInState,
     required this.signUpState,
     required this.localStorageState,
     required this.appBarState,
-    required this.infoTriviaState,
+    required this.infoState,
     required this.themeSettingsState,
     required this.editProfileState,
   });
@@ -55,13 +61,15 @@ class AppState {
       bottomBarState: BottomBarState.initial(),
       homeState: HomeState.initial(),
       readerState: ReaderState.initial(),
+      triviaState: TriviaState.initial(),
       pastTriviaState: PastTriviaState.initial(),
+      weeklyTriviaState: WeeklyTriviaState.initial(),
       authenticationState: AuthenticationState.initial(),
       signInState: SignInState.initial(),
       signUpState: SignUpState.initial(),
       localStorageState: LocalStorageState.initial(),
       appBarState: AppBarState.initial(),
-      infoTriviaState: InfoTriviaState.initial(),
+      infoState: InfoState.initial(),
       themeSettingsState: ThemeSettingsState.initial(),
       editProfileState: EditProfileState.initial(),
 
@@ -73,13 +81,15 @@ class AppState {
         BottomBarState? bottomBarState,
       HomeState? homeState,
       ReaderState? readerState,
-      PastTriviaState? pastTriviaState,
+      TriviaState? triviaState,
+        PastTriviaState? pastTriviaState,
+        WeeklyTriviaState? weeklyTriviaState,
       AuthenticationState? authorizationState,
       SignInState? signInState,
       SignUpState? signUpState,
       LocalStorageState? localStorageState,
       AppBarState? homeAppBarState,
-      InfoTriviaState? infoTriviaState,
+      InfoState? infoTriviaState,
       ThemeSettingsState? themeSettingsState,
       EditProfileState? editProfileState}) {
     return AppState(
@@ -88,12 +98,14 @@ class AppState {
       bottomBarState: bottomBarState ?? this.bottomBarState,
       signUpState: signUpState ?? this.signUpState,
       authenticationState: authorizationState ?? this.authenticationState,
+      triviaState: triviaState ?? this.triviaState,
       pastTriviaState: pastTriviaState ?? this.pastTriviaState,
+      weeklyTriviaState: weeklyTriviaState ?? this.weeklyTriviaState,
       signInState: signInState ?? this.signInState,
       readerState: readerState ?? this.readerState,
       localStorageState: localStorageState ?? this.localStorageState,
       appBarState: homeAppBarState ?? this.appBarState,
-      infoTriviaState: infoTriviaState ?? this.infoTriviaState,
+      infoState: infoTriviaState ?? this.infoState,
       themeSettingsState: themeSettingsState ?? this.themeSettingsState,
       editProfileState: editProfileState ?? this.editProfileState,
     );

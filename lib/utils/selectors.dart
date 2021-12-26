@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weekly_bible_trivia/global/app_colors.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
+import 'package:weekly_bible_trivia/global/constants_list.dart';
+import 'package:weekly_bible_trivia/global/constants_map.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
-import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/app_theme.dart';
 
 AppTheme selectTheme(String themeType) {
@@ -85,17 +86,26 @@ Icon selectIconBottomBar(NavigationTab tab, Color color) {
   return Icon(Icons.error);
 }
 
-String selectLabelBottomBar(NavigationTab tab) {
-  if (tab == NavigationTab.home) {
-    return home.i18n;
-  } else if (tab == NavigationTab.reader) {
-    return bible.i18n;
-  } else if (tab == NavigationTab.pastTrivia) {
-    return trivia.i18n;
-  } else if (tab == NavigationTab.more) {
-    return more.i18n;
+String selectBackgroundImage(String theme, bool isPortrait) {
+  if (theme == DARK) {
+    if (isPortrait) {
+      return HOME_DV_IMG;
+    } else {
+      return HOME_DH_IMG;
+    }
   } else {
-    return "";
+    if (isPortrait) {
+      return HOME_LV_IMG;
+    } else {
+      return HOME_LH_IMG;
+    }
   }
 }
 
+Map<int, String> selectMapMonths(String language) {
+  if (language == RUSSIAN) {
+    return mapMonthsRu;
+  } else {
+    return mapMonthsEn;
+  }
+}

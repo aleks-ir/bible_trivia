@@ -16,16 +16,7 @@ ThunkAction<AppState> saveBookNameThunk(String bookName) {
     SharedPreferences prefs = await SharedPreferences.getInstance();;
 
     prefs.setString(BOOK_NAME, bookName);
-    store.dispatch(UpdateBookNameAction(bookName));
-  };
-}
-
-ThunkAction<AppState> saveDisplayBookNameThunk(String displayBookName) {
-  return (Store<AppState> store) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();;
-
-    prefs.setString(DISPLAY_BOOK_NAME, displayBookName);
-    store.dispatch(UpdateDisplayBookNameAction(displayBookName));
+    store.dispatch(UpdateReaderBookNameAction(bookName));
   };
 }
 
@@ -35,7 +26,7 @@ ThunkAction<AppState> saveChapterThunk(int chapter) {
     SharedPreferences prefs = await SharedPreferences.getInstance();;
 
     prefs.setInt(CHAPTER, chapter);
-    store.dispatch(UpdateChapterAction(chapter));
+    store.dispatch(UpdateReaderChapterAction(chapter));
   };
 }
 
@@ -88,13 +79,10 @@ ThunkAction<AppState> createInitSettingsThunk() {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String bookName = prefs.getString(BOOK_NAME) ?? DEFAULT_BOOK_NAME;
-    store.dispatch(UpdateBookNameAction(bookName));
-
-    String displayBookName = prefs.getString(DISPLAY_BOOK_NAME) ?? DEFAULT_DISPLAY_BOOK_NAME;
-    store.dispatch(UpdateDisplayBookNameAction(displayBookName));
+    store.dispatch(UpdateReaderBookNameAction(bookName));
 
     int chapter = prefs.getInt(CHAPTER) ?? DEFAULT_CHAPTER;
-    store.dispatch(UpdateChapterAction(chapter));
+    store.dispatch(UpdateReaderChapterAction(chapter));
 
     String translationId = prefs.getString(TRARSLATION_ID) ?? DEFAULT_TRARSLATION_ID;
     store.dispatch(UpdateTranslationIdAction(translationId));

@@ -20,9 +20,7 @@ class NavigateFromHomeToAboutScreenAction {}
 
 class NavigateFromHomeToEditProfileScreenAction {}
 
-class NavigateFromHomeToMainTriviaScreenAction {}
-
-class NavigateFromHomeToPastTriviaScreenAction {}
+class NavigateFromHomeToTriviaScreenAction {}
 
 class NavigateFromHomeToSearchScreenAction {}
 
@@ -42,9 +40,7 @@ class NavigateFromAboutToHomeScreenAction {}
 
 class NavigateFromEditProfileToHomeScreenAction {}
 
-class NavigateFromMainTriviaToResultScreenAction {}
-
-class NavigateFromPastTriviaToResultScreenAction {}
+class NavigateFromTriviaToResultScreenAction {}
 
 class NavigateFromResultToHomeScreenAction {}
 

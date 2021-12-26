@@ -1,18 +1,13 @@
 
 
-class UpdateBookNameAction {
+class UpdateReaderBookNameAction {
   final String bookName;
-  UpdateBookNameAction(this.bookName);
+  UpdateReaderBookNameAction(this.bookName);
 }
 
-class UpdateDisplayBookNameAction {
-  final String displayBookName;
-  UpdateDisplayBookNameAction(this.displayBookName);
-}
-
-class UpdateChapterAction {
+class UpdateReaderChapterAction {
   final int chapter;
-  UpdateChapterAction(this.chapter);
+  UpdateReaderChapterAction(this.chapter);
 }
 
 class UpdateTranslationIdAction {

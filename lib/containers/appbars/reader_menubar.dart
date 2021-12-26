@@ -30,8 +30,8 @@ class ReaderMenuBar extends StatelessWidget {
         child: AppBar(
           automaticallyImplyLeading: false,
           flexibleSpace: Container(
-            padding: EdgeInsets.only(top: 110),
-            height: 155,
+            padding: EdgeInsets.only(top: 90),
+            height: 140,
             child: Row(children: [const Expanded(flex: 2, child: SizedBox()),
               Expanded(
                   flex: 5,
@@ -76,92 +76,6 @@ class ReaderMenuBar extends StatelessWidget {
               //const Expanded(flex:1, child: SizedBox()),
               const Expanded(flex: 2, child: SizedBox())],),
           ),
-          //Container(height: 400, width: 200, color: Colors.teal,),
-          actions: [
-            // Stack(
-            //   children: [
-            //     Padding(
-            //       padding: const EdgeInsets.fromLTRB(0, 30.0, 0, 0),
-            //       child: menuFloatingButton(
-            //           Icon(Icons.dark_mode), viewModel.theme == DARK, () {
-            //         viewModel.changeTheme(DARK);
-            //         viewModel.changeThemeSettings(selectTheme(DARK));
-            //       }, activeColor: Color(viewModel.iconColor)),
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 0),
-            //       child: menuFloatingButton(
-            //           Icon(Icons.light_mode), viewModel.theme == LIGHT, () {
-            //         viewModel.changeTheme(LIGHT);
-            //         viewModel.changeThemeSettings(selectTheme(LIGHT));
-            //       }, activeColor: Color(viewModel.iconColor)),
-            //     )
-            //   ],
-            // ),
-
-            // const Expanded(flex: 2, child: SizedBox()),
-            // Expanded(
-            //     flex: 5,
-            //     child: Padding(
-            //       padding: const EdgeInsets.fromLTRB(0, 30.0, 0, 0),
-            //       child: menuFloatingButton(
-            //           Icon(Icons.dark_mode), viewModel.theme == DARK, () {
-            //         viewModel.changeTheme(DARK);
-            //         viewModel.changeThemeSettings(selectTheme(DARK));
-            //       }, activeColor: Color(viewModel.iconColor)),
-            //     )),
-            // Expanded(
-            //     flex: 2,
-            //     child: Padding(
-            //       padding: EdgeInsets.fromLTRB(0, 25.0, 0, 0),
-            //       child: Icon(
-            //         Icons.brightness_4,
-            //         color:
-            //             viewModel.theme == DARK ? Colors.white : Colors.black54,
-            //       ),
-            //     )),
-            // Expanded(
-            //     flex: 5,
-            //     child: Padding(
-            //       padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 0),
-            //       child: menuFloatingButton(
-            //           Icon(Icons.light_mode), viewModel.theme == LIGHT, () {
-            //         viewModel.changeTheme(LIGHT);
-            //         viewModel.changeThemeSettings(selectTheme(LIGHT));
-            //       }, activeColor: Color(viewModel.iconColor)),
-            //     )),
-            //
-            // const Expanded(flex: 3, child: SizedBox()),
-            // Expanded(
-            //     flex: 5,
-            //     child: Padding(
-            //       padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 0),
-            //       child:
-            //           menuFloatingButton(const Icon(Icons.remove), false, () {
-            //         viewModel.changeFontSize(viewModel.fontSize - 2);
-            //       }, activeColor: Color(viewModel.iconColor)),
-            //     )),
-            // Expanded(
-            //     flex: 2,
-            //     child: Padding(
-            //       padding: const EdgeInsets.fromLTRB(0, 25.0, 0, 0),
-            //       child: Icon(
-            //         Icons.format_size,
-            //         color:
-            //             viewModel.theme == DARK ? Colors.white : Colors.black54,
-            //       ),
-            //     )),
-            // Expanded(
-            //     flex: 5,
-            //     child: Padding(
-            //       padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 0),
-            //       child: menuFloatingButton(Icon(Icons.add), false, () {
-            //         viewModel.changeFontSize(viewModel.fontSize + 2);
-            //       }, activeColor: Color(viewModel.iconColor)),
-            //     )),
-            // //const Expanded(flex:1, child: SizedBox()),
-            // const Expanded(flex: 2, child: SizedBox())
-          ],
           shape: ContinuousRectangleBorder(
               borderRadius:
                   BorderRadius.vertical(bottom: Radius.circular(50.0))),

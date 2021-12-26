@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
+import 'package:weekly_bible_trivia/global/constants_map.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
-import 'package:weekly_bible_trivia/widgets/buttons.dart';
 import 'package:weekly_bible_trivia/utils/sliding_appbar.dart';
+import 'package:weekly_bible_trivia/widgets/buttons.dart';
 
 class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
   final AnimationController controller;
@@ -50,7 +51,12 @@ class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
                     flex: 13,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 15.0, 5, 15.0),
-                      child: menuOutlinedButton(_getTitle(viewModel.displayBookName, viewModel.chapter.toString()), () {
+                      child: menuOutlinedButton(
+                          _getTitle(
+                              viewModel.language == RUSSIAN
+                                  ? mapBooksRu[viewModel.bookName]
+                                  : viewModel.bookName,
+                              viewModel.chapter.toString()), () {
                         viewModel.navigateToSelection();
                       }, textColor: Color(viewModel.textColor)),
                     )),
@@ -77,11 +83,11 @@ class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
   }
 }
 
-String _getTitle(String displayBookName, String chapter) {
-  if(displayBookName == TITLE_BIBLE){
+String _getTitle(String? bookName, String chapter) {
+  if (bookName == null) {
     return bible.i18n;
-  }else{
-    return displayBookName + " : $chapter";
+  } else {
+    return bookName + " : $chapter";
   }
 }
 
@@ -89,8 +95,9 @@ class _ViewModel {
   final int iconColor;
   final int appBarColor;
   final int textColor;
-  final String displayBookName;
+  final String bookName;
   final int chapter;
+  final String language;
   final bool isShowMenuBar;
   final bool isReaderMod;
 
@@ -102,8 +109,9 @@ class _ViewModel {
     required this.iconColor,
     required this.appBarColor,
     required this.textColor,
-    required this.displayBookName,
+    required this.bookName,
     required this.chapter,
+    required this.language,
     required this.isShowMenuBar,
     required this.isReaderMod,
     required this.changeShowMenuBar,
@@ -116,10 +124,11 @@ class _ViewModel {
       iconColor: store.state.themeSettingsState.iconColor,
       appBarColor: store.state.themeSettingsState.appBarColor,
       textColor: store.state.themeSettingsState.textColor,
-      displayBookName: store.state.localStorageState.displayBookName,
+      bookName: store.state.localStorageState.bookName,
       chapter: store.state.localStorageState.chapter,
+      language: store.state.localStorageState.language,
       isShowMenuBar: store.state.appBarState.isShowMenuBar,
-        isReaderMod: store.state.appBarState.isReaderMod,
+      isReaderMod: store.state.appBarState.isReaderMod,
       changeShowMenuBar: (value) =>
           store.dispatch(UpdateShowMenuBarAction(value)),
       navigateToSelection: () => store.dispatch(

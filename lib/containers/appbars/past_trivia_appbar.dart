@@ -23,21 +23,22 @@ class PastTriviaAppBar extends StatelessWidget implements PreferredSizeWidget {
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) => AppBar(
               automaticallyImplyLeading: false,
-              actions: [
-                IconButton(
-                  icon: Icon(
-                    Icons.receipt_long,
-                    color: Color(viewModel.iconColor),
-                  ),
-                  onPressed: () {
-                    viewModel.changeShowMenuBar(
-                        viewModel.isShowMenuBar ? false : true);
-                  },
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-              ],
+              // Leave it alone
+              // actions: [
+              //   IconButton(
+              //     icon: Icon(
+              //       Icons.receipt_long,
+              //       color: Color(viewModel.iconColor),
+              //     ),
+              //     onPressed: () {
+              //       viewModel.changeShowMenuBar(
+              //           viewModel.isShowMenuBar ? false : true);
+              //     },
+              //   ),
+              //   const SizedBox(
+              //     width: 10,
+              //   ),
+              // ],
               centerTitle: true,
               title: Text(
                 title,

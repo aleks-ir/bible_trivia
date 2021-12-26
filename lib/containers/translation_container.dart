@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/global/constants.dart';
+import 'package:weekly_bible_trivia/global/constants_list.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/database_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/utils/selectors.dart';
-import 'package:weekly_bible_trivia/widgets/selection_view.dart';
+import 'package:weekly_bible_trivia/widgets/lists_view.dart';
 
 class TranslationContainer extends StatelessWidget {
   @override

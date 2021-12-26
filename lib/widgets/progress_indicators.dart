@@ -18,8 +18,8 @@ Widget miniCircularProgressIndicator() => SizedBox(
 );
 
 Widget maxCircularProgressIndicator() => SizedBox(
-  width: 130,
-  height: 130,
+  width: 110,
+  height: 110,
   child: CircularProgressIndicator(
     strokeWidth: 5,
     valueColor:

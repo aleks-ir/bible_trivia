@@ -21,7 +21,7 @@ class ActiveAppBar extends StatelessWidget with PreferredSizeWidget {
       this.controller,
      {
     Key? key,
-  })  : preferredSize = const Size.fromHeight(60.0),
+  })  : preferredSize = const Size.fromHeight(50.0),
         super(key: key);
 
   @override

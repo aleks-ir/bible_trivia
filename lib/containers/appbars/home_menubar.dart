@@ -28,17 +28,17 @@ class HomeMenuBar extends StatelessWidget {
         child: AppBar(
             automaticallyImplyLeading: false,
             flexibleSpace: Container(
-                padding: EdgeInsets.only(top: 100),
-                height: 155,
+                padding: EdgeInsets.only(top: 95),
+                height: 135,
                 child: Row(children: [
                   Expanded(
                     child: SizedBox(),
-                    flex: 4,
+                    flex: 3,
                   ),
                   Expanded(
-                    child:
-                    menuMaterialButton(
-                      "🇷🇺 Русский ",
+                    child: menuMaterialButton(
+                      "Russian",
+                      Image.asset(RUSSIA_IMG),
                       viewModel.language == RUSSIAN,
                       () {
                         viewModel.changeLanguage(RUSSIAN);
@@ -49,11 +49,12 @@ class HomeMenuBar extends StatelessWidget {
                   ),
                   Expanded(
                     child: SizedBox(),
-                    flex: 1,
+                    flex: 2,
                   ),
                   Expanded(
                     child: menuMaterialButton(
-                      "🇬🇧 English",
+                      "English",
+                      Image.asset(UNITED_KINGDOM_IMG),
                       viewModel.language == ENGLISH,
                       () {
                         viewModel.changeLanguage(ENGLISH);
@@ -109,7 +110,6 @@ class _ViewModel {
         language: store.state.localStorageState.language,
         changeLanguage: (value) => {
               store.dispatch(saveLanguageThunk(value)),
-              store.dispatch(saveDisplayBookNameThunk(TITLE_BIBLE)),
             });
   }
 }

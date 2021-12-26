@@ -19,12 +19,12 @@ const trivia = "trivia";
 const more = "more";
 const results = "results";
 const result = "result";
-const show = "show";
 const go = "go";
 const infoTitle = "infoTitle";
 const infoCard = "infoCard";
 const infoDialog = "infoDialog";
 const close = "close";
+const confirm = "confirm";
 const editProfile = "editProfile";
 const about = "aboutApp";
 
@@ -44,6 +44,8 @@ const translation = "translation";
 const search = "search";
 const oldTestament = "oldTestament";
 const newTestament = "newTestament";
+
+const chooseChapter = "chooseChapter";
 
 extension Localization on String {
   static final _t = Translations.from("en_us", {
@@ -119,13 +121,9 @@ extension Localization on String {
       "en": "Result",
       "ru": "Результат",
     },
-    show: {
-      "en": "Show",
-      "ru": "Показать",
-    },
     go: {
       "en": "Go",
-      "ru": "Вперед",
+      "ru": "Начать",
     },
     infoTitle: {
       "en": "Info about trivia",
@@ -142,6 +140,10 @@ extension Localization on String {
     close: {
       "en": "Close",
       "ru": "Закрыть",
+    },
+    confirm: {
+      "en": "Confirm",
+      "ru": "Подтвердить",
     },
     editProfile: {
       "en": "Edit profile",
@@ -210,6 +212,10 @@ extension Localization on String {
     newTestament: {
       "en": "New",
       "ru": "Новый",
+    },
+    chooseChapter: {
+      "en": "Choose a chapter:",
+      "ru": "Выбирите главу:",
     },
   });
 

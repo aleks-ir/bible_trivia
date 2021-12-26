@@ -7,8 +7,8 @@ import 'package:weekly_bible_trivia/models/signup_request.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
-import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 import 'package:weekly_bible_trivia/widgets/error_validation.dart';
+import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 import 'package:weekly_bible_trivia/widgets/text_form_fields.dart';
 
 class SignUpContainer extends StatelessWidget {
@@ -25,30 +25,57 @@ class SignUpContainer extends StatelessWidget {
           bool isPortrait =
               MediaQuery.of(context).orientation == Orientation.portrait;
 
+          Widget nameTextField() => authTextField(
+              textColor: Color(viewModel.textColor),
+              borderColor: Color(viewModel.textColor),
+              focusedBorderColor: Color(viewModel.iconColor),
+              icon: Icons.person,
+              label: name.i18n,
+              controller: _nameController,
+              onChanged: (value) => viewModel.validateName(value));
+
+          Widget emailTextField() => authTextField(
+              textColor: Color(viewModel.textColor),
+              borderColor: Color(viewModel.textColor),
+              focusedBorderColor: Color(viewModel.iconColor),
+              icon: Icons.email,
+              label: email.i18n,
+              controller: _emailController,
+              onChanged: (value) => viewModel.validateEmail(value));
+
+          Widget passwordTextField() => authTextField(
+              textColor: Color(viewModel.textColor),
+              borderColor: Color(viewModel.textColor),
+              focusedBorderColor: Color(viewModel.iconColor),
+              icon: Icons.lock,
+              obscure: true,
+              label: password.i18n,
+              autofocus: false,
+              controller: _passController,
+              onChanged: (value) => viewModel.validatePassword(value));
+
+          Widget verifyTextField() => authTextField(
+              textColor: Color(viewModel.textColor),
+              borderColor: Color(viewModel.textColor),
+              focusedBorderColor: Color(viewModel.iconColor),
+              icon: Icons.lock,
+              obscure: true,
+              label: verify.i18n,
+              autofocus: false,
+              controller: _retypePassController,
+              onChanged: (value) =>
+                  viewModel.validatePasswordMatch(_passController.text, value));
+
           final Column emailAndNameGroupColumn = Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              authTextField(
-                  textColor: Color(viewModel.textColor),
-                  borderColor: Color(viewModel.textColor),
-                  focusedBorderColor: Color(viewModel.iconColor),
-                  icon: Icons.person,
-                  label: name.i18n,
-                  controller: _nameController,
-                  onChanged: (value) => viewModel.validateName(value)),
+              nameTextField(),
               viewModel.validStatus == ValidationStatus.error &&
                       viewModel.nameError.isNotEmpty
                   ? errorValidation(viewModel.nameError)
                   : const SizedBox(),
               SizedBox(height: 20),
-              authTextField(
-                  textColor: Color(viewModel.textColor),
-                  borderColor: Color(viewModel.textColor),
-                  focusedBorderColor: Color(viewModel.iconColor),
-                  icon: Icons.email,
-                  label: email.i18n,
-                  controller: _emailController,
-                  onChanged: (value) => viewModel.validateEmail(value)),
+              emailTextField(),
               viewModel.validStatus == ValidationStatus.error &&
                       viewModel.emailError.isNotEmpty
                   ? errorValidation(viewModel.emailError)
@@ -61,14 +88,7 @@ class SignUpContainer extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    authTextField(
-                        textColor: Color(viewModel.textColor),
-                        borderColor: Color(viewModel.textColor),
-                        focusedBorderColor: Color(viewModel.iconColor),
-                        icon: Icons.person,
-                        label: name.i18n,
-                        controller: _nameController,
-                        onChanged: (value) => viewModel.validateName(value)),
+                    nameTextField(),
                     viewModel.validStatus == ValidationStatus.error &&
                             viewModel.nameError.isNotEmpty
                         ? errorValidation(viewModel.nameError)
@@ -84,14 +104,7 @@ class SignUpContainer extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    authTextField(
-                        textColor: Color(viewModel.textColor),
-                        borderColor: Color(viewModel.textColor),
-                        focusedBorderColor: Color(viewModel.iconColor),
-                        icon: Icons.email,
-                        label: email.i18n,
-                        controller: _emailController,
-                        onChanged: (value) => viewModel.validateEmail(value)),
+                    emailTextField(),
                     viewModel.validStatus == ValidationStatus.error &&
                             viewModel.emailError.isNotEmpty
                         ? errorValidation(viewModel.emailError)
@@ -106,32 +119,13 @@ class SignUpContainer extends StatelessWidget {
           final Column passwordAndVerifyGroupColumn = Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              authTextField(
-                  textColor: Color(viewModel.textColor),
-                  borderColor: Color(viewModel.textColor),
-                  focusedBorderColor: Color(viewModel.iconColor),
-                  icon: Icons.lock,
-                  obscure: true,
-                  label: password.i18n,
-                  autofocus: false,
-                  controller: _passController,
-                  onChanged: (value) => viewModel.validatePassword(value)),
+              passwordTextField(),
               viewModel.validStatus == ValidationStatus.error &&
                       viewModel.passwordError.isNotEmpty
                   ? errorValidation(viewModel.passwordError)
                   : const SizedBox(),
               SizedBox(height: 20),
-              authTextField(
-                  textColor: Color(viewModel.textColor),
-                  borderColor: Color(viewModel.textColor),
-                  focusedBorderColor: Color(viewModel.iconColor),
-                  icon: Icons.lock,
-                  obscure: true,
-                  label: verify.i18n,
-                  autofocus: false,
-                  controller: _retypePassController,
-                  onChanged: (value) => viewModel.validatePasswordMatch(
-                      _passController.text, value)),
+              verifyTextField(),
               viewModel.validStatus == ValidationStatus.error &&
                       viewModel.retypePasswordError.isNotEmpty
                   ? errorValidation(viewModel.retypePasswordError)
@@ -144,17 +138,7 @@ class SignUpContainer extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    authTextField(
-                        textColor: Color(viewModel.textColor),
-                        borderColor: Color(viewModel.textColor),
-                        focusedBorderColor: Color(viewModel.iconColor),
-                        icon: Icons.lock,
-                        obscure: true,
-                        label: password.i18n,
-                        autofocus: false,
-                        controller: _passController,
-                        onChanged: (value) =>
-                            viewModel.validatePassword(value)),
+                    passwordTextField(),
                     viewModel.validStatus == ValidationStatus.error &&
                             viewModel.passwordError.isNotEmpty
                         ? errorValidation(viewModel.passwordError)
@@ -170,17 +154,7 @@ class SignUpContainer extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    authTextField(
-                        textColor: Color(viewModel.textColor),
-                        borderColor: Color(viewModel.textColor),
-                        focusedBorderColor: Color(viewModel.iconColor),
-                        icon: Icons.lock,
-                        obscure: true,
-                        label: verify.i18n,
-                        autofocus: false,
-                        controller: _retypePassController,
-                        onChanged: (value) => viewModel.validatePasswordMatch(
-                            _passController.text, value)),
+                    verifyTextField(),
                     viewModel.validStatus == ValidationStatus.error &&
                             viewModel.retypePasswordError.isNotEmpty
                         ? errorValidation(viewModel.retypePasswordError)
@@ -192,32 +166,44 @@ class SignUpContainer extends StatelessWidget {
             ],
           );
 
+
+          final createButton = SizedBox(
+            width: isPortrait
+                ? double.infinity
+                : MediaQuery.of(context).size.width / 2,
+            child: authMaterialButton(
+                viewModel.authStatus != AuthenticationStatus.loading
+                    ? Text(
+                  create.i18n,
+                )
+                    : miniCircularProgressIndicator(), () {
+              FocusScope.of(context).unfocus();
+              viewModel.signUp(SignUpRequest(
+                  _nameController.text,
+                  _emailController.text,
+                  _passController.text,
+                  _retypePassController.text));
+            }, color: Color(viewModel.iconColor)),
+          );
+
           return SizedBox.expand(
             child: Container(
               color: Color(viewModel.primaryColor),
               padding: EdgeInsets.symmetric(horizontal: 50),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: isPortrait ? 70 : 20),
-                  isPortrait ? emailAndNameGroupColumn : emailAndNameGroupRow,
-                  SizedBox(height: isPortrait ? 60 : 30),
-                  isPortrait
-                      ? passwordAndVerifyGroupColumn
-                      : passwordAndVerifyGroupRow,
-                  SizedBox(height: 30),
-
-                  authButton(viewModel.authStatus != AuthenticationStatus.loading ? Text(
-                    create.i18n,
-                  ) : miniCircularProgressIndicator(), () {
-                    FocusScope.of(context).unfocus();
-                    viewModel.signUp(SignUpRequest(
-                        _nameController.text,
-                        _emailController.text,
-                        _passController.text,
-                        _retypePassController.text));
-                  }, color: Colors.brown),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: isPortrait ? 70 : 50),
+                    isPortrait ? emailAndNameGroupColumn : emailAndNameGroupRow,
+                    SizedBox(height: isPortrait ? 60 : 30),
+                    isPortrait
+                        ? passwordAndVerifyGroupColumn
+                        : passwordAndVerifyGroupRow,
+                    SizedBox(height: 30),
+                    createButton,
+                  ],
+                ),
               ),
             ),
           );

@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
+import 'package:weekly_bible_trivia/global/constants_list.dart';
+import 'package:weekly_bible_trivia/global/constants_map.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/database_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/utils/selectors.dart';
-import 'package:weekly_bible_trivia/widgets/selection_view.dart';
+import 'package:weekly_bible_trivia/widgets/lists_view.dart';
 
-class SelectionContainer extends StatelessWidget {
+class SelectionReaderContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isPortrait =
@@ -23,8 +25,8 @@ class SelectionContainer extends StatelessWidget {
               color: Color(viewModel.primaryColor),
               child: Container(
                 child: selectionListView(
-                    callback: (String bookName, String displayBookName, int chapter) {
-                      viewModel.setBookAndChapter(bookName, displayBookName, chapter);
+                    callback: (String bookName, int chapter) {
+                      viewModel.setBookAndChapter(bookName, chapter);
                     },
                     listDisplayBooks: selectListDisplayBooks(viewModel.isOldTestament, viewModel.language == ENGLISH),
                   mapCountChapters: mapCountChapters,
@@ -49,7 +51,7 @@ class _ViewModel {
   final bool isOldTestament;
   final String language;
 
-  final Function(String, String, int) setBookAndChapter;
+  final Function(String, int) setBookAndChapter;
 
   _ViewModel({
     required this.primaryColor,
@@ -69,9 +71,8 @@ class _ViewModel {
       textColor: store.state.themeSettingsState.textColor,
       isOldTestament: store.state.appBarState.isOldTestament,
       language: store.state.localStorageState.language,
-      setBookAndChapter: (String bookName, String displayBookName, int chapter) {
+      setBookAndChapter: (String bookName, int chapter) {
         store.dispatch(saveBookNameThunk(bookName));
-        store.dispatch(saveDisplayBookNameThunk(displayBookName));
         store.dispatch(saveChapterThunk(chapter));
         store.dispatch(updateTextReaderThunk());
         store.dispatch(updateScreenThunk(

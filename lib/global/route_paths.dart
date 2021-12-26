@@ -6,11 +6,10 @@ class RoutePaths {
   static const String fromHomeToAboutScreen = "fromHomeToAboutScreen";
   static const String fromHomeToEditProfileScreen =
       "fromHomeToEditProfileScreen";
-  static const String fromHomeToMainTriviaScreen = "fromHomeToMainTriviaScreen";
-  static const String fromHomeToPastTriviaScreen = "fromHomeToPastTriviaScreen";
+  static const String fromHomeToTriviaScreen = "fromHomeToTriviaScreen";
   static const String fromHomeToSearchScreen = "fromHomeToSearchScreen";
-  static const String fromHomeToSelectionScreen = "fromHomeToSelectionScreen";
-  static const String fromSelectionToTranslationScreen =
+  static const String fromHomeToSelectionReaderScreen = "fromHomeToSelectionScreen";
+  static const String fromSelectionReaderToTranslationScreen =
       "fromSelectionToTranslationScreen";
   static const String fromSignInToHomeScreen = "fromSignInToHomeScreen";
   static const String fromSignInToSignUpScreen = "fromSignInToSignUpScreen";
@@ -20,13 +19,11 @@ class RoutePaths {
   static const String fromAboutToHomeScreen = "fromAboutToHomeScreen";
   static const String fromEditProfileToHomeScreen =
       "fromEditProfileToHomeScreen";
-  static const String fromMainTriviaToResultScreen =
-      "fromMainTriviaToResultScreen";
-  static const String fromPastTriviaToResultScreen =
-      "fromPastTriviaToResultScreen";
+  static const String fromTriviaToResultScreen =
+      "fromTriviaToResultScreen";
   static const String fromResultToHomeScreen = "fromResultToHomeScreen";
   static const String fromSearchToHomeScreen = "fromSearchToHomeScreen";
-  static const String fromSelectionToHomeScreen = "fromSetChapterToHomeScreen";
+  static const String fromSelectionReaderToHomeScreen = "fromSetChapterToHomeScreen";
   static const String fromTranslationToSelectionScreen =
       "fromTranslationToSelectionScreen";
   static const String fromTranslationToHomeScreen =

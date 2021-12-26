@@ -66,7 +66,7 @@ class HomeScreenState extends State<HomeScreen>
         builder: (BuildContext context, bool loading) => loading
                 ? Scaffold(
                     backgroundColor: Colors.white,
-                    body: splash(Image.asset('assets/images/logo.png', width: 90, height: 90,),),
+                    body: splash(Image.asset(LOGO_IMG, width: 70, height: 70,),),
                   )
                 : Scaffold(
                     extendBodyBehindAppBar: true,

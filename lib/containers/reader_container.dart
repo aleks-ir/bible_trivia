@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/global/constants.dart';
+import 'package:weekly_bible_trivia/global/constants_map.dart';
 import 'package:weekly_bible_trivia/models/verse.dart';
 import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/database_middleware.dart';
