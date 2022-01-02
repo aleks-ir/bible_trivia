@@ -19,13 +19,16 @@ import 'package:weekly_bible_trivia/widgets/text_form_fields.dart';
 class SignInContainer extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+  late final bool isErrorListener;
+
+  SignInContainer(this.isErrorListener);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
-          if (viewModel.authStatus == AuthenticationStatus.error &&
+          if (isErrorListener && viewModel.authStatus == AuthenticationStatus.error &&
               viewModel.authError.isNotEmpty) {
             Future.delayed(Duration.zero, () async {
               showSnackBar(context, viewModel.authError);

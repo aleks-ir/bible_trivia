@@ -20,7 +20,6 @@ ThunkAction<AppState> updateTabThunk(NavigationTab tab) {
 
 ThunkAction<AppState> updateScreenThunk(dynamic action) {
   return (Store<AppState> store) {
-    bool isShowMenuBar = store.state.appBarState.isShowMenuBar;
     if (action is NavigateToHomeAction) {
       _navigationService.navigate(RoutePaths.toHomeScreen);
       return;
@@ -53,6 +52,7 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
       _navigationService.navigate(RoutePaths.fromSelectionReaderToTranslationScreen);
       return;
     } else if (action is NavigateFromSignInToHomeScreenAction) {
+      //_navigationService.goBack();
       _navigationService.navigateBack(RoutePaths.fromSignInToHomeScreen);
       return;
     } else if (action is NavigateFromSignInToSignUpScreenAction) {
@@ -72,7 +72,10 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
       _navigationService.navigateBack(RoutePaths.fromEditProfileToHomeScreen);
       return;
     } else if (action is NavigateFromTriviaToResultScreenAction) {
-      _navigationService.navigate(RoutePaths.fromTriviaToResultScreen);
+      _navigationService.navigateAndReplace(RoutePaths.fromTriviaToResultScreen);
+      return;
+    }else if (action is NavigateFromTriviaToHomeScreenAction) {
+      _navigationService.goBack();
       return;
     } else if (action is NavigateFromResultToHomeScreenAction) {
       _navigationService.navigateBack(RoutePaths.fromResultToHomeScreen);

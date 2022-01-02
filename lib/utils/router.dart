@@ -4,6 +4,7 @@ import 'package:weekly_bible_trivia/global/route_paths.dart';
 import 'package:weekly_bible_trivia/screens/about_screen.dart';
 import 'package:weekly_bible_trivia/screens/edit_profile_screen.dart';
 import 'package:weekly_bible_trivia/screens/home_screen.dart';
+import 'package:weekly_bible_trivia/screens/result_screen.dart';
 import 'package:weekly_bible_trivia/screens/search_screen.dart';
 import 'package:weekly_bible_trivia/screens/selection_screen.dart';
 import 'package:weekly_bible_trivia/screens/signin_screen.dart';
@@ -18,12 +19,10 @@ class ApplicationRouter {
   Route call(RouteSettings settings) {
       switch (settings.name) {
         case RoutePaths.toHomeScreen:
-          return MaterialPageRoute(
-              builder: (context){
-                return const HomeScreen();
-              });
+          return MaterialPageRoute(builder: (context) =>
+              const HomeScreen());
         case RoutePaths.fromHomeToSignInScreen:
-          return AnimationPage(startPage: const HomeScreen(), endPage: const SignInScreen(), animationDirection: AnimationDirection.upward);
+          return AnimationPage(startPage: const HomeScreen(), endPage: SignInScreen(true), animationDirection: AnimationDirection.upward);
         case RoutePaths.fromHomeToTableResultsScreen:
           return AnimationPage(startPage: const HomeScreen(), endPage: const TableResultsScreen(), animationDirection: AnimationDirection.upward);
         case RoutePaths.fromHomeToAboutScreen:
@@ -39,9 +38,11 @@ class ApplicationRouter {
         case RoutePaths.fromSelectionReaderToTranslationScreen:
           return AnimationPage(startPage: const SelectionReaderScreen(), endPage: const TranslationScreen(), animationDirection: AnimationDirection.upward);
         case RoutePaths.fromSignInToHomeScreen:
-          return AnimationPage(startPage: const SignInScreen(), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
+          //return MaterialPageRoute(builder: (context) =>
+          //const HomeScreen());
+          return AnimationPage(startPage: SignInScreen(false), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
         case RoutePaths.fromSignInToSignUpScreen:
-          return AnimationPage(startPage: const SignInScreen(), endPage: const SignUpScreen(), animationDirection: AnimationDirection.upward);
+          return AnimationPage(startPage: SignInScreen(false), endPage: const SignUpScreen(), animationDirection: AnimationDirection.upward);
         case RoutePaths.fromSignUpToHomeScreen:
           return AnimationPage(startPage: const SignUpScreen(), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
         case RoutePaths.fromTableResultsToHomeScreen:
@@ -51,9 +52,12 @@ class ApplicationRouter {
         case RoutePaths.fromEditProfileToHomeScreen:
           return AnimationPage(startPage: const EditProfileScreen(), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
         case RoutePaths.fromTriviaToResultScreen:
-          return AnimationPage(startPage: const TriviaScreen(), endPage: const HomeScreen(), animationDirection: AnimationDirection.upward);
+          return MaterialPageRoute(builder: (context) =>
+          const ResultScreen());
+        case RoutePaths.fromTriviaToHomeScreen:
+          return AnimationPage(startPage: const TriviaScreen(), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
         case RoutePaths.fromResultToHomeScreen:
-          return AnimationPage(startPage: const HomeScreen(), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
+          return AnimationPage(startPage: const ResultScreen(), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
         case RoutePaths.fromSearchToHomeScreen:
           return AnimationPage(startPage: const SearchScreen(), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
         case RoutePaths.fromSelectionReaderToHomeScreen:

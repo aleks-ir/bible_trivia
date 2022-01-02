@@ -8,6 +8,7 @@ import 'package:redux_logging/redux_logging.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:weekly_bible_trivia/redux/middleware/authentication_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/database_middleware.dart';
+import 'package:weekly_bible_trivia/redux/middleware/firebase_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/info_trivia_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/reducers/app_state_reduser.dart';
@@ -37,7 +38,7 @@ class WeeklyTriviaBibleApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    initAppData(_store, context);
+    initAppData(context);
     return StoreProvider<AppState>(
       store: _store,
       child: I18n(
@@ -60,12 +61,13 @@ class WeeklyTriviaBibleApp extends StatelessWidget {
     );
   }
 
-  void initAppData(Store<AppState> store, BuildContext context)async {
-    store.dispatch(createInitAuthThunk());
-    store.dispatch(createInitDatabaseThunk());
-    store.dispatch(createInitSettingsThunk());
+  void initAppData(BuildContext context) async {
+    _store.dispatch(createInitAuthThunk());
+    _store.dispatch(createInitDatabaseThunk());
+    _store.dispatch(createInitSettingsThunk());
+    _store.dispatch(initInfoTriviaThunk());
+    _store.dispatch(getTriviaCollectionFromFirebaseThunk());
     precacheImages(context);
-    store.dispatch(initInfoTriviaThunk());
   }
 
   void precacheImages(BuildContext context) {

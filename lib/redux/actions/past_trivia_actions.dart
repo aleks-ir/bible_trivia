@@ -9,9 +9,9 @@ class UpdatePastTriviaChapterAction {
   UpdatePastTriviaChapterAction(this.chapter);
 }
 
-class UpdatePastTriviaShowDialogAction {
+class UpdatePastTriviaDialogAction {
   final bool isShowDialog;
-  UpdatePastTriviaShowDialogAction(this.isShowDialog);
+  UpdatePastTriviaDialogAction(this.isShowDialog);
 }
 
 class ResetPastTriviaAction {

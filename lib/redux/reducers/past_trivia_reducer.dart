@@ -5,7 +5,7 @@ import 'package:weekly_bible_trivia/redux/states/past_trivia_state.dart';
 Reducer<PastTriviaState> pastTriviaReducer = combineReducers([
   TypedReducer<PastTriviaState, UpdatePastTriviaBookNameAction>(_changeBook),
   TypedReducer<PastTriviaState, UpdatePastTriviaChapterAction>(_changeChapter),
-  TypedReducer<PastTriviaState, UpdatePastTriviaShowDialogAction>(
+  TypedReducer<PastTriviaState, UpdatePastTriviaDialogAction>(
       _changeShowDialog),
   TypedReducer<PastTriviaState, ResetPastTriviaAction>(_reset),
 ]);
@@ -25,7 +25,7 @@ PastTriviaState _changeChapter(
 }
 
 PastTriviaState _changeShowDialog(
-    PastTriviaState prevState, UpdatePastTriviaShowDialogAction action) {
+    PastTriviaState prevState, UpdatePastTriviaDialogAction action) {
   return prevState.copyWith(
     isShowDialog: action.isShowDialog,
   );

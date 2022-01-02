@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+import 'package:weekly_bible_trivia/models/firestore/question.dart';
 import 'package:weekly_bible_trivia/models/firestore/trivia.dart';
 import 'package:weekly_bible_trivia/redux/actions/info_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/trivia_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 ThunkAction<AppState> initBookAndChaptersThunk(String date) {
@@ -31,6 +33,7 @@ ThunkAction<AppState> initBookAndChaptersThunk(String date) {
 
 ThunkAction<AppState> initListsOfBooksAndCountChaptersThunk(String date) {
   return (Store<AppState> store) async {
+    String uniqueBookName = '';
     List<String> listBookNames = [];
     Map<String, int> mapCountPastChapters = {};
 
@@ -46,7 +49,10 @@ ThunkAction<AppState> initListsOfBooksAndCountChaptersThunk(String date) {
         var data = doc.data() as Map<String, dynamic>;
         String bookName = data['book'];
         int countChapters = data['chapter'];
-        listBookNames.add(bookName);
+        if(uniqueBookName != bookName){
+          uniqueBookName = bookName;
+          listBookNames.add(bookName);
+        }
         mapCountPastChapters[bookName] = countChapters;
       }
     }
@@ -65,11 +71,11 @@ ThunkAction<AppState> getTriviaCollectionFromFirebaseThunk() {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       //var categoriesData = data['Exodus_1'];
       Trivia cat = Trivia.fromJson(data);
-      List<String> listQuestions = [];
-      for (var question in cat.questions) {
-        listQuestions.add(question.questionEn);
-      }
-      //store.dispatch(UpdateListQuestionsAction(listQuestions));
+      List<Question> list = [];
+      list.addAll(cat.questions);
+      list.addAll(cat.questions);
+      list.addAll(cat.questions);
+      store.dispatch(UpdateListQuestionsAction(list));
     }
   };
 }

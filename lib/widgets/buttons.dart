@@ -32,20 +32,23 @@ MaterialButton menuMaterialButton(
 }
 
 OutlinedButton menuOutlinedButton(String title, VoidCallback callback,
-    {Color textColor: Colors.black87}) {
+    {Color textColor: Colors.black87, double fontSize: 12, double borderRadius: 5, double horizontalPadding: 0}) {
   return OutlinedButton(
     onPressed: callback,
     style: ButtonStyle(
       overlayColor: MaterialStateProperty.all(Colors.teal.shade100),
       shape: MaterialStateProperty.all(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
       ),
     ),
-    child: Text(title,
-        style: TextStyle(color: textColor, fontSize: 12),
-        strutStyle: StrutStyle()),
+    child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+      child: Text(title,
+          style: TextStyle(color: textColor, fontSize: fontSize),
+          strutStyle: StrutStyle()),
+    ),
   );
 }
 
@@ -151,3 +154,5 @@ Widget readerFloatingActionButton(
     ),
   );
 }
+
+

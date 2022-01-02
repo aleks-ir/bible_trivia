@@ -50,7 +50,8 @@ class _HomeContainerState extends State<HomeContainer>
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
           _scale = 0.8 - _animationControllerButton.value;
-          bool isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+          bool isPortrait =
+              MediaQuery.of(context).orientation == Orientation.portrait;
 
           return Container(
               margin: EdgeInsets.only(top: 70),
@@ -64,8 +65,7 @@ class _HomeContainerState extends State<HomeContainer>
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                        left: isPortrait ? 30 : 60,
-                        top: isPortrait ? 40 : 20),
+                        left: isPortrait ? 30 : 60, top: isPortrait ? 40 : 20),
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
@@ -81,7 +81,10 @@ class _HomeContainerState extends State<HomeContainer>
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: isPortrait ? MediaQuery.of(context).size.height / 4 : 80),
+                    padding: EdgeInsets.only(
+                        bottom: isPortrait
+                            ? MediaQuery.of(context).size.height / 4
+                            : 80),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -102,7 +105,9 @@ class _HomeContainerState extends State<HomeContainer>
                             height: isPortrait ? 10 : 5,
                           ),
                           Text(
-                            _getDateString(viewModel.nextTriviaDate),
+                            viewModel.nextTriviaBook.isEmpty
+                                ? ''
+                                : _getDateString(viewModel.nextTriviaDate),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: INTER,
@@ -114,10 +119,9 @@ class _HomeContainerState extends State<HomeContainer>
                             height: isPortrait ? 20 : 10,
                           ),
                           Visibility(
-                            visible: true,
-                            // !viewModel.isPassed &&
-                            //     compareToDate(viewModel.currentDate,
-                            //         viewModel.nextTriviaDate),
+                            visible: !viewModel.isPassed &&
+                                _compareToDate(viewModel.currentDate,
+                                    viewModel.nextTriviaDate),
                             child: GestureDetector(
                               onHorizontalDragStart: _drag,
                               onVerticalDragStart: _drag,
@@ -164,7 +168,7 @@ class _HomeContainerState extends State<HomeContainer>
     }
   }
 
-  bool compareToDate(DateTime d1, DateTime d2) {
+  bool _compareToDate(DateTime d1, DateTime d2) {
     return d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;
   }
 
@@ -179,7 +183,6 @@ class _HomeContainerState extends State<HomeContainer>
   void _tapUp(TapUpDetails details) {
     _animationControllerButton.reverse();
   }
-
 }
 
 class _ViewModel {
@@ -225,10 +228,11 @@ class _ViewModel {
       isPassed: store.state.weeklyTriviaState.isPassed,
       isAuthenticated:
           store.state.authenticationState.status == AuthenticationStatus.loaded,
-      currentDate: store.state.infoState.currentDate,
-      nextTriviaBook: store.state.infoState.nextBookName,
-      nextTriviaDate: store.state.infoState.nextDate,
-      nextTriviaChapters: store.state.infoState.nextChapters,
+      currentDate: store.state.infoTriviaState.currentDate,
+      nextTriviaBook: store.state.infoTriviaState.nextBookName,
+      nextTriviaDate: store.state.infoTriviaState.nextDate,
+      nextTriviaChapters: store.state.infoTriviaState.nextChapters,
+
       changeShowedInfoTrivia: (bool value) {
         store.dispatch(ChangeShowInfoTriviaAction(value));
       },

@@ -26,8 +26,8 @@ const String UNITED_KINGDOM_IMG = 'assets/images/united_kingdom.png';
 const String DEFAULT_USER_IMG = 'assets/images/default_user.jpg';
 const String BIBLE_IMG = 'assets/images/bible.jpg';
 const String LOADING_GIF = 'assets/images/loading.gif';
-
-
+const String EXIT_LIGHT_IMG = "assets/images/exit_light.png";
+const String EXIT_DARK_IMG = "assets/images/exit_dark.png";
 
 
 const String TEST_URL = "https://aleks-ir.github.io/data/test.json";

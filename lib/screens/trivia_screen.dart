@@ -24,9 +24,12 @@ class _TriviaScreenState extends State<TriviaScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: SimpleAppBar(trivia.i18n, NavigateFromTriviaToResultScreenAction()),
-          body: TriviaContainer(),
-      );
+  Widget build(BuildContext context) => WillPopScope(
+    onWillPop: () async => false,
+    child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: null,
+            body: TriviaContainer(),
+        ),
+  );
 }

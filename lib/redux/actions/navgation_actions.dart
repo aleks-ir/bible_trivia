@@ -42,6 +42,8 @@ class NavigateFromEditProfileToHomeScreenAction {}
 
 class NavigateFromTriviaToResultScreenAction {}
 
+class NavigateFromTriviaToHomeScreenAction {}
+
 class NavigateFromResultToHomeScreenAction {}
 
 class NavigateFromSearchToHomeScreenAction {}

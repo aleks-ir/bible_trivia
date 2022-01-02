@@ -5,6 +5,7 @@ import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/constants_map.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/past_trivia_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/trivia_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/utils/selectors.dart';
@@ -17,7 +18,6 @@ class PastTriviaContainer extends StatefulWidget {
 }
 
 class _PastTriviaContainerState extends State<PastTriviaContainer> {
-  bool _isShowDialog = false;
   late bool _isPortrait;
 
   @override
@@ -128,17 +128,18 @@ class _ViewModel {
         selectedBook: store.state.pastTriviaState.bookName,
         selectedChapter: store.state.pastTriviaState.chapter,
         isShowDialog: store.state.pastTriviaState.isShowDialog,
-        listPastBookNames: store.state.infoState.listPastBookNames,
-        mapCountPastChapters: store.state.infoState.mapCountPastChapters,
+        listPastBookNames: store.state.infoTriviaState.listPastBookNames,
+        mapCountPastChapters: store.state.infoTriviaState.mapCountPastChapters,
         setBookAndOpenDialog: (String bookName) {
-          store.dispatch(UpdatePastTriviaShowDialogAction(true));
+          store.dispatch(UpdatePastTriviaDialogAction(true));
           store.dispatch(UpdatePastTriviaBookNameAction(bookName));
         },
         setChapter: (int chapter) {
           store.dispatch(UpdatePastTriviaChapterAction(chapter));
         },
         closeDialogeAndNavigateToTrivia: () {
-          store.dispatch(UpdatePastTriviaShowDialogAction(false));
+          store.dispatch(UpdateIsTimeTriviaAction(false));
+          store.dispatch(UpdatePastTriviaDialogAction(false));
           store.dispatch(
               updateScreenThunk(NavigateFromHomeToTriviaScreenAction()));
         },

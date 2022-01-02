@@ -30,7 +30,7 @@ class AppState {
   final SignUpState signUpState;
   final LocalStorageState localStorageState;
   final AppBarState appBarState;
-  final InfoState infoState;
+  final InfoState infoTriviaState;
   final ThemeSettingsState themeSettingsState;
   final EditProfileState editProfileState;
 
@@ -48,7 +48,7 @@ class AppState {
     required this.signUpState,
     required this.localStorageState,
     required this.appBarState,
-    required this.infoState,
+    required this.infoTriviaState,
     required this.themeSettingsState,
     required this.editProfileState,
   });
@@ -69,7 +69,7 @@ class AppState {
       signUpState: SignUpState.initial(),
       localStorageState: LocalStorageState.initial(),
       appBarState: AppBarState.initial(),
-      infoState: InfoState.initial(),
+      infoTriviaState: InfoState.initial(),
       themeSettingsState: ThemeSettingsState.initial(),
       editProfileState: EditProfileState.initial(),
 
@@ -84,11 +84,11 @@ class AppState {
       TriviaState? triviaState,
         PastTriviaState? pastTriviaState,
         WeeklyTriviaState? weeklyTriviaState,
-      AuthenticationState? authorizationState,
+      AuthenticationState? authenticationState,
       SignInState? signInState,
       SignUpState? signUpState,
       LocalStorageState? localStorageState,
-      AppBarState? homeAppBarState,
+      AppBarState? appBarState,
       InfoState? infoTriviaState,
       ThemeSettingsState? themeSettingsState,
       EditProfileState? editProfileState}) {
@@ -97,15 +97,15 @@ class AppState {
       homeState: homeState ?? this.homeState,
       bottomBarState: bottomBarState ?? this.bottomBarState,
       signUpState: signUpState ?? this.signUpState,
-      authenticationState: authorizationState ?? this.authenticationState,
+      authenticationState: authenticationState ?? this.authenticationState,
       triviaState: triviaState ?? this.triviaState,
       pastTriviaState: pastTriviaState ?? this.pastTriviaState,
       weeklyTriviaState: weeklyTriviaState ?? this.weeklyTriviaState,
       signInState: signInState ?? this.signInState,
       readerState: readerState ?? this.readerState,
       localStorageState: localStorageState ?? this.localStorageState,
-      appBarState: homeAppBarState ?? this.appBarState,
-      infoState: infoTriviaState ?? this.infoState,
+      appBarState: appBarState ?? this.appBarState,
+      infoTriviaState: infoTriviaState ?? this.infoTriviaState,
       themeSettingsState: themeSettingsState ?? this.themeSettingsState,
       editProfileState: editProfileState ?? this.editProfileState,
     );

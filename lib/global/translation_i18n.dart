@@ -24,7 +24,7 @@ const infoTitle = "infoTitle";
 const infoCard = "infoCard";
 const infoDialog = "infoDialog";
 const close = "close";
-const confirm = "confirm";
+const continueTo = "continueTo";
 const editProfile = "editProfile";
 const about = "aboutApp";
 
@@ -46,6 +46,12 @@ const oldTestament = "oldTestament";
 const newTestament = "newTestament";
 
 const chooseChapter = "chooseChapter";
+const completeTrivia = "completeTrivia";
+const yes = "yes";
+const no = "no";
+const next = "next";
+const exit = "exit";
+const complete = "complete";
 
 extension Localization on String {
   static final _t = Translations.from("en_us", {
@@ -141,9 +147,9 @@ extension Localization on String {
       "en": "Close",
       "ru": "Закрыть",
     },
-    confirm: {
-      "en": "Confirm",
-      "ru": "Подтвердить",
+    continueTo: {
+      "en": "Continue",
+      "ru": "Продолжить",
     },
     editProfile: {
       "en": "Edit profile",
@@ -216,6 +222,30 @@ extension Localization on String {
     chooseChapter: {
       "en": "Choose a chapter:",
       "ru": "Выбирите главу:",
+    },
+    completeTrivia: {
+      "en": "Complete the trivia?",
+      "ru": "Завершить викторину?",
+    },
+    yes: {
+      "en": "Yes",
+      "ru": "Да",
+    },
+    no: {
+      "en": "No",
+      "ru": "Нет",
+    },
+    next: {
+      "en": "Next",
+      "ru": "Следующий",
+    },
+    exit: {
+      "en": "Exit",
+      "ru": "Выход",
+    },
+    complete: {
+      "en": "Complete",
+      "ru": "Завершить",
     },
   });
 

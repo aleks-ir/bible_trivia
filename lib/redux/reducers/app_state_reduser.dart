@@ -32,7 +32,7 @@ AppState appReducer(AppState state, action) {
       localStorageState: localStorageReducer(state.localStorageState, action),
       appBarState: appBarReducer(state.appBarState, action),
       bottomBarState: bottomBarReducer(state.bottomBarState, action),
-      infoState: infoReducer(state.infoState, action),
+      infoTriviaState: infoReducer(state.infoTriviaState, action),
       themeSettingsState: themeSettingsReducer(state.themeSettingsState, action),
       editProfileState: editProfileReducer(state.editProfileState, action),
 

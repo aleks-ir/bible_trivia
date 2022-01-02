@@ -1,34 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:weekly_bible_trivia/models/answer.dart';
 import 'package:weekly_bible_trivia/models/firestore/question.dart';
 
 @immutable
 class TriviaState {
-  final bool isPastTrivia;
+  final bool isShowDialog;
+  final bool isTimeTrivia;
+  final int currentPage;
+  final int startPage;
+  final int endPage;
   final List<Question> listQuestions;
-  final List<int> listSkipQuestions;
+  final List<List<Answer>> listCurrentAnswers;
+  final List<bool> listAnsweredQuestions;
 
   const TriviaState({
-    required this.isPastTrivia,
+    required this.isShowDialog,
+    required this.isTimeTrivia,
+    required this.currentPage,
+    required this.startPage,
+    required this.endPage,
     required this.listQuestions,
-    required this.listSkipQuestions,
+    required this.listCurrentAnswers,
+    required this.listAnsweredQuestions,
   });
 
   TriviaState copyWith({
-    bool? isPastTrivia,
+    bool? isShowDialog,
+    bool? isTimeTrivia,
+    int? currentPage,
+    int? startPage,
+    int? endPage,
     List<Question>? listQuestions,
-    List<int>? listSkipQuestions,
+    List<List<Answer>>? listCurrentAnswers,
+    List<bool>? listAnsweredQuestions,
   }) {
     return TriviaState(
-      isPastTrivia: isPastTrivia ?? this.isPastTrivia,
+      isShowDialog: isShowDialog ?? this.isShowDialog,
+      isTimeTrivia: isTimeTrivia ?? this.isTimeTrivia,
+      currentPage: currentPage ?? this.currentPage,
+      startPage: startPage ?? this.startPage,
+      endPage: endPage ?? this.endPage,
       listQuestions: listQuestions ?? this.listQuestions,
-      listSkipQuestions: listSkipQuestions ?? this.listSkipQuestions,
+      listCurrentAnswers: listCurrentAnswers ?? this.listCurrentAnswers,
+      listAnsweredQuestions: listAnsweredQuestions ?? this.listAnsweredQuestions,
     );
   }
 
   factory TriviaState.initial() {
     return const TriviaState(
-        isPastTrivia: true,
+        isShowDialog: false,
+        isTimeTrivia: false,
+        currentPage: 0,
+        startPage: 0,
+        endPage: 10,
         listQuestions: [],
-        listSkipQuestions: []);
+        listCurrentAnswers: [],
+        listAnsweredQuestions: []);
   }
 }

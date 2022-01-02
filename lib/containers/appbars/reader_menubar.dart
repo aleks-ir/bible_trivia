@@ -30,8 +30,8 @@ class ReaderMenuBar extends StatelessWidget {
         child: AppBar(
           automaticallyImplyLeading: false,
           flexibleSpace: Container(
-            padding: EdgeInsets.only(top: 90),
-            height: 140,
+            padding: EdgeInsets.only(top: 95),
+            height: 135,
             child: Row(children: [const Expanded(flex: 2, child: SizedBox()),
               Expanded(
                   flex: 5,

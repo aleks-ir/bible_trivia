@@ -21,6 +21,8 @@ class RoutePaths {
       "fromEditProfileToHomeScreen";
   static const String fromTriviaToResultScreen =
       "fromTriviaToResultScreen";
+  static const String fromTriviaToHomeScreen =
+      "fromTriviaToHomeScreen";
   static const String fromResultToHomeScreen = "fromResultToHomeScreen";
   static const String fromSearchToHomeScreen = "fromSearchToHomeScreen";
   static const String fromSelectionReaderToHomeScreen = "fromSetChapterToHomeScreen";
