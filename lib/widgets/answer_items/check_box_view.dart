@@ -3,13 +3,13 @@ import 'package:weekly_bible_trivia/models/answer.dart';
 
 class CheckBoxView extends StatelessWidget {
   int questionId;
-  List<Answer> listTitleAnswers;
+  List<Answer> currentAnswers;
   Function(bool?, int, int) callback;
   Color cardColor;
   Color textColor;
   Color selectedColor;
 
-  CheckBoxView(this.questionId, this.listTitleAnswers, this.callback,
+  CheckBoxView(this.questionId, this.currentAnswers, this.callback,
       {this.cardColor: Colors.white, this.textColor: Colors.black, this.selectedColor: Colors.teal});
 
   @override
@@ -17,7 +17,8 @@ class CheckBoxView extends StatelessWidget {
     return ListView.builder(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
-        itemCount: listTitleAnswers.length,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: currentAnswers.length,
         itemBuilder: (BuildContext context, int index) {
           return Card(
             color: cardColor,
@@ -43,11 +44,11 @@ class CheckBoxView extends StatelessWidget {
                         controlAffinity: ListTileControlAffinity.leading,
                         activeColor: selectedColor,
                         checkColor: Colors.white,
-                        selected: listTitleAnswers[index].isSelected,
+                        selected: currentAnswers[index].isSelected,
                         title: Text(
-                          listTitleAnswers[index].title,
+                          currentAnswers[index].title,
                         ),
-                        value: listTitleAnswers[index].isSelected,
+                        value: currentAnswers[index].isSelected,
                         onChanged: (val) {
                           callback(val, questionId, index);
                         }),

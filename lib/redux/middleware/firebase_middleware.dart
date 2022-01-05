@@ -73,8 +73,8 @@ ThunkAction<AppState> getTriviaCollectionFromFirebaseThunk() {
       Trivia cat = Trivia.fromJson(data);
       List<Question> list = [];
       list.addAll(cat.questions);
-      list.addAll(cat.questions);
-      list.addAll(cat.questions);
+      // list.addAll(cat.questions);
+      // list.addAll(cat.questions);
       store.dispatch(UpdateListQuestionsAction(list));
     }
   };

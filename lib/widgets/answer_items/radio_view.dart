@@ -3,7 +3,7 @@ import 'package:weekly_bible_trivia/models/answer.dart';
 
 class RadioView extends StatelessWidget {
   int questionId;
-  List<Answer> listTitleAnswers;
+  List<Answer> currentAnswers;
   Function(bool?, int, int) callback;
   Color cardColor;
   Color textColor;
@@ -11,19 +11,19 @@ class RadioView extends StatelessWidget {
 
   late Answer selectedAnswer;
 
-  RadioView(this.questionId, this.listTitleAnswers, this.callback,
+  RadioView(this.questionId, this.currentAnswers, this.callback,
       {this.cardColor: Colors.white,
       this.textColor: Colors.black,
       this.selectedColor: Colors.teal});
 
   List<Widget> createRadioListAnswers() {
     var selectedAnswers =
-        listTitleAnswers.where((element) => element.isSelected);
+        currentAnswers.where((element) => element.isSelected);
     selectedAnswer = selectedAnswers.length == 1
         ? selectedAnswers.first
         : Answer(answerId: -1, title: '');
     List<Widget> widgets = [];
-    for (Answer answer in listTitleAnswers) {
+    for (Answer answer in currentAnswers) {
       widgets.add(
         Card(
           color: cardColor,

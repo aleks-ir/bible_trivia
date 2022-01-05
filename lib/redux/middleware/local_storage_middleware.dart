@@ -1,4 +1,3 @@
-
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,20 +9,20 @@ import 'package:weekly_bible_trivia/redux/actions/theme_settings_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/utils/selectors.dart';
 
-
 ThunkAction<AppState> saveBookNameThunk(String bookName) {
   return (Store<AppState> store) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    ;
 
     prefs.setString(BOOK_NAME, bookName);
     store.dispatch(UpdateReaderBookNameAction(bookName));
   };
 }
 
-
 ThunkAction<AppState> saveChapterThunk(int chapter) {
   return (Store<AppState> store) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    ;
 
     prefs.setInt(CHAPTER, chapter);
     store.dispatch(UpdateReaderChapterAction(chapter));
@@ -32,7 +31,8 @@ ThunkAction<AppState> saveChapterThunk(int chapter) {
 
 ThunkAction<AppState> saveTranslationIdThunk(String translation) {
   return (Store<AppState> store) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    ;
 
     prefs.setString(TRARSLATION_ID, translation);
     store.dispatch(UpdateTranslationIdAction(translation));
@@ -41,15 +41,16 @@ ThunkAction<AppState> saveTranslationIdThunk(String translation) {
 
 ThunkAction<AppState> saveDBHasDataThunk(bool hasData) {
   return (Store<AppState> store) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    ;
     prefs.setBool(DB_HAS_DATA, hasData);
   };
 }
 
-
 ThunkAction<AppState> saveLanguageThunk(String language) {
   return (Store<AppState> store) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    ;
 
     prefs.setString(LANGUAGE, language.toString());
     store.dispatch(UpdateLanguageAction(language));
@@ -58,7 +59,8 @@ ThunkAction<AppState> saveLanguageThunk(String language) {
 
 ThunkAction<AppState> saveThemeThunk(String theme) {
   return (Store<AppState> store) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    ;
 
     prefs.setString(THEME, theme.toString());
     store.dispatch(UpdateThemeAction(theme));
@@ -67,7 +69,8 @@ ThunkAction<AppState> saveThemeThunk(String theme) {
 
 ThunkAction<AppState> saveFontSizeThunk(double fontSize) {
   return (Store<AppState> store) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    ;
 
     prefs.setDouble(FONT_SIZE, fontSize);
     store.dispatch(UpdateFontSizeAction(fontSize));
@@ -84,7 +87,8 @@ ThunkAction<AppState> createInitSettingsThunk() {
     int chapter = prefs.getInt(CHAPTER) ?? DEFAULT_CHAPTER;
     store.dispatch(UpdateReaderChapterAction(chapter));
 
-    String translationId = prefs.getString(TRARSLATION_ID) ?? DEFAULT_TRARSLATION_ID;
+    String translationId =
+        prefs.getString(TRARSLATION_ID) ?? DEFAULT_TRARSLATION_ID;
     store.dispatch(UpdateTranslationIdAction(translationId));
 
     String language = prefs.getString(LANGUAGE) ?? ENGLISH;
@@ -103,8 +107,14 @@ ThunkAction<AppState> createInitSettingsThunk() {
   };
 }
 
-void initTheme(Store<AppState> store, String themeType)async{
+void initTheme(Store<AppState> store, String themeType) async {
   AppTheme theme = selectTheme(themeType);
-  store.dispatch(UpdateThemeSettingsAction(theme.primaryColor,
-      theme.secondaryColor, theme.appBarColor, theme.shadowColor, theme.textColor, theme.iconColor));
+  store.dispatch(UpdateThemeSettingsAction(
+      theme.primaryColor,
+      theme.secondaryColor,
+      theme.cardColor,
+      theme.appBarColor,
+      theme.shadowColor,
+      theme.textColor,
+      theme.iconColor));
 }

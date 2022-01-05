@@ -104,9 +104,10 @@ ThunkAction<AppState> createInitAuthThunk() {
               UserFirebase(user.displayName ?? '', user.email ?? '',
                   user.uid, user.photoURL ?? DEFAULT_PHOTO_URL)));
           store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loaded));
+        }else{
+          store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.noLoaded));
         }
       });
-      store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.noLoaded));
     } catch (error) {
       print(error);
     }

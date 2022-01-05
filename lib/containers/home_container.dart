@@ -20,11 +20,11 @@ class HomeContainer extends StatefulWidget {
 class _HomeContainerState extends State<HomeContainer>
     with TickerProviderStateMixin {
   late double _scale;
-  late AnimationController _animationControllerButton;
+  late AnimationController _buttonAnimationController;
 
   @override
   void initState() {
-    _animationControllerButton = AnimationController(
+    _buttonAnimationController = AnimationController(
       vsync: this,
       duration: Duration(
         milliseconds: 500,
@@ -41,7 +41,7 @@ class _HomeContainerState extends State<HomeContainer>
   @override
   void dispose() {
     super.dispose();
-    _animationControllerButton.dispose();
+    _buttonAnimationController.dispose();
   }
 
   @override
@@ -49,7 +49,7 @@ class _HomeContainerState extends State<HomeContainer>
     return StoreConnector<AppState, _ViewModel>(
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
-          _scale = 0.8 - _animationControllerButton.value;
+          _scale = 0.8 - _buttonAnimationController.value;
           bool isPortrait =
               MediaQuery.of(context).orientation == Orientation.portrait;
 
@@ -173,15 +173,15 @@ class _HomeContainerState extends State<HomeContainer>
   }
 
   void _drag(DragStartDetails details) {
-    _animationControllerButton.reverse();
+    _buttonAnimationController.reverse();
   }
 
   void _tapDown(TapDownDetails details) {
-    _animationControllerButton.fling();
+    _buttonAnimationController.fling();
   }
 
   void _tapUp(TapUpDetails details) {
-    _animationControllerButton.reverse();
+    _buttonAnimationController.reverse();
   }
 }
 

@@ -129,6 +129,7 @@ class _ViewModel {
               store.dispatch(UpdateThemeSettingsAction(
                   theme.primaryColor,
                   theme.secondaryColor,
+                  theme.cardColor,
                   theme.appBarColor,
                   theme.shadowColor,
                   theme.textColor,

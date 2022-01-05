@@ -12,6 +12,7 @@ ThemeSettingsState _saveThemeSetting(
   return prevState.copyWith(
       primaryColor: action.primaryColor,
       secondaryColor: action.secondaryColor,
+      cardColor: action.cardColor,
       appBarColor: action.appBarColor,
       shadowColor: action.shadowColor,
       textColor: action.textColor,

@@ -3,7 +3,10 @@ const String KJV = "KJV";
 const String NRT = "NRT";
 const String RST = "RST";
 
-const String TITLE_BIBLE = "Title Bible";
+const String CORRECT = "CORRECT";
+const String WRONG = "WRONG";
+const String SKIPPED = "SKIPPED";
+
 
 const String ENGLISH = "ENGLISH";
 const String RUSSIAN = "RUSSIAN";
@@ -47,7 +50,6 @@ const String TRARSLATION_ID = "translation";
 const String DB_HAS_DATA = "database has data";
 
 const String DEFAULT_BOOK_NAME = "Genesis";
-const String DEFAULT_DISPLAY_BOOK_NAME = "Genesis";
 const int DEFAULT_CHAPTER = 1;
 const String DEFAULT_TRARSLATION_ID = "ASV";
 const double DEFAULT_FONT_SIZE = 20;

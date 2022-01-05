@@ -12,6 +12,7 @@ AppTheme selectTheme(String themeType) {
       return AppTheme(
           primaryColor: AppColors.greyDark,
           secondaryColor: Colors.white12.value,
+          cardColor: Colors.grey.shade800.value,
           appBarColor: AppColors.greyDark,
           shadowColor: Colors.white54.value,
           textColor: AppColors.whiteDefault,
@@ -20,6 +21,7 @@ AppTheme selectTheme(String themeType) {
       return AppTheme(
           primaryColor: AppColors.whiteDefault,
           secondaryColor: Colors.black12.value,
+          cardColor: AppColors.whiteDefault,
           appBarColor: AppColors.whiteDefault,
           shadowColor: Colors.black54.value,
           textColor: AppColors.blackDefault,

@@ -5,6 +5,7 @@ import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/containers/modal_container.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/past_trivia_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/utils/selectors.dart';
@@ -121,6 +122,7 @@ class _ViewModel {
       isReaderMod: store.state.appBarState.isReaderMod,
       onTabSelected: (index) {
         store.dispatch(updateTabThunk(NavigationTab.values[index]));
+        store.dispatch(UpdatePastTriviaDialogAction(false));
         Future.delayed(const Duration(milliseconds: 500), () {
           store.dispatch(UpdateMenuBarAction(MenuBar.values[index]));
         });

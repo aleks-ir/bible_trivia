@@ -31,7 +31,7 @@ class SignInContainer extends StatelessWidget {
           if (isErrorListener && viewModel.authStatus == AuthenticationStatus.error &&
               viewModel.authError.isNotEmpty) {
             Future.delayed(Duration.zero, () async {
-              showSnackBar(context, viewModel.authError);
+              showSnackBar(context, viewModel.authError, color: Color(viewModel.iconColor));
             });
             viewModel.resetAuthError();
           }

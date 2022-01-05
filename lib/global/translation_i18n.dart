@@ -52,6 +52,11 @@ const no = "no";
 const next = "next";
 const exit = "exit";
 const complete = "complete";
+const question = "question";
+const correct = "correct";
+const wrong = "wrong";
+const skipped = "skipped";
+
 
 extension Localization on String {
   static final _t = Translations.from("en_us", {
@@ -237,7 +242,7 @@ extension Localization on String {
     },
     next: {
       "en": "Next",
-      "ru": "Следующий",
+      "ru": "След.",
     },
     exit: {
       "en": "Exit",
@@ -247,6 +252,22 @@ extension Localization on String {
       "en": "Complete",
       "ru": "Завершить",
     },
+    question: {
+      "en": "Question",
+      "ru": "Вопрос",
+    },
+    correct: {
+      "en": "Correct",
+      "ru": "Верно",
+    },
+    wrong: {
+      "en": "Wrong",
+      "ru": "Неверно",
+    },
+    skipped: {
+      "en": "Skipped",
+      "ru": "Пропущено",
+    }
   });
 
   String get i18n => localize(this, _t);

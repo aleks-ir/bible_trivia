@@ -1,4 +1,4 @@
-import 'dart:math' as math;
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,11 +67,10 @@ class TimerPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
-    //canvas.drawCircle(size.center(Offset(0, -15)), size.width / 2.0, paint);
-    canvas.drawArc(Offset(0, -15) & size, 0, math.pi, false, paint);
+    canvas.drawArc(Offset(0, -15) & size, 0, pi, false, paint);
     paint.color = color;
-    double progress = (0 + animation.value) * math.pi;
-    canvas.drawArc(Offset(0, -15) & size, math.pi, -progress, false, paint);
+    double progress = (animation.value) * pi;
+    canvas.drawArc(Offset(0, -15) & size, pi, -progress, false, paint);
   }
 
   @override

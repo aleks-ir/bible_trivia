@@ -27,7 +27,6 @@ class _TriviaContainerState extends State<TriviaContainer>
     with TickerProviderStateMixin {
   final PageController _pageController = PageController(initialPage: 0);
 
-  //late _ViewModel _viewModel;
   late AnimationController _timerController;
 
   List<List<Answer>> _initListCurrentAnswers(
@@ -40,7 +39,6 @@ class _TriviaContainerState extends State<TriviaContainer>
                 title: language == RUSSIAN
                     ? questions[questionIndex].answersRu[answerIndex]
                     : questions[questionIndex].answersEn[answerIndex],
-                isSelected: false,
                 answerId: answerIndex)));
   }
 
@@ -123,7 +121,8 @@ class _TriviaContainerState extends State<TriviaContainer>
                           viewModel.changeAnswer(value, questionId, answerId);
                           _updateScreen(viewModel);
                         },
-                        cardColor: Color(viewModel.primaryColor),
+                        color: Color(viewModel.primaryColor),
+                        cardColor: Color(viewModel.cardColor),
                         textColor: Color(viewModel.textColor),
                         selectedColor: Color(viewModel.iconColor),
                       ),
@@ -162,7 +161,7 @@ class _TriviaContainerState extends State<TriviaContainer>
                             }
                           },
                           timerController: _timerController,
-                          cardColor: Color(viewModel.primaryColor),
+                          cardColor: Color(viewModel.cardColor),
                           titleColor: Color(viewModel.iconColor)),
                       Card(
                         child: Container(
@@ -182,7 +181,7 @@ class _TriviaContainerState extends State<TriviaContainer>
                           _pageController.jumpToPage(pageId);
                           _closeDialog(viewModel);
                         },
-                        backgroundColor: Color(viewModel.primaryColor),
+                        backgroundColor: Color(viewModel.cardColor),
                         answeredColor: Color(viewModel.iconColor),
                         unansweredColor: Color(viewModel.textColor),
                       ),
@@ -263,7 +262,7 @@ class _ViewModel {
   final bool isShowDialog;
   final bool isTimeTrivia;
   final int primaryColor;
-  final int secondaryColor;
+  final int cardColor;
   final int textColor;
   final int iconColor;
   final String theme;
@@ -285,7 +284,7 @@ class _ViewModel {
     required this.isShowDialog,
     required this.isTimeTrivia,
     required this.primaryColor,
-    required this.secondaryColor,
+    required this.cardColor,
     required this.textColor,
     required this.iconColor,
     required this.theme,
@@ -308,7 +307,7 @@ class _ViewModel {
       isShowDialog: store.state.triviaState.isShowDialog,
       isTimeTrivia: store.state.triviaState.isTimeTrivia,
       primaryColor: store.state.themeSettingsState.primaryColor,
-      secondaryColor: store.state.themeSettingsState.secondaryColor,
+      cardColor: store.state.themeSettingsState.cardColor,
       textColor: store.state.themeSettingsState.textColor,
       iconColor: store.state.themeSettingsState.iconColor,
       theme: store.state.localStorageState.theme,

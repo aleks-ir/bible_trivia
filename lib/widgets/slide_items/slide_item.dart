@@ -10,6 +10,7 @@ class SlideItem extends StatelessWidget {
   final List<Answer> currentAnswers;
   final bool isCheckBox;
   final Function(bool?, int, int) callback;
+  final Color color;
   final Color cardColor;
   final Color textColor;
   final Color selectedColor;
@@ -20,6 +21,7 @@ class SlideItem extends StatelessWidget {
       required this.currentAnswers,
       required this.isCheckBox,
       required this.callback,
+      this.color: Colors.white,
       this.cardColor: Colors.white,
       this.textColor: Colors.black,
       this.selectedColor: Colors.teal});
@@ -50,7 +52,7 @@ class SlideItem extends StatelessWidget {
             //   ),
             // ),
             Container(
-                color: cardColor,
+                color: color,
                 margin: const EdgeInsets.only(top: 30, left: 40, right: 40),
                 // shape: RoundedRectangleBorder(
                 //   borderRadius: BorderRadius.circular(10.0),
@@ -60,7 +62,8 @@ class SlideItem extends StatelessWidget {
                       left: 30, right: 30, top: 30, bottom: 30),
                   child: Text(
                     questionTitle,
-                    style: TextStyle(color: textColor, fontSize: 18, letterSpacing: 0.7),
+                    style: TextStyle(
+                        color: textColor, fontSize: 18, letterSpacing: 0.7),
                   ),
                 )),
             SizedBox(

@@ -2,24 +2,31 @@ import 'dart:ui';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class RadialPercentWidget extends StatelessWidget {
-  final Widget child;
 
-  final double percent;
+  final AnimationController controller;
+  final double percentCorrect;
+  final double percentWrong;
+  final Color textColor;
   final Color fillColor;
-  final Color lineColor;
-  final Color freeColor;
+  final Color correctColor;
+  final Color wrongColor;
+  final Color skippedColor;
   final double lineWidth;
 
   const RadialPercentWidget({
     Key? key,
-    required this.child,
-    required this.percent,
-    required this.fillColor,
-    required this.lineColor,
-    required this.freeColor,
-    required this.lineWidth,
+    required this.controller,
+    required this.percentCorrect,
+    required this.percentWrong,
+    this.textColor: Colors.black,
+    this.fillColor: Colors.black,
+    this.correctColor: Colors.lightGreen,
+    this.wrongColor: Colors.redAccent,
+    this.skippedColor: Colors.grey,
+    this.lineWidth: 10,
   }) : super(key: key);
 
   @override
@@ -28,72 +35,114 @@ class RadialPercentWidget extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         CustomPaint(
-          painter: MyPainter(
-            percent: percent,
+          painter: RadialPercentPainter(
+            animation: controller,
+            percentCorrect: percentCorrect,
+            percentWrong: percentWrong,
             fillColor: fillColor,
-            lineColor: lineColor,
-            freeColor: freeColor,
+            correctColor: correctColor,
+            wrongColor: wrongColor,
+            skippedColor: skippedColor,
             lineWidth: lineWidth,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(11.0),
-          child: Center(child: child),
-        ),
+        AnimatedBuilder(
+            animation: controller,
+            builder: (context, child) {
+              return Center(
+                child: Text(
+                  _getPercentString(),
+                  style: TextStyle(fontSize: 20.0, color: textColor),
+                ),
+              );
+            }),
       ],
     );
   }
+
+  String _getPercentString() {
+    int currentPercent = 0;
+    currentPercent = (controller.value * percentCorrect * 100).toInt();
+    return '$currentPercent%';
+  }
 }
 
-class MyPainter extends CustomPainter {
-  final double percent;
+class RadialPercentPainter extends CustomPainter {
+  final Animation<double> animation;
+  final double percentCorrect;
+  final double percentWrong;
   final Color fillColor;
-  final Color lineColor;
-  final Color freeColor;
+  final Color correctColor;
+  final Color wrongColor;
+  final Color skippedColor;
   final double lineWidth;
 
-  MyPainter({
-    required this.percent,
+  RadialPercentPainter({
+    required this.animation,
+    required this.percentCorrect,
+    required this.percentWrong,
     required this.fillColor,
-    required this.lineColor,
-    required this.freeColor,
+    required this.correctColor,
+    required this.wrongColor,
+    required this.skippedColor,
     required this.lineWidth,
-  });
+  }) : super(repaint: animation);
 
   @override
   void paint(Canvas canvas, Size size) {
     final arcRect = calculateArcsRect(size);
     drawBackground(canvas, size);
-    drawFreeArc(canvas, arcRect);
-    drawFilledArc(canvas, arcRect);
+    drawSkippedArc(canvas, arcRect);
+
+    drawCorrectArc(canvas, arcRect);
+    drawWrongArc(canvas, arcRect);
   }
 
-  void drawFilledArc(Canvas canvas, Rect arcRect) {
+  void drawSkippedArc(Canvas canvas, Rect arcRect) {
     final paint = Paint();
-    paint.color = lineColor;
+    paint.color = skippedColor;
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = lineWidth;
-    paint.strokeCap = StrokeCap.round;
 
     canvas.drawArc(
       arcRect,
       -pi / 2,
-      pi * 2 * percent,
+      pi * 2,
       false,
       paint,
     );
   }
 
-  void drawFreeArc(Canvas canvas, Rect arcRect) {
+  void drawCorrectArc(Canvas canvas, Rect arcRect) {
     final paint = Paint();
-    paint.color = freeColor;
+    paint.color = correctColor;
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = lineWidth;
+    paint.strokeCap = StrokeCap.round;
 
+
+    double progress = (animation.value) * (percentCorrect + percentWrong) * 2 * pi;
     canvas.drawArc(
       arcRect,
-      pi * 2 * percent - (pi / 2),
-      pi * 2 * (1.0 - percent),
+      -pi / 2,
+      -progress,
+      false,
+      paint,
+    );
+  }
+
+  void drawWrongArc(Canvas canvas, Rect arcRect) {
+    final paint = Paint();
+    paint.color = wrongColor;
+    paint.style = PaintingStyle.stroke;
+    paint.strokeWidth = lineWidth;
+    paint.strokeCap = StrokeCap.round;
+
+    double progress = (animation.value) * percentWrong * 2 * pi;
+    canvas.drawArc(
+      arcRect,
+      -pi / 2,
+      -progress,
       false,
       paint,
     );
@@ -103,11 +152,12 @@ class MyPainter extends CustomPainter {
     final paint = Paint();
     paint.color = fillColor;
     paint.style = PaintingStyle.fill;
+    paint.strokeWidth = 2;
     canvas.drawOval(Offset.zero & size, paint);
   }
 
   Rect calculateArcsRect(Size size) {
-    final linesMargin = 3;
+    final linesMargin = 5;
     final offest = lineWidth / 2 + linesMargin;
     final arcRect = Offset(offest, offest) &
     Size(size.width - offest * 2, size.height - offest * 2);
@@ -115,7 +165,14 @@ class MyPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(RadialPercentPainter old) {
+    return animation.value != old.animation.value ||
+        percentCorrect != old.percentCorrect ||
+        percentWrong != old.percentWrong ||
+        fillColor != old.fillColor ||
+        correctColor != old.correctColor ||
+        wrongColor != old.wrongColor ||
+        skippedColor != old.skippedColor ||
+        lineWidth != old.lineWidth;
   }
 }
