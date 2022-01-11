@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
@@ -11,24 +12,24 @@ import 'package:weekly_bible_trivia/models/user_firebase.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
-import 'package:weekly_bible_trivia/widgets/circular_progress_indicator.dart';
 import 'package:weekly_bible_trivia/widgets/error_validation.dart';
+import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 import 'package:weekly_bible_trivia/widgets/text_form_fields.dart';
 
-class EditProfileContainer extends StatefulWidget {
-  EditProfileContainer({Key? key, this.title}) : super(key: key);
 
-  final String? title;
+class EditProfileContainer extends StatefulWidget {
+  const EditProfileContainer({Key? key}) : super(key: key);
 
   @override
-  _EditProfileContainerState createState() => _EditProfileContainerState();
+  EditProfileContainerState createState() {
+    return EditProfileContainerState();
+  }
 }
 
-class _EditProfileContainerState extends State<EditProfileContainer> {
-
+class EditProfileContainerState extends State<EditProfileContainer> {
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _nameController = TextEditingController();
-  bool isInitName = false;
+  bool _isInitName = false;
   File? _imageFile;
 
   @override
@@ -36,9 +37,9 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
     return StoreConnector<AppState, _ViewModel>(
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
-          if (!isInitName) {
+          if (!_isInitName) {
             _nameController.text = viewModel.user.displayName;
-            isInitName = true;
+            _isInitName = true;
           }
           return SizedBox.expand(
             child: Container(
@@ -51,8 +52,15 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                       height: 50,
                     ),
                     CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: _imageFile != null ? FileImage(_imageFile!) as ImageProvider : NetworkImage(viewModel.user.photoURL),
+                      onBackgroundImageError: (exception, context) {
+                        print(
+                            'Cannot be loaded. Error msg : ${exception.toString()}');
+                      },
+                      backgroundColor: Color(viewModel.secondaryColor),
+                      backgroundImage: _imageFile != null
+                          ? FileImage(_imageFile!) as ImageProvider
+                          : _getNetworkImage(viewModel.user.photoURL)
+                              as ImageProvider,
                       radius: 80.0,
                       child: Stack(children: [
                         Align(
@@ -61,13 +69,19 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                             width: 40.0,
                             height: 40.0,
                             child: RawMaterialButton(
-                              fillColor: Colors.teal,
+                              fillColor: Colors.brown,
                               shape: CircleBorder(),
                               child: Icon(
                                 Icons.add,
                                 color: Colors.white,
                               ),
-                              onPressed: () {_getImageFile();},
+                              onPressed: () async {
+                                final status = await Permission.storage
+                                    .request();
+                                if (status.isGranted) {
+                                  _getImageFile();
+                                }
+                              },
                             ),
                           ),
                         ),
@@ -77,7 +91,9 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                       height: 50,
                     ),
                     authTextField(
-                        color: Color(viewModel.textColor),
+                        textColor: Color(viewModel.textColor),
+                        borderColor: Color(viewModel.textColor),
+                        focusedBorderColor: Colors.brown,
                         controller: _nameController,
                         onChanged: (value) => viewModel.validateName(value),
                         label: name.i18n),
@@ -91,15 +107,19 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                     SizedBox(
                       height: 30,
                     ),
-                    authButton(viewModel.loading ? circularProgressIndicator() :
-                        Text(
-                          save.i18n,
-                        ), () {
-                      FocusScope.of(context).unfocus();
-                      viewModel.editProfile(EditProfileRequest(
-                          _nameController.text,
-                          _imageFile));
-                    }, color: Colors.brown),
+                    SizedBox(
+                      width: double.infinity,
+                      child: authMaterialButton(
+                          viewModel.loading
+                              ? buttonCircularProgressIndicator()
+                              : Text(
+                                  save.i18n,
+                                ), () {
+                        FocusScope.of(context).unfocus();
+                        viewModel.editProfile(
+                            EditProfileRequest(_nameController.text, _imageFile));
+                      }, color: Colors.brown),
+                    ),
                   ],
                 ),
               ),
@@ -114,7 +134,7 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
         source: ImageSource.gallery,
       );
       setState(() {
-        if(pickedFile != null){
+        if (pickedFile != null) {
           _imageFile = File(pickedFile.path);
         }
       });
@@ -122,12 +142,17 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
       print(e);
     }
   }
-
 }
 
+NetworkImage _getNetworkImage(String photoURL) {
+  NetworkImage image = NetworkImage(photoURL);
+  return image;
+}
 
 class _ViewModel {
+  final int iconColor;
   final int primaryColor;
+  final int secondaryColor;
   final int textColor;
   final bool loading;
   final UserFirebase user;
@@ -138,7 +163,9 @@ class _ViewModel {
   final Function(EditProfileRequest) editProfile;
 
   _ViewModel({
+    required this.iconColor,
     required this.primaryColor,
+    required this.secondaryColor,
     required this.textColor,
     required this.loading,
     required this.user,
@@ -150,7 +177,9 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
+      iconColor: store.state.themeSettingsState.iconColor,
       primaryColor: store.state.themeSettingsState.primaryColor,
+      secondaryColor: store.state.themeSettingsState.secondaryColor,
       textColor: store.state.themeSettingsState.textColor,
       loading: store.state.editProfileState.loading,
       user: store.state.authenticationState.user,

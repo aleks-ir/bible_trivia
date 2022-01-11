@@ -19,12 +19,12 @@ const trivia = "trivia";
 const more = "more";
 const results = "results";
 const result = "result";
-const show = "show";
 const go = "go";
 const infoTitle = "infoTitle";
 const infoCard = "infoCard";
 const infoDialog = "infoDialog";
 const close = "close";
+const continueTo = "continueTo";
 const editProfile = "editProfile";
 const about = "aboutApp";
 
@@ -40,6 +40,23 @@ const manyRequestsError = "manyRequestsError";
 const infoAbout = "infoAbout";
 const top = "top";
 const save = "save";
+const translation = "translation";
+const search = "search";
+const oldTestament = "oldTestament";
+const newTestament = "newTestament";
+
+const chooseChapter = "chooseChapter";
+const completeTrivia = "completeTrivia";
+const yes = "yes";
+const no = "no";
+const next = "next";
+const exit = "exit";
+const complete = "complete";
+const question = "question";
+const correct = "correct";
+const wrong = "wrong";
+const skipped = "skipped";
+
 
 extension Localization on String {
   static final _t = Translations.from("en_us", {
@@ -115,13 +132,9 @@ extension Localization on String {
       "en": "Result",
       "ru": "Результат",
     },
-    show: {
-      "en": "Show",
-      "ru": "Показать",
-    },
     go: {
       "en": "Go",
-      "ru": "Вперед",
+      "ru": "Начать",
     },
     infoTitle: {
       "en": "Info about trivia",
@@ -138,6 +151,10 @@ extension Localization on String {
     close: {
       "en": "Close",
       "ru": "Закрыть",
+    },
+    continueTo: {
+      "en": "Continue",
+      "ru": "Продолжить",
     },
     editProfile: {
       "en": "Edit profile",
@@ -180,8 +197,8 @@ extension Localization on String {
       "ru": "Попробуйте позже...",
     },
     infoAbout: {
-      "en": "\t\tThis app will help you read your Bible step by step in its entirety. \n\n\t\tParticipate in a weekly quiz. All you have to do is read a few chapters from one book and answer the questions. It\'s easy and doesn\'t take much time.",
-      "ru": "\t\tЭто приложение поможет тебе шаг за шагом полностью прочитать Библию. \n\n\t\tПрими участие в еженедельной викторине. Все что нужно будет - это прочитать несколько глав из одной книги и ответить на вопросы. Это просто и не займет много времени.",
+      "en": "\t\tThe app will help you read your Bible step by step. \n\n\t\tEach week, take a trivia. \n\n\t\tYou need to log in to your account and find the \"Start\" button on the home screen. \n\n\t\tDon't forget about time - it's limited.",
+      "ru": "\t\tПриложение поможет тебе шаг за шагом прочитать Библию. \n\n\t\tКаждую неделю, принимай участие в викторине. \n\n\t\tДля этого необходимо войти под своей учетной записью и найти кнопку \"Начать\" на главном экране. \n\n\t\tНе забудь про время - оно ограничено.",
     },
     top: {
       "en": "Top",
@@ -191,6 +208,66 @@ extension Localization on String {
       "en": "Save changes",
       "ru": "Сохранить изменения",
     },
+    translation: {
+      "en": "Translation",
+      "ru": "Перевод",
+    },
+    search: {
+      "en": "Search",
+      "ru": "Поиск",
+    },
+    oldTestament: {
+      "en": "Old",
+      "ru": "Ветхий",
+    },
+    newTestament: {
+      "en": "New",
+      "ru": "Новый",
+    },
+    chooseChapter: {
+      "en": "Choose a chapter:",
+      "ru": "Выбирите главу:",
+    },
+    completeTrivia: {
+      "en": "Complete the trivia?",
+      "ru": "Завершить викторину?",
+    },
+    yes: {
+      "en": "Yes",
+      "ru": "Да",
+    },
+    no: {
+      "en": "No",
+      "ru": "Нет",
+    },
+    next: {
+      "en": "Next",
+      "ru": "След.",
+    },
+    exit: {
+      "en": "Exit",
+      "ru": "Выход",
+    },
+    complete: {
+      "en": "Complete",
+      "ru": "Завершить",
+    },
+    question: {
+      "en": "Question",
+      "ru": "Вопрос",
+    },
+    correct: {
+      "en": "Correct",
+      "ru": "Верно",
+    },
+    wrong: {
+      "en": "Wrong",
+      "ru": "Неверно",
+    },
+    skipped: {
+      "en": "Skipped",
+      "ru": "Пропущено",
+    }
   });
 
   String get i18n => localize(this, _t);

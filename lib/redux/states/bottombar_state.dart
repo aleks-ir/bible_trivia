@@ -16,7 +16,7 @@ class BottomBarState {
   }
 
   factory BottomBarState.initial() {
-    return BottomBarState(
+    return const BottomBarState(
       activeTab: NavigationTab.home,);
   }
 }

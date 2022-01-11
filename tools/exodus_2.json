@@ -1,0 +1,218 @@
+[
+  {
+    "book": "Exodus",
+    "chapter": "2",
+    "date": "13.12.2021",
+    "runtime": "300",
+    "questions": [
+      {
+        "question_ru": "Из какого колена происходил Моисей?",
+        "question_en": "Which tribe was Moses from? ",
+        "answers_ru": [
+          "Иуды",
+          "Симеона",
+          "Левия",
+          "Иосифа",
+          "Навуходоносора"
+        ],
+        "answers_en": [
+          "Judas",
+          "Simeon",
+          "Levi",
+          "Joseph",
+          "Nebuchadnezzar."
+        ],
+        "correct_answer": 2,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Сколько времени скрывали Моисея? ",
+        "question_en": "How long had Moses been hidden?",
+        "answers_ru": [
+          "1 год",
+          "7 недель",
+          "3 месяца",
+          "2 месяца",
+          "Не известно"
+        ],
+        "answers_en": [
+          "1 year",
+          "7 weeks",
+          "3 months",
+          "2 months",
+          "Don't know"
+        ],
+        "correct_answer": 2,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Что применялось для гидроизоляции корзины с Моисеем? ",
+        "question_en": "What was used to waterproof the basket with Moses? ",
+        "answers_ru": [
+          "Плёнка",
+          "Шкура",
+          "Глина",
+          "Асфальт",
+          "Пластилин"
+        ],
+        "answers_en": [
+          "Film",
+          "Skin",
+          "Clay",
+          "Asphalt",
+          "Plasticine"
+        ],
+        "correct_answer": 3,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Сколько детей было у тестя Моисея?",
+        "question_en": "How many children did Moses' father-in-law have?",
+        "answers_ru": [
+          "8 дочерей",
+          "6 сыновей и 1 дочь",
+          "7 сыновей",
+          "7 дочерей",
+          "Был бездетным"
+        ],
+        "answers_en": [
+          "8 daughters",
+          "6 sons and 1 daughter",
+          "7 sons",
+          "7 daughters",
+          "Was childless"
+        ],
+        "correct_answer": 3,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Кто напоил овец? ",
+        "question_en": "Who got the sheep drunk? ",
+        "answers_ru": [
+          "Дети тестя Моисея",
+          "Жена Моисея",
+          "Моисей",
+          "Пастухи",
+          "Адам"
+        ],
+        "answers_en": [
+          "Children of Moses' father-in-law",
+          "Moses' Wife",
+          "Moses",
+          "Shepherds",
+          "Adam"
+        ],
+        "correct_answer": 2,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Статус тестя Моисея",
+        "question_en": "Status of Moses' father-in-law ",
+        "answers_ru": [
+          "Царь",
+          "Старейшина",
+          "Левит",
+          "Священник",
+          "Военачальник"
+        ],
+        "answers_en": [
+          "King",
+          "Elder",
+          "Leviticus",
+          "Priest",
+          "Warlord"
+        ],
+        "correct_answer": 3,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Кто была кормилицей Моисею?",
+        "question_en": "Who was Moses' nurse?",
+        "answers_ru": [
+          "Служанка фараона",
+          "Бабка-повитуха",
+          "Дочь Фараона",
+          "Его мать",
+          "Сарра"
+        ],
+        "answers_en": [
+          "Pharaoh's Maid",
+          "Grandmother midwife",
+          "Pharaoh's daughter",
+          "His mother",
+          "Sarah"
+        ],
+        "correct_answer": 3,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Какой завет вспомнил Бог?",
+        "question_en": "What covenant did God remember?",
+        "answers_ru": [
+          "Конечно же Новый Завет",
+          "Завет с Ноем",
+          "И Новый и Ветхий",
+          "Завет с Авраамом, Исааком и Иаковом",
+          "Завет с Моисеем"
+        ],
+        "answers_en": [
+          "The New Covenant, of course",
+          "The Covenant with Noah",
+          "And the New and the Old",
+          "The covenant with Abraham, Isaac, and Jacob",
+          "The covenant with Moses"
+        ],
+        "correct_answer": 3,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Кто мешал напоить овец?",
+        "question_en": "Who stopped the sheep from getting drunk?",
+        "answers_ru": [
+          "Некий египтянин",
+          "Инопланетяни",
+          "Те евреи, от которых убежал Моисей",
+          "Пастухи"
+        ],
+        "answers_en": [
+          "An Egyptian",
+          "Aliens",
+          "The Jews from whom Moses fled",
+          "Shepherds"
+        ],
+        "correct_answer": 3,
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Что означает имя Моисей?",
+        "question_en": "What does the name Moses mean?",
+        "answers_ru": [
+          "Осмолённая корзина",
+          "Вынутый из воды",
+          "Тростник",
+          "Еврей",
+          "сын Фараона"
+        ],
+        "answers_en": [
+          "Tarred Basket",
+          "Taken out of the water",
+          "Cane",
+          "The Jew",
+          "The son of Pharaoh"
+        ],
+        "correct_answer": 1,
+        "explanation_ru": "",
+        "explanation_en": ""
+      }
+    ]
+  }
+]

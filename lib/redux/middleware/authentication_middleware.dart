@@ -11,6 +11,7 @@ import 'package:weekly_bible_trivia/redux/actions/authentication_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
+import 'firebase_middleware.dart';
 import 'navigation_middleware.dart';
 
 ThunkAction<AppState> createLogOutThunk() {
@@ -44,6 +45,7 @@ ThunkAction<AppState> createSignInThunk(SignInRequest request) {
             UserFirebase(user.displayName ?? '', user.email ?? '',
                 user.uid, user.photoURL ?? DEFAULT_PHOTO_URL)));
         store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loaded));
+        store.dispatch(initIsPassedWeeklyTriviaThunk(user.uid, store.state.weeklyTriviaState.date));
         store.dispatch(updateScreenThunk(NavigateFromSignInToHomeScreenAction()));
       }
     } on FirebaseAuthException catch (error) {
@@ -93,20 +95,23 @@ ThunkAction<AppState> createSignUpThunk(SignUpRequest request) {
   };
 }
 
-ThunkAction<AppState> createInitAuthThunk() {
+ThunkAction<AppState> initAuthThunk(String date) {
   return (Store<AppState> store) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loading));
     try {
-      await _auth.authStateChanges().listen((User? user) {
+      _auth.authStateChanges().listen((User? user) {
         if (user != null) {
           store.dispatch(AuthSuccessfulAction(
               UserFirebase(user.displayName ?? '', user.email ?? '',
                   user.uid, user.photoURL ?? DEFAULT_PHOTO_URL)));
           store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.loaded));
+          store.dispatch(initIsPassedWeeklyTriviaThunk(user.uid, date));
+        }else{
+          store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.noLoaded));
         }
-      });
-      store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.noLoaded));
+      }
+      );
     } catch (error) {
       print(error);
     }

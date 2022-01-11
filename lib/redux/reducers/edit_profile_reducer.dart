@@ -8,8 +8,8 @@ Reducer<EditProfileState> editProfileReducer = combineReducers([
   TypedReducer<EditProfileState, UpdateLoadingAction>(
       _changeLoadingStatus),
   TypedReducer<EditProfileState, ChangeValidationStatusAction>(
-      _changeValidationStatusAction),
-  TypedReducer<EditProfileState, NameErrorAction>(_nameErrorAction),
+      _changeValidationStatus),
+  TypedReducer<EditProfileState, NameErrorAction>(_changeNameError),
   TypedReducer<EditProfileState, ClearErrorsAction>(_clearErrorsAction)
 ]);
 
@@ -20,11 +20,11 @@ EditProfileState _changeLoadingStatus(
   );
 }
 
-EditProfileState _changeValidationStatusAction(
+EditProfileState _changeValidationStatus(
     EditProfileState state, ChangeValidationStatusAction action) =>
     state.copyWith(validationStatus: action.status);
 
-EditProfileState _nameErrorAction(EditProfileState state, NameErrorAction action) {
+EditProfileState _changeNameError(EditProfileState state, NameErrorAction action) {
   if (action.screen == Screen.editProfile) {
     return state.copyWith(
         nameError: action.message);

@@ -6,13 +6,13 @@ import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 class LoadingApp extends StatelessWidget {
   final ViewModelBuilder<bool> builder;
 
-  LoadingApp({required this.builder}) : super();
+  const LoadingApp(this.builder, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, bool>(
       distinct: true,
-      converter: (Store<AppState> store) => store.state.isLoadingApp,
+      converter: (Store<AppState> store) => store.state.loadingState.isLoadingApp,
       builder: builder,
     );
   }

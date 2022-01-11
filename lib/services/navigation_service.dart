@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:weekly_bible_trivia/screens/home_screen.dart';
 
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -12,7 +14,11 @@ class NavigationService {
   }
 
   void navigateBack(String routeName) {
-    navigatorKey.currentState!.pushNamedAndRemoveUntil(routeName, (route) => route.isCurrent);
+    navigatorKey.currentState!.pushNamedAndRemoveUntil(routeName, (Route<dynamic> route) => false);
+  }
+
+  void navigateAndReplace(String routeName) {
+    navigatorKey.currentState!.pushReplacementNamed(routeName);
   }
 }
 

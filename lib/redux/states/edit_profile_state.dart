@@ -7,7 +7,7 @@ class EditProfileState {
   final ValidationStatus validationStatus;
   final String nameError;
 
-  EditProfileState(
+  const EditProfileState(
       {required this.loading,
         required this.validationStatus,
       required this.nameError,});
@@ -15,7 +15,7 @@ class EditProfileState {
   EditProfileState copyWith({
     bool? loading,
     ValidationStatus? validationStatus,
-    String? nameError
+    String? nameError,
   }) {
     return EditProfileState(
       loading: loading ?? this.loading,
@@ -25,7 +25,7 @@ class EditProfileState {
   }
 
   factory EditProfileState.initial() {
-    return EditProfileState(
+    return const EditProfileState(
       loading: false,
       validationStatus: ValidationStatus.success,
       nameError: "",

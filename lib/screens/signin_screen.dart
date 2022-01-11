@@ -1,35 +1,20 @@
 
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/containers/active_tab.dart';
-import 'package:weekly_bible_trivia/containers/appbars/simple_appbar.dart';
+import 'package:weekly_bible_trivia/containers/bars/simple_appbar.dart';
 import 'package:weekly_bible_trivia/containers/signin_container.dart';
-import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key}) : super(key: key);
 
+class SignInScreen extends StatelessWidget {
+  final bool isErrorListener;
 
-
-  @override
-  SignInScreenState createState() {
-    return SignInScreenState();
-  }
-}
-
-class SignInScreenState extends State<SignInScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  const SignInScreen(this.isErrorListener, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ActiveTab(
-        builder: (BuildContext context, NavigationTab activeTab) => Scaffold(
+  Widget build(BuildContext context) =>  Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: SimpleAppBar(authorization.i18n, NavigateFromSignInToHomeScreenAction()),
-          body: SignInContainer(),
-        ),
+          body: SignInContainer(isErrorListener),
       );
 }

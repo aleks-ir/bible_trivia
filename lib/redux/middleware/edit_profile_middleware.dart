@@ -51,7 +51,7 @@ Future<String> uploadFile(File file, FirebaseStorage storage, var userId) async 
     var uploadTask = await firebase_storage.FirebaseStorage.instance
         .ref("user/profile/$userId")
         .putFile(file);
-    downloadUrl = await (await uploadTask).ref.getDownloadURL();
+    downloadUrl = await (uploadTask).ref.getDownloadURL();
   } catch (e) {
     print(e);
   }

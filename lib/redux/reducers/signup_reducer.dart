@@ -5,38 +5,36 @@ import 'package:weekly_bible_trivia/redux/states/signup_state.dart';
 
 Reducer<SignUpState> signUpReducer = combineReducers([
   TypedReducer<SignUpState, ChangeValidationStatusAction>(
-      _changeValidationStatusAction),
-  TypedReducer<SignUpState, NameErrorAction>(_nameErrorAction),
-  TypedReducer<SignUpState, EmailErrorAction>(_emailErrorAction),
-  TypedReducer<SignUpState, PasswordErrorAction>(_passwordErrorAction),
+      _changeValidationStatus),
+  TypedReducer<SignUpState, NameErrorAction>(_nameError),
+  TypedReducer<SignUpState, EmailErrorAction>(_emailError),
+  TypedReducer<SignUpState, PasswordErrorAction>(_passwordError),
   TypedReducer<SignUpState, RetypePasswordErrorAction>(
-      _retypePasswordErrorAction),
-  TypedReducer<SignUpState, ClearErrorsAction>(_clearErrorsAction)
+      _retypePasswordError),
+  TypedReducer<SignUpState, ClearErrorsAction>(_clearErrors)
 ]);
 
-SignUpState _changeValidationStatusAction(
+SignUpState _changeValidationStatus(
         SignUpState state, ChangeValidationStatusAction action) =>
     state.copyWith(validationStatus: action.status);
 
-SignUpState _nameErrorAction(SignUpState state, NameErrorAction action) {
+SignUpState _nameError(SignUpState state, NameErrorAction action) {
   if (action.screen == Screen.signup) {
-    return state.copyWith(
-        nameError: action.message);
+    return state.copyWith(nameError: action.message);
   } else {
     return state;
   }
 }
 
-SignUpState _emailErrorAction(SignUpState state, EmailErrorAction action) {
+SignUpState _emailError(SignUpState state, EmailErrorAction action) {
   if (action.screen == Screen.signup) {
-    return state.copyWith(
-        emailError: action.message);
+    return state.copyWith(emailError: action.message);
   } else {
     return state;
   }
 }
 
-SignUpState _passwordErrorAction(
+SignUpState _passwordError(
     SignUpState state, PasswordErrorAction action) {
   if (action.screen == Screen.signup) {
     return state.copyWith(passwordError: action.message);
@@ -45,7 +43,7 @@ SignUpState _passwordErrorAction(
   }
 }
 
-SignUpState _retypePasswordErrorAction(
+SignUpState _retypePasswordError(
     SignUpState state, RetypePasswordErrorAction action) {
   if (action.screen == Screen.signup) {
     return state.copyWith(retypePasswordError: action.message);
@@ -54,5 +52,10 @@ SignUpState _retypePasswordErrorAction(
   }
 }
 
-SignUpState _clearErrorsAction(SignUpState state, ClearErrorsAction action) =>
-    state.copyWith(validationStatus: ValidationStatus.success, nameError: "", emailError: "", passwordError: "", retypePasswordError: "");
+SignUpState _clearErrors(SignUpState state, ClearErrorsAction action) =>
+    state.copyWith(
+        validationStatus: ValidationStatus.success,
+        nameError: "",
+        emailError: "",
+        passwordError: "",
+        retypePasswordError: "");

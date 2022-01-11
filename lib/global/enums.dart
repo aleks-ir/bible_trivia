@@ -7,14 +7,14 @@ enum AuthenticationStatus {
   error,
 }
 
-enum Language { english, russian }
-
 enum MenuBar { home, reader, pastTrivia }
 
 enum NavigationTab { home, reader, pastTrivia, more }
 
 enum Screen { signin, signup, editProfile }
 
-enum ThemeType { dark, light }
-
 enum ValidationStatus { loading, error, success }
+
+enum Translation { ASV, KJV, NRT, RST }
+
+

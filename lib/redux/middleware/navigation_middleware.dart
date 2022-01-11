@@ -2,6 +2,7 @@ import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/route_paths.dart';
+import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
@@ -13,14 +14,6 @@ final NavigationService _navigationService = locator<NavigationService>();
 
 ThunkAction<AppState> updateTabThunk(NavigationTab tab) {
   return (Store<AppState> store) {
-    // if(tab == AppTab.home){
-    //   store.dispatch(UpdateHomeTitleAction("Home Middleware"));
-    // }else if(tab == AppTab.reader){
-    //   store.dispatch(UpdateReaderTitleAction("Reader Middleware"));
-    // }else if(tab == AppTab.pastTrivia){
-    //   store.dispatch(UpdatePastTriviaTitleAction("Trivia Middleware"));
-    // }
-    //TODO: Middleware realization
     store.dispatch(UpdateNavigationTabAction(tab));
   };
 }
@@ -35,31 +28,28 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
       return;
     } else if (action is NavigateFromHomeToSignInScreenAction) {
       store.dispatch(ClearErrorsAction());
-      _navigationService.navigate(RoutePaths.fromHomeToSignInScreen);
+      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToSignInScreen);
       return;
     } else if (action is NavigateFromHomeToTableResultsScreenAction) {
-      _navigationService.navigate(RoutePaths.fromHomeToTableResultsScreen);
+      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToTableResultsScreen);
       return;
     } else if (action is NavigateFromHomeToAboutScreenAction) {
-      _navigationService.navigate(RoutePaths.fromHomeToAboutScreen);
+      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToAboutScreen);
       return;
     } else if (action is NavigateFromHomeToEditProfileScreenAction) {
-      _navigationService.navigate(RoutePaths.fromHomeToEditProfileScreen);
+      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToEditProfileScreen);
       return;
-    } else if (action is NavigateFromHomeToMainTriviaScreenAction) {
-      _navigationService.navigate(RoutePaths.fromHomeToMainTriviaScreen);
-      return;
-    } else if (action is NavigateFromHomeToPastTriviaScreenAction) {
-      _navigationService.navigate(RoutePaths.fromHomeToPastTriviaScreen);
+    } else if (action is NavigateFromHomeToTriviaScreenAction) {
+      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToTriviaScreen);
       return;
     } else if (action is NavigateFromHomeToSearchScreenAction) {
-      _navigationService.navigate(RoutePaths.fromHomeToSearchScreen);
+      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToSearchScreen);
       return;
-    } else if (action is NavigateFromHomeToSetChapterScreenAction) {
-      _navigationService.navigate(RoutePaths.fromHomeToSetChapterScreen);
+    } else if (action is NavigateFromHomeToSelectionScreenAction) {
+      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToSelectionReaderScreen);
       return;
-    } else if (action is NavigateFromHomeToSetTranslationScreenAction) {
-      _navigationService.navigate(RoutePaths.fromHomeToSetTranslationScreen);
+    } else if (action is NavigateFromSelectionToTranslationScreenAction) {
+      _navigationService.navigate(RoutePaths.fromSelectionReaderToTranslationScreen);
       return;
     } else if (action is NavigateFromSignInToHomeScreenAction) {
       _navigationService.navigateBack(RoutePaths.fromSignInToHomeScreen);
@@ -80,11 +70,11 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
     } else if (action is NavigateFromEditProfileToHomeScreenAction) {
       _navigationService.navigateBack(RoutePaths.fromEditProfileToHomeScreen);
       return;
-    } else if (action is NavigateFromMainTriviaToResultScreenAction) {
-      _navigationService.navigate(RoutePaths.fromMainTriviaToResultScreen);
+    } else if (action is NavigateFromTriviaToResultScreenAction) {
+      _navigationService.navigateAndReplace(RoutePaths.fromTriviaToResultScreen);
       return;
-    } else if (action is NavigateFromPastTriviaToResultScreenAction) {
-      _navigationService.navigate(RoutePaths.fromPastTriviaToResultScreen);
+    }else if (action is NavigateFromTriviaToHomeScreenAction) {
+      _navigationService.goBack();
       return;
     } else if (action is NavigateFromResultToHomeScreenAction) {
       _navigationService.navigateBack(RoutePaths.fromResultToHomeScreen);
@@ -92,14 +82,30 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
     } else if (action is NavigateFromSearchToHomeScreenAction) {
       _navigationService.navigateBack(RoutePaths.fromSearchToHomeScreen);
       return;
-    } else if (action is NavigateFromSetChapterToHomeScreenAction) {
-      _navigationService.navigateBack(RoutePaths.fromSetChapterToHomeScreen);
+    } else if (action is NavigateFromSelectionToHomeScreenAction) {
+      _navigationService.navigateBack(RoutePaths.fromSelectionReaderToHomeScreen);
       return;
-    } else if (action is NavigateFromSetTranslationToHomeScreenAction) {
+    } else if (action is NavigateFromTranslationToSelectionScreenAction) {
       _navigationService
-          .navigateBack(RoutePaths.fromSetTranslationToHomeScreen);
+          .navigateBack(RoutePaths.fromTranslationToSelectionScreen);
+      return;
+    }else if (action is NavigateFromTranslationToHomeScreenAction) {
+      _navigationService
+          .navigateBack(RoutePaths.fromTranslationToHomeScreen);
       return;
     }
     store.dispatch(action);
   };
+}
+
+void checkMenuBarAndNavigate(Store<AppState> store, String routePath) {
+  if(store.state.appBarState.isShowMenuBar){
+    store.dispatch(UpdateShowMenuBarAction(false));
+    Future.delayed(const Duration(milliseconds: 400), () {
+      _navigationService.navigate(routePath);
+    });
+  }else{
+    _navigationService.navigate(routePath);
+  }
+
 }

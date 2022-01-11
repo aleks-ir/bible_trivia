@@ -20,15 +20,13 @@ class NavigateFromHomeToAboutScreenAction {}
 
 class NavigateFromHomeToEditProfileScreenAction {}
 
-class NavigateFromHomeToMainTriviaScreenAction {}
-
-class NavigateFromHomeToPastTriviaScreenAction {}
+class NavigateFromHomeToTriviaScreenAction {}
 
 class NavigateFromHomeToSearchScreenAction {}
 
-class NavigateFromHomeToSetChapterScreenAction {}
+class NavigateFromHomeToSelectionScreenAction {}
 
-class NavigateFromHomeToSetTranslationScreenAction {}
+class NavigateFromSelectionToTranslationScreenAction {}
 
 class NavigateFromSignInToHomeScreenAction {}
 
@@ -42,14 +40,16 @@ class NavigateFromAboutToHomeScreenAction {}
 
 class NavigateFromEditProfileToHomeScreenAction {}
 
-class NavigateFromMainTriviaToResultScreenAction {}
+class NavigateFromTriviaToResultScreenAction {}
 
-class NavigateFromPastTriviaToResultScreenAction {}
+class NavigateFromTriviaToHomeScreenAction {}
 
 class NavigateFromResultToHomeScreenAction {}
 
 class NavigateFromSearchToHomeScreenAction {}
 
-class NavigateFromSetChapterToHomeScreenAction {}
+class NavigateFromSelectionToHomeScreenAction {}
 
-class NavigateFromSetTranslationToHomeScreenAction {}
+class NavigateFromTranslationToSelectionScreenAction {}
+
+class NavigateFromTranslationToHomeScreenAction{}
