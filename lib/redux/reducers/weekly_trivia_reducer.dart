@@ -4,7 +4,7 @@ import 'package:weekly_bible_trivia/redux/states/weekly_trivia_state.dart';
 
 Reducer<WeeklyTriviaState> weeklyTriviaReducer = combineReducers([
   TypedReducer<WeeklyTriviaState, UpdateWeeklyTriviaDateAction>(_changeDate),
-  TypedReducer<WeeklyTriviaState, UpdateWeeklyTriviaTimeAction>(_changeTime),
+  TypedReducer<WeeklyTriviaState, UpdateRuntimeAction>(_changeRuntime),
   TypedReducer<WeeklyTriviaState, UpdateWeeklyTriviaPassedAction>(
       _changeShowDialog),
 ]);
@@ -16,10 +16,10 @@ WeeklyTriviaState _changeDate(
   );
 }
 
-WeeklyTriviaState _changeTime(
-    WeeklyTriviaState prevState, UpdateWeeklyTriviaTimeAction action) {
+WeeklyTriviaState _changeRuntime(
+    WeeklyTriviaState prevState, UpdateRuntimeAction action) {
   return prevState.copyWith(
-    time: action.time,
+    runtime: action.runtime,
   );
 }
 

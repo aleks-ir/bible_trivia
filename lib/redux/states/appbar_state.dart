@@ -25,7 +25,7 @@ class AppBarState {
   }
 
   factory AppBarState.initial() {
-    return AppBarState(
+    return const AppBarState(
         menuBar: MenuBar.home,
         isReaderMod: false,
         isShowMenuBar: false,

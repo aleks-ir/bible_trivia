@@ -1,21 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SlideNums extends StatelessWidget {
-  int index;
-  bool isActive;
-  bool isAnswered;
-  Function() callback;
-  Color answeredColor;
-  Color unansweredColor;
+class SlideNumbers extends StatelessWidget {
+  final int index;
+  final bool isActive;
+  final bool isAnswered;
+  final Function() callback;
+  final Color answeredColor;
+  final Color unansweredColor;
 
-  SlideNums({required this.index, required this.isActive, required this.isAnswered, required this.callback,
-      this.answeredColor: Colors.teal, this.unansweredColor: Colors.black});
+  const SlideNumbers({Key? key, required this.index, required this.isActive, required this.isAnswered, required this.callback,
+      this.answeredColor = Colors.teal, this.unansweredColor = Colors.black}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       margin: const EdgeInsets.symmetric(horizontal: 0),
       height: isActive ? 45 : 40,
       child: TextButton(

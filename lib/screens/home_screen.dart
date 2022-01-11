@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weekly_bible_trivia/containers/active_container.dart';
-import 'package:weekly_bible_trivia/containers/appbars/active_appbar.dart';
-import 'package:weekly_bible_trivia/containers/appbars/active_menubar.dart';
+import 'package:weekly_bible_trivia/containers/bars/active_appbar.dart';
+import 'package:weekly_bible_trivia/containers/bars/active_menubar.dart';
+
 import 'package:weekly_bible_trivia/containers/loading_app.dart';
 import 'package:weekly_bible_trivia/containers/tab_selector.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
@@ -13,12 +14,12 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  HomeScreenState createState() {
-    return HomeScreenState();
+  _HomeScreenState createState() {
+    return _HomeScreenState();
   }
 }
 
-class HomeScreenState extends State<HomeScreen>
+class _HomeScreenState extends State<HomeScreen>
     with TickerProviderStateMixin {
   late final AnimationController _animationControllerMenuBar;
   late final AnimationController _animationControllerAppBar;
@@ -28,18 +29,20 @@ class HomeScreenState extends State<HomeScreen>
   void initState() {
     _animationControllerMenuBar = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 500),
     );
     _animationControllerAppBar = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1200),
+      duration: const Duration(milliseconds: 800),
     );
     _animationControllerBottomNavigationBar = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1200),
+      duration: const Duration(milliseconds: 800),
     );
-    super.initState();
+
     _initLanguage();
+    super.initState();
+
   }
 
   @override
@@ -55,15 +58,15 @@ class HomeScreenState extends State<HomeScreen>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String language = prefs.getString(LANGUAGE) ?? "";
     if (language == RUSSIAN) {
-      I18n.of(context).locale = Locale("ru");
+      I18n.of(context).locale = const Locale("ru");
     } else {
-      I18n.of(context).locale = Locale("en");
+      I18n.of(context).locale = const Locale("en");
     }
   }
 
   @override
   Widget build(BuildContext context) => LoadingApp(
-        builder: (BuildContext context, bool loading) => loading
+        (BuildContext context, bool loading) => loading
                 ? Scaffold(
                     backgroundColor: Colors.white,
                     body: splash(Image.asset(LOGO_IMG, width: 70, height: 70,),),
@@ -76,7 +79,7 @@ class HomeScreenState extends State<HomeScreen>
                       extendBodyBehindAppBar: true,
                       resizeToAvoidBottomInset: false,
                       appBar: ActiveMenuBar(_animationControllerMenuBar),
-                      body: ActiveContainer(),
+                      body: const ActiveContainer(),
                       bottomNavigationBar:
                           Theme(
                         data: Theme.of(context)

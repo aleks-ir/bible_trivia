@@ -6,16 +6,16 @@ import 'package:weekly_bible_trivia/redux/states/signin_state.dart';
 Reducer<SignInState> signInReducer = combineReducers([
   TypedReducer<SignInState, ChangeValidationStatusAction>(
       _changeValidationStatusAction),
-  TypedReducer<SignInState, EmailErrorAction>(_emailErrorAction),
-  TypedReducer<SignInState, PasswordErrorAction>(_passwordErrorAction),
-  TypedReducer<SignInState, ClearErrorsAction>(_clearErrorsAction)
+  TypedReducer<SignInState, EmailErrorAction>(_changeError),
+  TypedReducer<SignInState, PasswordErrorAction>(_changePasswordError),
+  TypedReducer<SignInState, ClearErrorsAction>(_clearErrors)
 ]);
 
 SignInState _changeValidationStatusAction(
     SignInState state, ChangeValidationStatusAction action) =>
     state.copyWith(validationStatus: action.status);
 
-SignInState _emailErrorAction(SignInState state, EmailErrorAction action) {
+SignInState _changeError(SignInState state, EmailErrorAction action) {
   if (action.screen == Screen.signin) {
     return state.copyWith(
         emailError: action.message);
@@ -24,7 +24,7 @@ SignInState _emailErrorAction(SignInState state, EmailErrorAction action) {
   }
 }
 
-SignInState _passwordErrorAction(
+SignInState _changePasswordError(
     SignInState state, PasswordErrorAction action) {
   if (action.screen == Screen.signin) {
     return state.copyWith(passwordError: action.message);
@@ -33,5 +33,5 @@ SignInState _passwordErrorAction(
   }
 }
 
-SignInState _clearErrorsAction(SignInState state, ClearErrorsAction action) =>
+SignInState _clearErrors(SignInState state, ClearErrorsAction action) =>
     state.copyWith(validationStatus: ValidationStatus.success, emailError: "", passwordError: "");

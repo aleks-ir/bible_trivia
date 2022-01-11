@@ -7,7 +7,6 @@ class AuthSuccessfulAction {
   AuthSuccessfulAction(this.user);
 }
 
-
 class UpdateAuthErrorAction {
   final String authError;
   UpdateAuthErrorAction(this.authError);

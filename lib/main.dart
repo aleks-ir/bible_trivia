@@ -9,7 +9,7 @@ import 'package:redux_thunk/redux_thunk.dart';
 import 'package:weekly_bible_trivia/redux/middleware/authentication_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/database_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/firebase_middleware.dart';
-import 'package:weekly_bible_trivia/redux/middleware/info_trivia_middleware.dart';
+import 'package:weekly_bible_trivia/redux/middleware/init_app_data_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/reducers/app_state_reduser.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
@@ -30,11 +30,13 @@ void main() async {
 }
 
 class WeeklyTriviaBibleApp extends StatelessWidget {
-  late final Store<AppState> _store = Store<AppState>(appReducer,
+  final Store<AppState> _store = Store<AppState>(appReducer,
       middleware: [thunkMiddleware, LoggingMiddleware.printer()],
       initialState: AppState.initial());
 
   final _applicationRouter = ApplicationRouter();
+
+  WeeklyTriviaBibleApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +49,14 @@ class WeeklyTriviaBibleApp extends StatelessWidget {
                 initialRoute: RoutePaths.toHomeScreen,
                 navigatorKey: locator<NavigationService>().navigatorKey,
                 onGenerateRoute: _applicationRouter,
-                localizationsDelegates: [
+                localizationsDelegates: const [
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
                 ],
-                supportedLocales: [
-                  const Locale('en'),
-                  const Locale('ru'),
+                supportedLocales: const [
+                  Locale('en'),
+                  Locale('ru'),
                 ],
               ),
       ),
@@ -62,11 +64,7 @@ class WeeklyTriviaBibleApp extends StatelessWidget {
   }
 
   void initAppData(BuildContext context) async {
-    _store.dispatch(createInitAuthThunk());
-    _store.dispatch(createInitDatabaseThunk());
-    _store.dispatch(createInitSettingsThunk());
-    _store.dispatch(initInfoTriviaThunk());
-    _store.dispatch(getTriviaCollectionFromFirebaseThunk());
+    _store.dispatch(createInitAppDataThunk());
     precacheImages(context);
   }
 

@@ -2,26 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:weekly_bible_trivia/models/answer.dart';
 
 class RadioView extends StatelessWidget {
-  int questionId;
-  List<Answer> currentAnswers;
-  Function(bool?, int, int) callback;
-  Color cardColor;
-  Color textColor;
-  Color selectedColor;
+  final int questionId;
+  final List<Answer> currentAnswers;
+  final Function(bool?, int, int) callback;
+  final Color cardColor;
+  final Color textColor;
+  final Color selectedColor;
 
   late Answer selectedAnswer;
 
   RadioView(this.questionId, this.currentAnswers, this.callback,
-      {this.cardColor: Colors.white,
-      this.textColor: Colors.black,
-      this.selectedColor: Colors.teal});
+      {Key? key, this.cardColor = Colors.white,
+      this.textColor = Colors.black,
+      this.selectedColor = Colors.teal}) : super(key: key);
 
   List<Widget> createRadioListAnswers() {
-    var selectedAnswers =
-        currentAnswers.where((element) => element.isSelected);
-    selectedAnswer = selectedAnswers.length == 1
-        ? selectedAnswers.first
-        : Answer(answerId: -1, title: '');
     List<Widget> widgets = [];
     for (Answer answer in currentAnswers) {
       widgets.add(
@@ -67,6 +62,11 @@ class RadioView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var selectedAnswers =
+    currentAnswers.where((element) => element.isSelected);
+    selectedAnswer = selectedAnswers.length == 1
+        ? selectedAnswers.first
+        : Answer(answerId: -1, title: '');
     return SingleChildScrollView(
       child: Column(
         children: createRadioListAnswers(),

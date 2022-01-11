@@ -39,13 +39,4 @@ class Question {
     return questionsFromJson;
   }
 
-  // List<String> _convertVaccinations(List<dynamic> vaccinationMap) {
-  //   final vaccinations = <String>[];
-  //
-  //   for (final vaccination in vaccinationMap) {
-  //     vaccinations.add(Vaccination.fromJson(vaccination as Map<String, dynamic>));
-  //   }
-  //   return vaccinations;
-  // }
-
 }

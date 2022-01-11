@@ -12,23 +12,45 @@ import 'package:weekly_bible_trivia/utils/selectors.dart';
 import 'package:weekly_bible_trivia/utils/sliding_bottombar.dart';
 
 class TabSelector extends StatefulWidget {
-  final AnimationController controller;
+  final AnimationController _navigationController;
 
-  TabSelector(this.controller) : super();
+  const TabSelector(this._navigationController, {Key? key}) : super(key: key);
 
+  
   @override
   _TabSelectorState createState() {
-    return _TabSelectorState(controller);
+    return _TabSelectorState(_navigationController);
   }
 }
 
-class _TabSelectorState extends State<TabSelector> {
-  final AnimationController controller;
-
-  _TabSelectorState(this.controller) : super();
-
+class _TabSelectorState extends State<TabSelector>
+    with TickerProviderStateMixin {
+  final AnimationController _navigationController;
+  late AnimationController _modalAnimationController;
+  late Animation<double> _imageScaleAnimations;
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   late int _currentIndexTabBar;
+
+  _TabSelectorState(this._navigationController) : super();
+
+  @override
+  void initState() {
+    super.initState();
+    _modalAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+
+    
+    _imageScaleAnimations = CurvedAnimation(
+        parent: _modalAnimationController, curve: Curves.easeIn);
+  }
+
+  @override
+  void dispose(){
+    _modalAnimationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +63,7 @@ class _TabSelectorState extends State<TabSelector> {
       converter: _ViewModel.fromStore,
       builder: (context, viewModel) {
         return SlidingBottomNavigationBar(
-          controller: controller,
+          controller: _navigationController,
           visible: !viewModel.isReaderMod,
           child: CurvedNavigationBar(
             key: _bottomNavigationKey,
@@ -60,23 +82,29 @@ class _TabSelectorState extends State<TabSelector> {
             animationCurve: Curves.easeInOut,
             animationDuration: const Duration(milliseconds: 600),
             onTap: (index) {
+
+              setState(() {
+                _currentIndexTabBar = index;
+              });
+
               switch (index) {
                 case 3:
                   setState(() {
                     _currentIndexTabBar = index;
                   });
                   Future.delayed(const Duration(milliseconds: 600), () async {
-                    ModalBottomSheetContainer(context).showModal(() {
+                    _modalAnimationController.forward();
+                    ModalBottomSheetContainer(context, _imageScaleAnimations)
+                        .showModal(() {
                       _bottomNavigationKey.currentState!.setPage(
                           NavigationTab.values.indexOf(viewModel.activeTab));
+                      _modalAnimationController.reverse();
                     });
                   });
                   break;
                 default:
-                  setState(() {
-                    _currentIndexTabBar = index;
-                  });
-                  viewModel.hideMenuBar();
+                  viewModel.hideMenuBar(index);
+                  viewModel.hidePastTriviaDialog();
                   viewModel.onTabSelected(index);
               }
             },
@@ -96,8 +124,9 @@ class _ViewModel {
   final int tabBarColor;
   final NavigationTab activeTab;
   final bool isReaderMod;
-  final Function onTabSelected;
-  final Function hideMenuBar;
+  final Function(int) onTabSelected;
+  final Function(int) hideMenuBar;
+  final Function() hidePastTriviaDialog;
 
   _ViewModel({
     required this.bottomBarColor,
@@ -109,6 +138,7 @@ class _ViewModel {
     required this.isReaderMod,
     required this.onTabSelected,
     required this.hideMenuBar,
+    required this.hidePastTriviaDialog,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
@@ -122,12 +152,14 @@ class _ViewModel {
       isReaderMod: store.state.appBarState.isReaderMod,
       onTabSelected: (index) {
         store.dispatch(updateTabThunk(NavigationTab.values[index]));
-        store.dispatch(UpdatePastTriviaDialogAction(false));
+      },
+      hideMenuBar: (index) {
         Future.delayed(const Duration(milliseconds: 500), () {
           store.dispatch(UpdateMenuBarAction(MenuBar.values[index]));
         });
+        store.dispatch(UpdateShowMenuBarAction(false));
       },
-      hideMenuBar: () => store.dispatch(UpdateShowMenuBarAction(false)),
+      hidePastTriviaDialog: () => store.dispatch(ResetPastTriviaAction()),
     );
   }
 }

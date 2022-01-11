@@ -1,30 +1,15 @@
 
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/containers/appbars/simple_appbar.dart';
+import 'package:weekly_bible_trivia/containers/bars/simple_appbar.dart';
 import 'package:weekly_bible_trivia/containers/signin_container.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 
-// class SignInScreen extends StatefulWidget {
-//   const SignInScreen({Key? key}) : super(key: key);
-//
-//
-//
-//   @override
-//   SignInScreenState createState() {
-//     return SignInScreenState();
-//   }
-// }
 
 class SignInScreen extends StatelessWidget {
-  bool isErrorListener;
+  final bool isErrorListener;
 
-  SignInScreen(this.isErrorListener);
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
+  const SignInScreen(this.isErrorListener, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) =>  Scaffold(

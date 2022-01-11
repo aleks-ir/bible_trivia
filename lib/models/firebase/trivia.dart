@@ -1,4 +1,5 @@
-import 'package:weekly_bible_trivia/models/firestore/question.dart';
+import 'package:weekly_bible_trivia/models/firebase/question.dart';
+
 
 class Trivia {
   String book;

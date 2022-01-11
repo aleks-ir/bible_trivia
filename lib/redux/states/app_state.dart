@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:weekly_bible_trivia/redux/states/appbar_state.dart';
 import 'package:weekly_bible_trivia/redux/states/edit_profile_state.dart';
-import 'package:weekly_bible_trivia/redux/states/home_state.dart';
 import 'package:weekly_bible_trivia/redux/states/loading_state.dart';
 import 'package:weekly_bible_trivia/redux/states/past_trivia_state.dart';
 import 'package:weekly_bible_trivia/redux/states/reader_state.dart';
+import 'package:weekly_bible_trivia/redux/states/search_state.dart';
 import 'package:weekly_bible_trivia/redux/states/signin_state.dart';
 import 'package:weekly_bible_trivia/redux/states/signup_state.dart';
+import 'package:weekly_bible_trivia/redux/states/table_result_state.dart';
 import 'package:weekly_bible_trivia/redux/states/theme_settings.dart';
 import 'package:weekly_bible_trivia/redux/states/trivia_state.dart';
 import 'package:weekly_bible_trivia/redux/states/weekly_trivia_state.dart';
@@ -18,9 +19,8 @@ import 'local_storage_state.dart';
 
 @immutable
 class AppState {
-  final LoadingState loading;
+  final LoadingState loadingState;
   final BottomBarState bottomBarState;
-  final HomeState homeState;
   final ReaderState readerState;
   final TriviaState triviaState;
   final PastTriviaState pastTriviaState;
@@ -33,12 +33,13 @@ class AppState {
   final InfoState infoTriviaState;
   final ThemeSettingsState themeSettingsState;
   final EditProfileState editProfileState;
+  final TableResultsState tableResultsState;
+  final SearchState searchState;
 
 
   const AppState({
-    required this.loading,
+    required this.loadingState,
     required this.bottomBarState,
-    required this.homeState,
     required this.readerState,
     required this.triviaState,
     required this.pastTriviaState,
@@ -51,15 +52,16 @@ class AppState {
     required this.infoTriviaState,
     required this.themeSettingsState,
     required this.editProfileState,
+    required this.tableResultsState,
+    required this.searchState,
   });
 
 
 
   factory AppState.initial() {
     return AppState(
-      loading: LoadingState.initial(),
+      loadingState: LoadingState.initial(),
       bottomBarState: BottomBarState.initial(),
-      homeState: HomeState.initial(),
       readerState: ReaderState.initial(),
       triviaState: TriviaState.initial(),
       pastTriviaState: PastTriviaState.initial(),
@@ -72,14 +74,14 @@ class AppState {
       infoTriviaState: InfoState.initial(),
       themeSettingsState: ThemeSettingsState.initial(),
       editProfileState: EditProfileState.initial(),
-
+      tableResultsState: TableResultsState.initial(),
+      searchState: SearchState.initial(),
     );
   }
 
   AppState copyWith(
-      {LoadingState? loading,
+      {LoadingState? loadingState,
         BottomBarState? bottomBarState,
-      HomeState? homeState,
       ReaderState? readerState,
       TriviaState? triviaState,
         PastTriviaState? pastTriviaState,
@@ -91,10 +93,11 @@ class AppState {
       AppBarState? appBarState,
       InfoState? infoTriviaState,
       ThemeSettingsState? themeSettingsState,
-      EditProfileState? editProfileState}) {
+      EditProfileState? editProfileState,
+      TableResultsState? tableResultsState,
+      SearchState? searchState}) {
     return AppState(
-      loading: loading ?? this.loading,
-      homeState: homeState ?? this.homeState,
+      loadingState: loadingState ?? this.loadingState,
       bottomBarState: bottomBarState ?? this.bottomBarState,
       signUpState: signUpState ?? this.signUpState,
       authenticationState: authenticationState ?? this.authenticationState,
@@ -108,6 +111,8 @@ class AppState {
       infoTriviaState: infoTriviaState ?? this.infoTriviaState,
       themeSettingsState: themeSettingsState ?? this.themeSettingsState,
       editProfileState: editProfileState ?? this.editProfileState,
+      tableResultsState: tableResultsState ?? this.tableResultsState,
+      searchState: searchState ?? this.searchState,
     );
   }
 }

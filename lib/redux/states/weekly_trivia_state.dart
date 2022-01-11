@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 @immutable
 class WeeklyTriviaState {
   final String date;
-  final int time;
+  final int runtime;
   final bool isPassed;
 
   const WeeklyTriviaState({
     required this.date,
-    required this.time,
+    required this.runtime,
     required this.isPassed,
   });
 
   WeeklyTriviaState copyWith({
     String? date,
-    int? time,
+    int? runtime,
     bool? isPassed,
   }) {
     return WeeklyTriviaState(
       date: date ?? this.date,
-      time: time ?? this.time,
+      runtime: runtime ?? this.runtime,
       isPassed: isPassed ?? this.isPassed,
     );
   }
@@ -27,7 +27,7 @@ class WeeklyTriviaState {
   factory WeeklyTriviaState.initial() {
     return const WeeklyTriviaState(
         date: "",
-        time: 0,
+        runtime: 0,
         isPassed: true,);
   }
 }

@@ -5,7 +5,7 @@ import 'package:weekly_bible_trivia/widgets/answer_items/check_box_view.dart';
 import 'package:weekly_bible_trivia/widgets/answer_items/radio_view.dart';
 
 class SlideItem extends StatelessWidget {
-  int questionId;
+  final int questionId;
   final String questionTitle;
   final List<Answer> currentAnswers;
   final bool isCheckBox;
@@ -15,8 +15,8 @@ class SlideItem extends StatelessWidget {
   final Color textColor;
   final Color selectedColor;
 
-  SlideItem(
-      {required this.questionId,
+  const SlideItem(
+      {Key? key, required this.questionId,
       required this.questionTitle,
       required this.currentAnswers,
       required this.isCheckBox,
@@ -24,7 +24,7 @@ class SlideItem extends StatelessWidget {
       this.color: Colors.white,
       this.cardColor: Colors.white,
       this.textColor: Colors.black,
-      this.selectedColor: Colors.teal});
+      this.selectedColor: Colors.teal}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,28 +35,9 @@ class SlideItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            // Container(
-            //   width: double.infinity,
-            //   //margin: const EdgeInsets.only(top: 110, left: 20, right: 20),
-            //   padding: const EdgeInsets.symmetric(horizontal: 40),
-            //   decoration: BoxDecoration(
-            //     color: Colors.grey.shade100,
-            //     borderRadius: BorderRadius.all(Radius.circular(20)),
-            //   ),
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(20.0),
-            //     child: Text(
-            //       questionTitle,
-            //       style: TextStyle(fontSize: 20),
-            //     ),
-            //   ),
-            // ),
             Container(
                 color: color,
                 margin: const EdgeInsets.only(top: 30, left: 40, right: 40),
-                // shape: RoundedRectangleBorder(
-                //   borderRadius: BorderRadius.circular(10.0),
-                // ),
                 child: Padding(
                   padding: const EdgeInsets.only(
                       left: 30, right: 30, top: 30, bottom: 30),

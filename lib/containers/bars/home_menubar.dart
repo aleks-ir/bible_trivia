@@ -12,7 +12,7 @@ class HomeMenuBar extends StatelessWidget {
   final String title;
   final AnimationController controller;
 
-  HomeMenuBar(
+  const HomeMenuBar(
     this.title,
     this.controller, {
     Key? key,
@@ -28,10 +28,10 @@ class HomeMenuBar extends StatelessWidget {
         child: AppBar(
             automaticallyImplyLeading: false,
             flexibleSpace: Container(
-                padding: EdgeInsets.only(top: 95),
+                padding: const EdgeInsets.only(top: 95),
                 height: 135,
                 child: Row(children: [
-                  Expanded(
+                  const Expanded(
                     child: SizedBox(),
                     flex: 3,
                   ),
@@ -47,7 +47,7 @@ class HomeMenuBar extends StatelessWidget {
                     ),
                     flex: 10,
                   ),
-                  Expanded(
+                  const Expanded(
                     child: SizedBox(),
                     flex: 2,
                   ),
@@ -64,12 +64,12 @@ class HomeMenuBar extends StatelessWidget {
                     ),
                     flex: 10,
                   ),
-                  Expanded(
+                  const Expanded(
                     child: SizedBox(),
                     flex: 3,
                   ),
                 ])),
-            shape: ContinuousRectangleBorder(
+            shape: const ContinuousRectangleBorder(
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(50.0))),
             backgroundColor: Color(

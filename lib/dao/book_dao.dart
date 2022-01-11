@@ -1,7 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:weekly_bible_trivia/models/verse.dart';
+import 'package:weekly_bible_trivia/models/database/verse.dart';
 
 import 'dao.dart';
 
@@ -34,22 +35,38 @@ class BookDao extends Dao<Verse> {
     final res = await _database.rawQuery(
         "SELECT * FROM $TABLE_NAME WHERE book_name = '$bookName' AND chapter = '$chapter'");
 
-    List<Verse> list =
+    List<Verse> listVerses =
         res.isNotEmpty ? res.map((c) => Verse.fromJson(c)).toList() : [];
 
-    return list;
+    return listVerses;
   }
 
   @override
+  Future<List<Verse>> getByKeyword(String keyword) async {
+    final res = await _database.rawQuery(
+        "SELECT * FROM $TABLE_NAME WHERE $TEXT LIKE '%$keyword%'");
+
+    // final res = await compute(getRes,
+    //     "SELECT * FROM $TABLE_NAME WHERE $TEXT LIKE '%$keyword%'");
+    List<Verse> listSearchItem =
+    res.isNotEmpty ? res.map((c) => Verse.fromJson(c)).toList() : [];
+
+    return listSearchItem;
+  }
+
+  // Future<List<Map<String, Object?>>> getRes(String sql) async{
+  //   return await _database.rawQuery(sql);
+  // }
+  
+  @override
   Future runInsertVerses(List<Verse> verses) async {
-    String sql = 'INSERT INTO $TABLE_NAME VALUES';
     return await _database.transaction((txn) async {
-        var batch = txn.batch();
-        for(Verse v in verses){
-          batch.insert(TABLE_NAME, v.toJson());
-        }
-        await batch.commit();
-      });
+      var batch = txn.batch();
+      for(Verse v in verses){
+        batch.insert(TABLE_NAME, v.toJson());
+      }
+      await batch.commit();
+    });
   }
 
   @override
@@ -57,17 +74,7 @@ class BookDao extends Dao<Verse> {
     return await _database.insert(TABLE_NAME, verse.toJson());
   }
 
-  @override
-  void createNewTable() async {
-    return await _database.execute('CREATE TABLE $TABLE_NAME('
-        '$CHAPTER INTEGER, '
-        '$VERSE INTEGER, '
-        '$TEXT TEXT, '
-        '$TRANSLATION_ID TEXT, '
-        '$BOOK_ID TEXT, '
-        '$BOOK_NAME TEXT '
-        ')');
-  }
+
   
   @override
   Future<int> deleteAllVerses() async {

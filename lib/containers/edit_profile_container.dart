@@ -16,19 +16,20 @@ import 'package:weekly_bible_trivia/widgets/error_validation.dart';
 import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 import 'package:weekly_bible_trivia/widgets/text_form_fields.dart';
 
-class EditProfileContainer extends StatefulWidget {
-  EditProfileContainer({Key? key, this.title}) : super(key: key);
 
-  final String? title;
+class EditProfileContainer extends StatefulWidget {
+  const EditProfileContainer({Key? key}) : super(key: key);
 
   @override
-  _EditProfileContainerState createState() => _EditProfileContainerState();
+  EditProfileContainerState createState() {
+    return EditProfileContainerState();
+  }
 }
 
-class _EditProfileContainerState extends State<EditProfileContainer> {
+class EditProfileContainerState extends State<EditProfileContainer> {
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _nameController = TextEditingController();
-  bool isInitName = false;
+  bool _isInitName = false;
   File? _imageFile;
 
   @override
@@ -36,9 +37,9 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
     return StoreConnector<AppState, _ViewModel>(
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
-          if (!isInitName) {
+          if (!_isInitName) {
             _nameController.text = viewModel.user.displayName;
-            isInitName = true;
+            _isInitName = true;
           }
           return SizedBox.expand(
             child: Container(
@@ -110,7 +111,7 @@ class _EditProfileContainerState extends State<EditProfileContainer> {
                       width: double.infinity,
                       child: authMaterialButton(
                           viewModel.loading
-                              ? miniCircularProgressIndicator()
+                              ? buttonCircularProgressIndicator()
                               : Text(
                                   save.i18n,
                                 ), () {

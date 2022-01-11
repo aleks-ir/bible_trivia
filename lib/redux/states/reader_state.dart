@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/models/verse.dart';
+import 'package:weekly_bible_trivia/models/database/verse.dart';
 
 @immutable
 class ReaderState {
@@ -11,9 +11,6 @@ class ReaderState {
 
   ReaderState copyWith({
     List<Verse>? textReader,
-    String? bookName,
-    String? chapter,
-    bool? loadingData,
   }) {
     return ReaderState(
       textReader: textReader ?? this.textReader,

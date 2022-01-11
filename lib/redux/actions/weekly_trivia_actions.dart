@@ -4,9 +4,9 @@ class UpdateWeeklyTriviaDateAction {
   UpdateWeeklyTriviaDateAction(this.date);
 }
 
-class UpdateWeeklyTriviaTimeAction {
-  final int time;
-  UpdateWeeklyTriviaTimeAction(this.time);
+class UpdateRuntimeAction {
+  final int runtime;
+  UpdateRuntimeAction(this.runtime);
 }
 
 class UpdateWeeklyTriviaPassedAction {

@@ -1,5 +1,5 @@
 import 'package:weekly_bible_trivia/models/answer.dart';
-import 'package:weekly_bible_trivia/models/firestore/question.dart';
+import 'package:weekly_bible_trivia/models/firebase/question.dart';
 
 class UpdateTriviaDialogAction {
   final bool isShowDialog;

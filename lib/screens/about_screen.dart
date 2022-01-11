@@ -1,27 +1,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:weekly_bible_trivia/containers/about_container.dart';
-import 'package:weekly_bible_trivia/containers/appbars/simple_appbar.dart';
+import 'package:weekly_bible_trivia/containers/bars/simple_appbar.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 
 
-class AboutScreen extends StatefulWidget {
+class AboutScreen extends StatelessWidget {
   const AboutScreen({Key? key}) : super(key: key);
 
-
-
-  @override
-  SignInScreenState createState() {
-    return SignInScreenState();
-  }
-}
-
-class SignInScreenState extends State<AboutScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) => Scaffold(

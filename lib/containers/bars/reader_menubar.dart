@@ -30,13 +30,13 @@ class ReaderMenuBar extends StatelessWidget {
         child: AppBar(
           automaticallyImplyLeading: false,
           flexibleSpace: Container(
-            padding: EdgeInsets.only(top: 95),
+            padding: const EdgeInsets.only(top: 95),
             height: 135,
             child: Row(children: [const Expanded(flex: 2, child: SizedBox()),
               Expanded(
                   flex: 5,
                   child: menuFloatingButton(
-                      Icon(Icons.dark_mode), viewModel.theme == DARK, () {
+                      const Icon(Icons.dark_mode), viewModel.theme == DARK, () {
                     viewModel.changeTheme(DARK);
                     viewModel.changeThemeSettings(selectTheme(DARK));
                   }, activeColor: Color(viewModel.iconColor))),
@@ -50,7 +50,7 @@ class ReaderMenuBar extends StatelessWidget {
               Expanded(
                   flex: 5,
                   child: menuFloatingButton(
-                      Icon(Icons.light_mode), viewModel.theme == LIGHT, () {
+                      const Icon(Icons.light_mode), viewModel.theme == LIGHT, () {
                     viewModel.changeTheme(LIGHT);
                     viewModel.changeThemeSettings(selectTheme(LIGHT));
                   }, activeColor: Color(viewModel.iconColor))),
@@ -73,10 +73,9 @@ class ReaderMenuBar extends StatelessWidget {
                   child: menuFloatingButton(Icon(Icons.add), false, () {
                     viewModel.changeFontSize(viewModel.fontSize + 2);
                   }, activeColor: Color(viewModel.iconColor))),
-              //const Expanded(flex:1, child: SizedBox()),
               const Expanded(flex: 2, child: SizedBox())],),
           ),
-          shape: ContinuousRectangleBorder(
+          shape: const ContinuousRectangleBorder(
               borderRadius:
                   BorderRadius.vertical(bottom: Radius.circular(50.0))),
           backgroundColor: Color(

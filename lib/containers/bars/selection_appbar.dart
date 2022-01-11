@@ -9,11 +9,11 @@ import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
-class SelectionAppBar extends StatelessWidget with PreferredSizeWidget {
+class SelectionReaderAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
 
-  SelectionAppBar({
+  SelectionReaderAppBar({
     Key? key,
   })  : preferredSize = Size.fromHeight(50.0),
         super(key: key);

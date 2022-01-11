@@ -4,11 +4,13 @@ import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/answer.dart';
-import 'package:weekly_bible_trivia/models/firestore/question.dart';
+import 'package:weekly_bible_trivia/models/firebase/question.dart';
 import 'package:weekly_bible_trivia/models/result.dart';
+import 'package:weekly_bible_trivia/redux/actions/weekly_trivia_actions.dart';
+import 'package:weekly_bible_trivia/redux/middleware/firebase_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
-import 'package:weekly_bible_trivia/widgets/lists_view.dart';
 import 'package:weekly_bible_trivia/widgets/radial_percent.dart';
+import 'package:weekly_bible_trivia/widgets/result.dart';
 
 class ResultContainer extends StatefulWidget {
   const ResultContainer({Key? key}) : super(key: key);
@@ -37,31 +39,31 @@ class _ResultContainerState extends State<ResultContainer>
     super.initState();
     _resultController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
     _radialPercentController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 3),
     );
     _secondRadialPercentController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
     _correctAnswersController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
 
     _scaleResultAnimations =
         CurvedAnimation(parent: _resultController, curve: Curves.easeIn);
 
     _resizeRadialPercentAnimation =
-        Tween<Size>(begin: Size(150, 150), end: Size(100, 100)).animate(
+        Tween<Size>(begin: const Size(150, 150), end: const Size(100, 100)).animate(
             CurvedAnimation(
                 parent: _secondRadialPercentController, curve: Curves.ease));
 
     _moveRadialPercentAnimation = Tween<Offset>(
-      begin: const Offset(0.5, 0),
+      begin: const Offset(0.4, 0),
       end: Offset.zero,
     ).animate(CurvedAnimation(
         parent: _secondRadialPercentController, curve: Curves.ease));
@@ -73,6 +75,16 @@ class _ResultContainerState extends State<ResultContainer>
       parent: _correctAnswersController,
       curve: Curves.ease,
     ));
+
+    _radialPercentController
+        .forward(
+        from: _radialPercentController.value == 1
+            ? 0
+            : _radialPercentController.value)
+        .whenComplete(() => _secondRadialPercentController
+        .forward()
+        .whenComplete(() => _resultController.forward().whenComplete(
+            () => _correctAnswersController.forward())));
   }
 
   @override
@@ -152,19 +164,14 @@ class _ResultContainerState extends State<ResultContainer>
           List<Question> listQuestions = store.state.triviaState.listQuestions;
           List<List<Answer>> listUserAnswers =
               store.state.triviaState.listCurrentAnswers;
-
           _listCorrectAnswers = _initListCorrectAnswers(listQuestions);
           _result = _countResult(listUserAnswers, _listCorrectAnswers);
 
-          _radialPercentController
-              .forward(
-                  from: _radialPercentController.value == 1
-                      ? 0
-                      : _radialPercentController.value)
-              .whenComplete(() => _secondRadialPercentController
-                  .forward()
-                  .whenComplete(() => _resultController.forward().whenComplete(
-                      () => _correctAnswersController.forward())));
+          if(store.state.triviaState.isTimeTrivia){
+            int percentOfCorrectAnswers = (_result.countCorrectAnswers / _result.countQuestions * 100).toInt();
+            store.dispatch(createRecordToFirebaseThunk(percentOfCorrectAnswers));
+            store.dispatch(UpdateWeeklyTriviaPassedAction(true));
+          }
         },
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
@@ -176,7 +183,7 @@ class _ResultContainerState extends State<ResultContainer>
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     Row(
@@ -199,7 +206,7 @@ class _ResultContainerState extends State<ResultContainer>
                                     textColor: Color(viewModel.textColor),
                                     fillColor: Color(viewModel.cardColor),
                                     skippedColor: Colors.grey.shade300,
-                                    lineWidth: 10,
+                                    lineWidth: 8,
                                   ),
                                 );
                               }),
@@ -227,7 +234,7 @@ class _ResultContainerState extends State<ResultContainer>
                                     ": " +
                                     _result.countWrongAnswers.toString(),
                                 style:
-                                    TextStyle(fontSize: 17, color: Colors.redAccent),
+                                    const TextStyle(fontSize: 17, color: Colors.redAccent),
                               ),
                               const SizedBox(
                                 height: 5,
@@ -249,7 +256,7 @@ class _ResultContainerState extends State<ResultContainer>
                     ),
                     SlideTransition(
                       position: _moveAnswersAnimation,
-                      child: ResultListView(
+                      child: ResultView(
                         viewModel.listQuestions,
                         viewModel.listUserAnswers,
                         _listCorrectAnswers,

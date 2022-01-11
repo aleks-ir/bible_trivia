@@ -38,7 +38,7 @@ class LocalStorageState {
   }
 
   factory LocalStorageState.initial() {
-    return LocalStorageState(
+    return const LocalStorageState(
       bookName: DEFAULT_BOOK_NAME,
       translationId: DEFAULT_TRARSLATION_ID,
       chapter: 1,

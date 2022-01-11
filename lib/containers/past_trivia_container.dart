@@ -6,26 +6,24 @@ import 'package:weekly_bible_trivia/global/constants_map.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/past_trivia_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/trivia_actions.dart';
+import 'package:weekly_bible_trivia/redux/middleware/firebase_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/utils/selectors.dart';
 import 'package:weekly_bible_trivia/widgets/dialogs.dart';
 import 'package:weekly_bible_trivia/widgets/grids_view.dart';
 
-class PastTriviaContainer extends StatefulWidget {
-  @override
-  _PastTriviaContainerState createState() => _PastTriviaContainerState();
-}
 
-class _PastTriviaContainerState extends State<PastTriviaContainer> {
-  late bool _isPortrait;
+class PastTriviaContainer extends StatelessWidget {
+
+  const PastTriviaContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
-          _isPortrait =
+          bool _isPortrait =
               MediaQuery.of(context).orientation == Orientation.portrait;
           return SizedBox.expand(
             child: Container(
@@ -35,7 +33,7 @@ class _PastTriviaContainerState extends State<PastTriviaContainer> {
                   removeTop: true,
                   child: Stack(children: [
                     Container(
-                      padding: EdgeInsets.only(top: 100, left: 10, right: 10),
+                      padding: const EdgeInsets.only(top: 100, left: 10, right: 10),
                       child: viewModel.listPastBookNames.isEmpty ? null : pastTriviaSelectBookGridView(
                         listImages: viewModel.listPastBookNames
                             .map((book) => mapImages[book] ?? '')
@@ -55,6 +53,7 @@ class _PastTriviaContainerState extends State<PastTriviaContainer> {
                     Visibility(
                       visible: viewModel.isShowDialog,
                       child: pastTriviaDialog(
+                          isLoadingData: viewModel.isLoadingData,
                           bookName: viewModel.selectedBook,
                           selectedChapter: viewModel.selectedChapter,
                           displayBookName: viewModel.language == RUSSIAN
@@ -69,7 +68,7 @@ class _PastTriviaContainerState extends State<PastTriviaContainer> {
                             viewModel.closeDialog();
                           },
                           confirmCallback: () {
-                            viewModel.closeDialogeAndNavigateToTrivia();
+                            viewModel.getDataAndNavigateToTrivia();
                           },
                           isPortrait: _isPortrait,
                           backgroundColor: Color(viewModel.primaryColor),
@@ -85,6 +84,7 @@ class _PastTriviaContainerState extends State<PastTriviaContainer> {
 }
 
 class _ViewModel {
+  final bool isLoadingData;
   final int primaryColor;
   final int secondaryColor;
   final int shadowColor;
@@ -98,10 +98,11 @@ class _ViewModel {
 
   final Function(String) setBookAndOpenDialog;
   final Function(int) setChapter;
-  final Function() closeDialogeAndNavigateToTrivia;
+  final Function() getDataAndNavigateToTrivia;
   final Function() closeDialog;
 
   _ViewModel({
+    required this.isLoadingData,
     required this.primaryColor,
     required this.secondaryColor,
     required this.shadowColor,
@@ -112,7 +113,7 @@ class _ViewModel {
     required this.isShowDialog,
     required this.setBookAndOpenDialog,
     required this.setChapter,
-    required this.closeDialogeAndNavigateToTrivia,
+    required this.getDataAndNavigateToTrivia,
     required this.closeDialog,
     required this.listPastBookNames,
     required this.mapCountPastChapters,
@@ -120,6 +121,7 @@ class _ViewModel {
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+        isLoadingData: store.state.loadingState.isLoadingDataFromFirebase,
         primaryColor: store.state.themeSettingsState.primaryColor,
         secondaryColor: store.state.themeSettingsState.secondaryColor,
         shadowColor: store.state.themeSettingsState.shadowColor,
@@ -137,11 +139,9 @@ class _ViewModel {
         setChapter: (int chapter) {
           store.dispatch(UpdatePastTriviaChapterAction(chapter));
         },
-        closeDialogeAndNavigateToTrivia: () {
+        getDataAndNavigateToTrivia: () {
           store.dispatch(UpdateIsTimeTriviaAction(false));
-          store.dispatch(UpdatePastTriviaDialogAction(false));
-          store.dispatch(
-              updateScreenThunk(NavigateFromHomeToTriviaScreenAction()));
+          store.dispatch(getDataPastTriviaFromFirebaseAndNavigateThunk());
         },
         closeDialog: () {
           store.dispatch(ResetPastTriviaAction());

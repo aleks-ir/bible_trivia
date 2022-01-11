@@ -21,7 +21,7 @@ class SignInContainer extends StatelessWidget {
   final TextEditingController _passController = TextEditingController();
   late final bool isErrorListener;
 
-  SignInContainer(this.isErrorListener);
+  SignInContainer(this.isErrorListener, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class SignInContainer extends StatelessWidget {
                       ? Text(
                           signIn.i18n,
                         )
-                      : miniCircularProgressIndicator(), () {
+                      : buttonCircularProgressIndicator(), () {
                 FocusScope.of(context).unfocus();
                 viewModel.signIn(
                     SignInRequest(_emailController.text, _passController.text));
@@ -118,7 +118,7 @@ class SignInContainer extends StatelessWidget {
                     : MediaQuery.of(context).size.width / 2,
                 child: singInButton(),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               SizedBox(
                 width: isPortrait
                     ? double.infinity
@@ -134,14 +134,14 @@ class SignInContainer extends StatelessWidget {
                 child: Column(
                   children: [
                     emailTitle(),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     emailTextField(),
                     emailErrorBox(),
                   ],
                 ),
                 flex: 10,
               ),
-              Expanded(
+              const Expanded(
                 child: SizedBox(),
                 flex: 1,
               ),
@@ -149,7 +149,7 @@ class SignInContainer extends StatelessWidget {
                 child: Column(
                   children: [
                     passwordTitle(),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     passwordTextField(),
                     passwordErrorBox(),
                   ],
@@ -163,12 +163,12 @@ class SignInContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               emailTitle(),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               emailTextField(),
               emailErrorBox(),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               passwordTitle(),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               passwordTextField(),
               passwordErrorBox(),
             ],

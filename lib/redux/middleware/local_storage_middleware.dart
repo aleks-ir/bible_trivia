@@ -5,6 +5,7 @@ import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/models/app_theme.dart';
 import 'package:weekly_bible_trivia/redux/actions/loading_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/local_storage_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/search_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/theme_settings_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/utils/selectors.dart';
@@ -21,8 +22,9 @@ ThunkAction<AppState> saveBookNameThunk(String bookName) {
 
 ThunkAction<AppState> saveChapterThunk(int chapter) {
   return (Store<AppState> store) async {
+    store.dispatch(UpdateSearchVerseAction(0));
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    ;
+
 
     prefs.setInt(CHAPTER, chapter);
     store.dispatch(UpdateReaderChapterAction(chapter));
@@ -77,7 +79,7 @@ ThunkAction<AppState> saveFontSizeThunk(double fontSize) {
   };
 }
 
-ThunkAction<AppState> createInitSettingsThunk() {
+ThunkAction<AppState> initSettingsThunk() {
   return (Store<AppState> store) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

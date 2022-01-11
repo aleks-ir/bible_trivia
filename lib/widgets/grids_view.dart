@@ -6,10 +6,10 @@ GridView pastTriviaSelectBookGridView(
     required List<String> listBooks,
     required List<String> listDisplayBooks,
     required Function(String) callback,
-    bool isPortrait: true,
-    Color primaryColor: Colors.white,
-    Color shadowColor: Colors.black12,
-    Color textColor: Colors.black}) {
+    bool isPortrait = true,
+    Color primaryColor = Colors.white,
+    Color shadowColor = Colors.black12,
+    Color textColor = Colors.black}) {
   return GridView.builder(
     itemCount: listBooks.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

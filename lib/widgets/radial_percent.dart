@@ -157,7 +157,7 @@ class RadialPercentPainter extends CustomPainter {
   }
 
   Rect calculateArcsRect(Size size) {
-    final linesMargin = 5;
+    const linesMargin = 5;
     final offest = lineWidth / 2 + linesMargin;
     final arcRect = Offset(offest, offest) &
     Size(size.width - offest * 2, size.height - offest * 2);

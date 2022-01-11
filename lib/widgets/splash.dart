@@ -11,7 +11,7 @@ Widget splash(Image image) {
       ),
       Align(
         alignment: Alignment.center,
-        child: maxCircularProgressIndicator(),
+        child: splashCircularProgressIndicator(),
       )
     ],
   );

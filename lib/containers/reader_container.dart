@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/constants_map.dart';
-import 'package:weekly_bible_trivia/models/verse.dart';
+import 'package:weekly_bible_trivia/models/database/verse.dart';
 import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/database_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
@@ -19,48 +19,45 @@ class ReaderContainer extends StatefulWidget {
   const ReaderContainer({Key? key}) : super(key: key);
 
   @override
-  ReaderContainerState createState() {
-    return ReaderContainerState();
+  _ReaderContainerState createState() {
+    return _ReaderContainerState();
   }
 }
 
-class ReaderContainerState extends State<ReaderContainer>
-    with SingleTickerProviderStateMixin {
+class _ReaderContainerState extends State<ReaderContainer>
+    with TickerProviderStateMixin {
   late ScrollController _scrollController;
-  late AnimationController _controllerAnimation;
+  late AnimationController _buttonsAnimationController;
   late Animation<double> _scaleAnimations;
-  late _ViewModel _vm;
+  late _ViewModel _viewModel;
 
   @override
   void initState() {
     super.initState();
-    _controllerAnimation = AnimationController(
+    _buttonsAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    );
-    _controllerAnimation.forward();
-
-    _scaleAnimations =
-        CurvedAnimation(parent: _controllerAnimation, curve: Curves.easeIn);
-
+      duration: const Duration(milliseconds: 600),
+    )..forward();
     _scrollController = ScrollController();
     _scrollController.addListener(listen);
+    _scaleAnimations = CurvedAnimation(
+        parent: _buttonsAnimationController, curve: Curves.easeIn);
   }
 
   void listen() {
     final direction = _scrollController.position.userScrollDirection;
     if (direction == ScrollDirection.forward) {
-      _vm.changeReaderMod(false);
-      _controllerAnimation.forward();
+      _viewModel.changeReaderMod(false);
+      _buttonsAnimationController.forward();
     } else if (direction == ScrollDirection.reverse) {
-      _vm.changeReaderMod(true);
-      _controllerAnimation.reverse();
+      _viewModel.changeReaderMod(true);
+      _buttonsAnimationController.reverse();
     }
   }
 
   @override
   void dispose() {
-    _controllerAnimation.dispose();
+    _buttonsAnimationController.dispose();
     _scrollController.removeListener(listen);
     super.dispose();
   }
@@ -70,7 +67,7 @@ class ReaderContainerState extends State<ReaderContainer>
     return StoreConnector<AppState, _ViewModel>(
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
-          _vm = viewModel;
+          _viewModel = viewModel;
           return SizedBox.expand(
             child: Container(
                 color: Color(viewModel.primaryColor),
@@ -113,9 +110,10 @@ class ReaderContainerState extends State<ReaderContainer>
                                         left: 15),
                                     color: Color(viewModel.primaryColor),
                                     child: Center(
-                                      child: getTextRich(
+                                      child: getTextReader(
                                           index,
-                                          viewModel.listVerses[index].text,
+                                          viewModel.searchVerse - 1 == index,
+                                              viewModel.listVerses[index].text,
                                           viewModel.fontSize,
                                           Color(viewModel.textColor)),
                                     ),
@@ -130,9 +128,13 @@ class ReaderContainerState extends State<ReaderContainer>
                           child: readerFloatingActionButton(
                               Icon(Icons.navigate_next,
                                   color: Color(viewModel.iconColor)),
-                              Alignment.bottomRight, () {
-                            viewModel.changePage(_getNextChapter());
-                          }, color: Color(viewModel.primaryColor)),
+                              Alignment.bottomRight,
+                              _scaleAnimations.status == AnimationStatus.dismissed
+                                  ? null
+                                  : () {
+                                      viewModel.changePage(_getNextChapter());
+                                    },
+                              color: Color(viewModel.primaryColor)),
                         ),
                         FadeTransition(
                           opacity: _scaleAnimations,
@@ -142,11 +144,15 @@ class ReaderContainerState extends State<ReaderContainer>
                                 child: Icon(Icons.navigate_next,
                                     color: Color(viewModel.iconColor)),
                               ),
-                              Alignment.bottomLeft, () {
-                            viewModel.changePage(
-                              _getPrevChapter(),
-                            );
-                          }, color: Color(viewModel.primaryColor)),
+                              Alignment.bottomLeft,
+                              _scaleAnimations.status == AnimationStatus.dismissed
+                                  ? null
+                                  : () {
+                                      viewModel.changePage(
+                                        _getPrevChapter(),
+                                      );
+                                    },
+                              color: Color(viewModel.primaryColor)),
                         ),
                       ])),
           );
@@ -154,21 +160,19 @@ class ReaderContainerState extends State<ReaderContainer>
   }
 
   int _getNextChapter() {
-    int? maxChapter = mapCountChapters[_vm.bookName];
-    if (maxChapter != null && _vm.chapter < maxChapter) {
-      print("next");
-      return _vm.chapter + 1;
+    int? maxChapter = mapCountChapters[_viewModel.bookName];
+    if (maxChapter != null && _viewModel.chapter < maxChapter) {
+      return _viewModel.chapter + 1;
     } else {
-      return _vm.chapter;
+      return _viewModel.chapter;
     }
   }
 
   int _getPrevChapter() {
-    if (_vm.chapter > 1) {
-      print("prev");
-      return _vm.chapter - 1;
+    if (_viewModel.chapter > 1) {
+      return _viewModel.chapter - 1;
     } else {
-      return _vm.chapter;
+      return _viewModel.chapter;
     }
   }
 }
@@ -187,6 +191,7 @@ class _ViewModel {
   final double fontSize;
   final String bookName;
   final int chapter;
+  final int searchVerse;
   final List<Verse> listVerses;
   final bool isReaderMod;
   final bool isLoadingData;
@@ -201,6 +206,7 @@ class _ViewModel {
     required this.fontSize,
     required this.bookName,
     required this.chapter,
+    required this.searchVerse,
     required this.listVerses,
     required this.isReaderMod,
     required this.isLoadingData,
@@ -215,10 +221,11 @@ class _ViewModel {
       textColor: store.state.themeSettingsState.textColor,
       bookName: store.state.localStorageState.bookName,
       chapter: store.state.localStorageState.chapter,
+      searchVerse: store.state.searchState.verse,
       listVerses: store.state.readerState.textReader,
       fontSize: store.state.localStorageState.fontSize,
       isReaderMod: store.state.appBarState.isReaderMod,
-      isLoadingData: store.state.loading.isLoadingDataFromApi,
+      isLoadingData: store.state.loadingState.isLoadingDataFromApi,
       changeReaderMod: (value) {
         store.dispatch(UpdateReaderModAction(value));
         store.dispatch(UpdateShowMenuBarAction(false));

@@ -1,7 +1,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:weekly_bible_trivia/dao/book_dao.dart';
-import 'package:weekly_bible_trivia/models/verse.dart';
+import 'package:weekly_bible_trivia/models/database/verse.dart';
 
 class ApiProvider {
   BookDao bookDao;

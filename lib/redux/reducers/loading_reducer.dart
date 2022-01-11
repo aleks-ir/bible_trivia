@@ -9,6 +9,10 @@ Reducer<LoadingState> loadingReducer = combineReducers([
       _changeLoadingApp),
   TypedReducer<LoadingState, UpdateLoadingAppDataFromApiAction>(
       _changeLoadingDataFromApi),
+  TypedReducer<LoadingState, UpdateLoadingAppDataFromFirebaseAction>(
+      _changeLoadingDataFromFirebase),
+  TypedReducer<LoadingState, UpdateSearchingAction>(
+      _changeSearching),
 ]);
 
 LoadingState _changeLoadingApp(
@@ -22,5 +26,19 @@ LoadingState _changeLoadingDataFromApi(
     LoadingState prevState, UpdateLoadingAppDataFromApiAction action) {
   return prevState.copyWith(
     isLoadingDataFromApi: action.loadingDataFromApi,
+  );
+}
+
+LoadingState _changeLoadingDataFromFirebase(
+    LoadingState prevState, UpdateLoadingAppDataFromFirebaseAction action) {
+  return prevState.copyWith(
+    isLoadingDataFromFirebase: action.loadingDataFromFirebase,
+  );
+}
+
+LoadingState _changeSearching(
+    LoadingState prevState, UpdateSearchingAction action) {
+  return prevState.copyWith(
+    isSearching: action.searching,
   );
 }

@@ -6,7 +6,7 @@ import 'package:weekly_bible_trivia/screens/edit_profile_screen.dart';
 import 'package:weekly_bible_trivia/screens/home_screen.dart';
 import 'package:weekly_bible_trivia/screens/result_screen.dart';
 import 'package:weekly_bible_trivia/screens/search_screen.dart';
-import 'package:weekly_bible_trivia/screens/selection_screen.dart';
+import 'package:weekly_bible_trivia/screens/selection_reader_screen.dart';
 import 'package:weekly_bible_trivia/screens/signin_screen.dart';
 import 'package:weekly_bible_trivia/screens/signup_screen.dart';
 import 'package:weekly_bible_trivia/screens/table_results_screen.dart';
@@ -22,7 +22,7 @@ class ApplicationRouter {
           return MaterialPageRoute(builder: (context) =>
               const HomeScreen());
         case RoutePaths.fromHomeToSignInScreen:
-          return AnimationPage(startPage: const HomeScreen(), endPage: SignInScreen(true), animationDirection: AnimationDirection.upward);
+          return AnimationPage(startPage: const HomeScreen(), endPage: const SignInScreen(true), animationDirection: AnimationDirection.upward);
         case RoutePaths.fromHomeToTableResultsScreen:
           return AnimationPage(startPage: const HomeScreen(), endPage: const TableResultsScreen(), animationDirection: AnimationDirection.upward);
         case RoutePaths.fromHomeToAboutScreen:
@@ -40,9 +40,9 @@ class ApplicationRouter {
         case RoutePaths.fromSignInToHomeScreen:
           //return MaterialPageRoute(builder: (context) =>
           //const HomeScreen());
-          return AnimationPage(startPage: SignInScreen(false), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
+          return AnimationPage(startPage: const SignInScreen(false), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
         case RoutePaths.fromSignInToSignUpScreen:
-          return AnimationPage(startPage: SignInScreen(false), endPage: const SignUpScreen(), animationDirection: AnimationDirection.upward);
+          return AnimationPage(startPage: const SignInScreen(false), endPage: const SignUpScreen(), animationDirection: AnimationDirection.upward);
         case RoutePaths.fromSignUpToHomeScreen:
           return AnimationPage(startPage: const SignUpScreen(), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
         case RoutePaths.fromTableResultsToHomeScreen:
@@ -57,7 +57,8 @@ class ApplicationRouter {
         case RoutePaths.fromTriviaToHomeScreen:
           return AnimationPage(startPage: const TriviaScreen(), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
         case RoutePaths.fromResultToHomeScreen:
-          return AnimationPage(startPage: const ResultScreen(), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
+          return MaterialPageRoute(builder: (context) =>
+          const HomeScreen());
         case RoutePaths.fromSearchToHomeScreen:
           return AnimationPage(startPage: const SearchScreen(), endPage: const HomeScreen(), animationDirection: AnimationDirection.downward);
         case RoutePaths.fromSelectionReaderToHomeScreen:

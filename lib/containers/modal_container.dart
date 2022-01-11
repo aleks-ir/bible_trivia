@@ -13,8 +13,9 @@ import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 class ModalBottomSheetContainer {
   BuildContext context;
+  Animation<double> imageScaleAnimations;
 
-  ModalBottomSheetContainer(this.context);
+  ModalBottomSheetContainer(this.context, this.imageScaleAnimations);
 
   showModal(Function callback) {
     showModalBottomSheet(
@@ -117,10 +118,13 @@ class ModalBottomSheetContainer {
                         ),
                         Expanded(
                             flex: 3,
-                            child: IconButton(
-                              icon: Image.asset(LOGO_IMG),
-                              iconSize: 70,
-                              onPressed: viewModel.navigateToAbout,
+                            child: FadeTransition(
+                              opacity: imageScaleAnimations,
+                              child: IconButton(
+                                icon: Image.asset(LOGO_IMG),
+                                iconSize: 70,
+                                onPressed: viewModel.navigateToAbout,
+                              ),
                             )),
                         Expanded(
                           flex: isPortrait ? 6 : 11,

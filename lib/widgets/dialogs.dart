@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
+import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 
 import 'buttons.dart';
 import 'grids_view.dart';
 
 Widget pastTriviaDialog(
-    {double padding: 20,
+    {double padding = 20,
+      required bool isLoadingData,
     required String bookName,
     required int selectedChapter,
     required String? displayBookName,
@@ -29,12 +31,12 @@ Widget pastTriviaDialog(
     child: Container(
       height: isPortrait ? 380 : 240,
       padding: EdgeInsets.only(left: padding, top: padding, right: padding),
-      margin: EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           color: backgroundColor,
           borderRadius: BorderRadius.circular(padding),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
                 color: Colors.black, offset: Offset(0, 2), blurRadius: 10),
           ]),
@@ -58,7 +60,11 @@ Widget pastTriviaDialog(
           ),
           SizedBox(
             height: isPortrait ? 200.0 : 100,
-            child: pastTriviaSelectChapterGridView(
+            child: isLoadingData
+                ? Center(
+                child: defaultCircularProgressIndicator(
+                    Colors.grey))
+                : pastTriviaSelectChapterGridView(
                 bookName: bookName,
                 selectedChapter: selectedChapter,
                 countChapters: countChapters,
@@ -130,12 +136,12 @@ Widget triviaDialog({
               top: padding + 30,
               right: padding,
               bottom: padding),
-          margin: EdgeInsets.only(top: 30),
+          margin: const EdgeInsets.only(top: 30),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               color: backgroundColor,
               borderRadius: BorderRadius.circular(padding),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Colors.black, offset: Offset(0, 2), blurRadius: 10),
               ]),
@@ -143,7 +149,7 @@ Widget triviaDialog({
             child: Column(
               //mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
@@ -151,7 +157,7 @@ Widget triviaDialog({
                   style: TextStyle(fontSize: 18, color: textColor),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Container(
@@ -182,7 +188,7 @@ Widget triviaDialog({
                 shape: BoxShape.rectangle,
                 color: backgroundColor,
                 borderRadius: BorderRadius.circular(padding),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.black, offset: Offset(0, 2), blurRadius: 5),
                 ]),

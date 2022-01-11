@@ -8,7 +8,7 @@ class PastTriviaMenuBar extends StatelessWidget {
   final String title;
   final AnimationController controller;
 
-  PastTriviaMenuBar(
+  const PastTriviaMenuBar(
     this.title,
     this.controller, {
     Key? key,
@@ -37,7 +37,7 @@ class PastTriviaMenuBar extends StatelessWidget {
                 ],
               ),
             ),
-            shape: ContinuousRectangleBorder(
+            shape: const ContinuousRectangleBorder(
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(50.0))),
             backgroundColor: Color(

@@ -5,14 +5,12 @@ import 'package:flutter/material.dart';
 
 class TimerWidget extends StatelessWidget {
   final AnimationController timerController;
-  final String time;
   final Color indicatorColor;
   final Color textColor;
 
   const TimerWidget({
     Key? key,
     required this.timerController,
-    required this.time,
     required this.indicatorColor,
     required this.textColor,
   }) : super(key: key);
@@ -30,7 +28,6 @@ class TimerWidget extends StatelessWidget {
             animation: timerController,
             backgroundColor: Colors.grey.shade200,
             color: Colors.teal,
-            //color: Colors.green.shade200,
           )),
         ),
         AnimatedBuilder(
@@ -39,13 +36,17 @@ class TimerWidget extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(top: 30.0),
                 child: Text(
-                  time,
+                  _getTimerString(),
                   style: TextStyle(fontSize: 18.0, color: textColor),
                 ),
               );
             }),
       ],
     );
+  }
+  String _getTimerString() {
+    Duration duration = timerController.duration! * timerController.value;
+    return '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
   }
 }
 

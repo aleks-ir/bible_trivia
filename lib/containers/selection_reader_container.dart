@@ -13,6 +13,8 @@ import 'package:weekly_bible_trivia/utils/selectors.dart';
 import 'package:weekly_bible_trivia/widgets/lists_view.dart';
 
 class SelectionReaderContainer extends StatelessWidget {
+  const SelectionReaderContainer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     bool isPortrait =
@@ -24,15 +26,18 @@ class SelectionReaderContainer extends StatelessWidget {
             child: Container(
               color: Color(viewModel.primaryColor),
               child: Container(
-                child: selectionListView(
-                    callback: (String bookName, int chapter) {
-                      viewModel.setBookAndChapter(bookName, chapter);
-                    },
-                    listDisplayBooks: selectListDisplayBooks(viewModel.isOldTestament, viewModel.language == ENGLISH),
+                child: selectionReaderListView(
+                  callback: (String bookName, int chapter) {
+                    viewModel.setBookAndChapter(bookName, chapter);
+                  },
+                  listDisplayBooks: selectListDisplayBooks(
+                      viewModel.isOldTestament, viewModel.language == ENGLISH),
                   mapCountChapters: mapCountChapters,
-                    listBooks: viewModel.isOldTestament ? listBooksOldTestamentEn : listBooksNewTestamentEn,
-                    isPortrait: isPortrait,
-                    primaryColor: Color(viewModel.primaryColor),
+                  listBooks: viewModel.isOldTestament
+                      ? listBooksOldTestamentEn
+                      : listBooksNewTestamentEn,
+                  isPortrait: isPortrait,
+                  primaryColor: Color(viewModel.primaryColor),
                   secondaryColor: Color(viewModel.secondaryColor),
                   textColor: Color(viewModel.textColor),
                 ),
@@ -75,8 +80,8 @@ class _ViewModel {
         store.dispatch(saveBookNameThunk(bookName));
         store.dispatch(saveChapterThunk(chapter));
         store.dispatch(updateTextReaderThunk());
-        store.dispatch(updateScreenThunk(
-            NavigateFromSelectionToHomeScreenAction()));
+        store.dispatch(
+            updateScreenThunk(NavigateFromSelectionToHomeScreenAction()));
       },
     );
   }

@@ -52,7 +52,6 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
       _navigationService.navigate(RoutePaths.fromSelectionReaderToTranslationScreen);
       return;
     } else if (action is NavigateFromSignInToHomeScreenAction) {
-      //_navigationService.goBack();
       _navigationService.navigateBack(RoutePaths.fromSignInToHomeScreen);
       return;
     } else if (action is NavigateFromSignInToSignUpScreenAction) {

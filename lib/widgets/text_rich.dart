@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
 
-Widget getTextRich(int index, String text, double fontSize, Color textColor){
+Widget getTextReader(int index, bool isSearchVerse, String text, double fontSize, Color textColor){
   return Text.rich(
     TextSpan(
       children: [
@@ -22,6 +22,7 @@ Widget getTextRich(int index, String text, double fontSize, Color textColor){
           style: TextStyle(
               fontSize: fontSize,
               color: textColor,
+              fontWeight: isSearchVerse ? FontWeight.w600 : FontWeight.normal,
               fontFamily: VERDANA),
         ),
       ],

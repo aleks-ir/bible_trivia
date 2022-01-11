@@ -4,12 +4,13 @@ import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/answer.dart';
-import 'package:weekly_bible_trivia/models/firestore/question.dart';
+import 'package:weekly_bible_trivia/models/firebase/question.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/trivia_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/dialogs.dart';
+import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 import 'package:weekly_bible_trivia/widgets/slide_items/slide_item.dart';
 import 'package:weekly_bible_trivia/widgets/timer.dart';
 import 'package:weekly_bible_trivia/widgets/trivia_bars.dart';
@@ -49,10 +50,6 @@ class _TriviaContainerState extends State<TriviaContainer>
   @override
   void initState() {
     super.initState();
-    _timerController = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 5),
-    );
   }
 
   @override
@@ -87,10 +84,15 @@ class _TriviaContainerState extends State<TriviaContainer>
         MediaQuery.of(context).orientation == Orientation.portrait;
     return StoreConnector<AppState, _ViewModel>(
         onInit: (Store<AppState> store) {
+          _timerController = AnimationController(
+            vsync: this,
+            duration: Duration(seconds: store.state.weeklyTriviaState.runtime),
+          );
           _initDataTrivia(store);
           if (store.state.triviaState.isTimeTrivia) {
             _initTimeTrivia(store);
           }
+
         },
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
@@ -101,7 +103,7 @@ class _TriviaContainerState extends State<TriviaContainer>
                 alignment: AlignmentDirectional.bottomCenter,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(top: 95.0, bottom: 30),
+                    padding: const EdgeInsets.only(top: 30.0, bottom: 30),
                     child: PageView.builder(
                       scrollDirection: Axis.horizontal,
                       controller: _pageController,
@@ -135,17 +137,11 @@ class _TriviaContainerState extends State<TriviaContainer>
                         visible: viewModel.isTimeTrivia,
                         child: TimerWidget(
                           timerController: _timerController,
-                          time: _getTimerString(),
                           indicatorColor: Color(viewModel.iconColor),
                           textColor: Color(viewModel.textColor),
                         ),
                       ),
                       triviaTopBar(
-                          centerWidget: const Text(
-                            "",
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.w400),
-                          ),
                           titleRightButton: _checkForLastQuestion(viewModel)
                               ? complete.i18n
                               : next.i18n,
@@ -166,7 +162,7 @@ class _TriviaContainerState extends State<TriviaContainer>
                       Card(
                         child: Container(
                           width: double.infinity,
-                          padding: EdgeInsets.only(bottom: 20.0),
+                          padding: const EdgeInsets.only(bottom: 20.0),
                           height: 20,
                           child: null,
                         ),
@@ -208,10 +204,6 @@ class _TriviaContainerState extends State<TriviaContainer>
         });
   }
 
-  String _getTimerString() {
-    Duration duration = _timerController.duration! * _timerController.value;
-    return '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
-  }
 
   void _updateScreen(_ViewModel viewModel) {
     _pageController.jumpToPage(viewModel.currentPage == viewModel.startPage
@@ -240,11 +232,11 @@ class _TriviaContainerState extends State<TriviaContainer>
     if (viewModel.currentPage <= viewModel.questions.length - 2) {
       viewModel.changePage(viewModel.currentPage + 1);
       _pageController.nextPage(
-          duration: Duration(milliseconds: 200), curve: Curves.bounceIn);
+          duration: const Duration(milliseconds: 200), curve: Curves.bounceIn);
     } else {
       viewModel.changePage(0);
       _pageController.animateToPage(0,
-          duration: Duration(milliseconds: 1000), curve: Curves.decelerate);
+          duration: const Duration(milliseconds: 1000), curve: Curves.decelerate);
     }
   }
 

@@ -5,21 +5,34 @@ import 'package:flutter/material.dart';
 class LoadingState {
   final bool isLoadingApp;
   final bool isLoadingDataFromApi;
+  final bool isLoadingDataFromFirebase;
+  final bool isSearching;
 
   const LoadingState(
       {required this.isLoadingApp,
-      required this.isLoadingDataFromApi});
+      required this.isLoadingDataFromApi,
+      required this.isLoadingDataFromFirebase,
+      required this.isSearching});
 
-  LoadingState copyWith({bool? isLoadingApp, bool? isLoadingDataFromApi}) {
+  LoadingState copyWith(
+      {bool? isLoadingApp,
+      bool? isLoadingDataFromApi,
+      bool? isLoadingDataFromFirebase,
+      bool? isSearching}) {
     return LoadingState(
       isLoadingApp: isLoadingApp ?? this.isLoadingApp,
       isLoadingDataFromApi: isLoadingDataFromApi ?? this.isLoadingDataFromApi,
+      isLoadingDataFromFirebase:
+          isLoadingDataFromFirebase ?? this.isLoadingDataFromFirebase,
+      isSearching: isSearching ?? this.isSearching,
     );
   }
 
   factory LoadingState.initial() {
-    return LoadingState(
+    return const LoadingState(
         isLoadingApp: true,
-        isLoadingDataFromApi: false);
+        isLoadingDataFromApi: false,
+        isLoadingDataFromFirebase: false,
+        isSearching: false);
   }
 }

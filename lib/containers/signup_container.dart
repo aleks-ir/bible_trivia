@@ -18,6 +18,8 @@ class SignUpContainer extends StatelessWidget {
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _retypePassController = TextEditingController();
 
+  SignUpContainer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
@@ -98,7 +100,7 @@ class SignUpContainer extends StatelessWidget {
                 ),
                 flex: 10,
               ),
-              Expanded(
+              const Expanded(
                 child: SizedBox(),
                 flex: 1,
               ),
@@ -125,7 +127,7 @@ class SignUpContainer extends StatelessWidget {
                       viewModel.passwordError.isNotEmpty
                   ? errorValidation(viewModel.passwordError)
                   : const SizedBox(),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               verifyTextField(),
               viewModel.validStatus == ValidationStatus.error &&
                       viewModel.retypePasswordError.isNotEmpty
@@ -148,7 +150,7 @@ class SignUpContainer extends StatelessWidget {
                 ),
                 flex: 10,
               ),
-              Expanded(
+              const Expanded(
                 child: SizedBox(),
                 flex: 1,
               ),
@@ -177,7 +179,7 @@ class SignUpContainer extends StatelessWidget {
                     ? Text(
                   create.i18n,
                 )
-                    : miniCircularProgressIndicator(), () {
+                    : buttonCircularProgressIndicator(), () {
               FocusScope.of(context).unfocus();
               viewModel.signUp(SignUpRequest(
                   _nameController.text,
@@ -190,7 +192,7 @@ class SignUpContainer extends StatelessWidget {
           return SizedBox.expand(
             child: Container(
               color: Color(viewModel.primaryColor),
-              padding: EdgeInsets.symmetric(horizontal: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 50),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

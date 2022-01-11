@@ -11,6 +11,8 @@ import 'package:weekly_bible_trivia/utils/selectors.dart';
 import 'package:weekly_bible_trivia/widgets/lists_view.dart';
 
 class TranslationContainer extends StatelessWidget {
+  const TranslationContainer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
@@ -59,7 +61,7 @@ class _ViewModel {
       setTranslation: (translation){
         store.dispatch(updateScreenThunk(
             saveTranslationIdThunk(translation)));
-        store.dispatch(updateDatabaseThunk(selectTranslationUrl(translation)));
+        store.dispatch(updateTranslationThunk(selectTranslationUrl(translation)));
         store.dispatch(updateScreenThunk(
             NavigateFromTranslationToSelectionScreenAction()));
       },

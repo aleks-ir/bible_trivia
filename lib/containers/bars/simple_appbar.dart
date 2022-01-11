@@ -38,7 +38,7 @@ class SimpleAppBar extends StatelessWidget with PreferredSizeWidget {
                   ),
                   onPressed: () => viewModel.navigateTo(actionNavigateRoute)),
             ],
-            title: Text(this.title, style: TextStyles.getAppBarStyle(Color(viewModel.textColor))),
+            title: Text(title, style: TextStyles.getAppBarStyle(Color(viewModel.textColor))),
             backgroundColor: Color(viewModel.appBarColor),
           );
         });

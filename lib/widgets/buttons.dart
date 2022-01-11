@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 MaterialButton menuMaterialButton(
     String title,
     Image image, bool isActive, VoidCallback callback,
-    {Color activeColor: Colors.teal,
-    Color colorBackground: Colors.white30,
-    double radiusCircular: 30}) {
+    {Color activeColor = Colors.teal,
+    Color colorBackground = Colors.white30,
+    double radiusCircular = 30}) {
   return MaterialButton(
     highlightElevation: 0,
     onPressed: callback,
@@ -36,7 +36,7 @@ OutlinedButton menuOutlinedButton(String title, VoidCallback callback,
   return OutlinedButton(
     onPressed: callback,
     style: ButtonStyle(
-      overlayColor: MaterialStateProperty.all(Colors.teal.shade100),
+      overlayColor: MaterialStateProperty.all(Colors.grey.shade100),
       shape: MaterialStateProperty.all(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
@@ -47,7 +47,7 @@ OutlinedButton menuOutlinedButton(String title, VoidCallback callback,
       padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Text(title,
           style: TextStyle(color: textColor, fontSize: fontSize),
-          strutStyle: StrutStyle()),
+          strutStyle: const StrutStyle()),
     ),
   );
 }
@@ -56,6 +56,7 @@ FloatingActionButton menuFloatingButton(
     Icon icon, bool isActive, VoidCallback callback,
     {Color color: Colors.black26, Color activeColor: Colors.teal}) {
   return FloatingActionButton(
+    heroTag: null,
     highlightElevation: 0,
     splashColor: activeColor,
     onPressed: callback,
@@ -67,11 +68,11 @@ FloatingActionButton menuFloatingButton(
 }
 
 Widget animatedHomeButton({
-  required String title,
-  double height: 100,
-  double width: 100,
-  Color backgroundColor: Colors.white,
-  Color textColor: Colors.black,
+  required Widget child,
+  double height = 100,
+  double width = 100,
+  Color backgroundColor = Colors.white,
+  Color shadowColor = Colors.black,
 }) {
   return Container(
     height: width,
@@ -80,25 +81,21 @@ Widget animatedHomeButton({
         borderRadius: BorderRadius.circular(100.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black38,
-            blurRadius: 6.0,
-            offset: Offset(0.0, 5.0),
+            color: shadowColor,
+            blurRadius: 5.0,
+            offset: const Offset(0.0, 2.0),
           ),
         ],
         color: backgroundColor,
     ),
     child: Center(
-      child: Text(
-        title,
-        style: TextStyle(
-            fontSize: 20.0, fontWeight: FontWeight.bold, color: textColor),
-      ),
+      child: child,
     ),
   );
 }
 
 MaterialButton authMaterialButton(Widget childWidget, VoidCallback callback,
-    {Color color: Colors.teal, Color textColor: Colors.white}) {
+    {Color color = Colors.teal, Color textColor = Colors.white}) {
   return MaterialButton(
     onPressed: callback,
     textColor: textColor,
@@ -107,20 +104,20 @@ MaterialButton authMaterialButton(Widget childWidget, VoidCallback callback,
       child: childWidget,
     ),
     height: 45,
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(25))),
   );
 }
 
 OutlinedButton authOutlinedButton(String title, VoidCallback callback,
-    {Color color: Colors.teal, Color textColor: Colors.white}) {
+    {Color color = Colors.teal, Color textColor = Colors.white}) {
   return OutlinedButton(
     onPressed: callback,
     style: ButtonStyle(
       padding: MaterialStateProperty.all<EdgeInsets>(
-          EdgeInsets.all(15)),
+          const EdgeInsets.all(15)),
       overlayColor: MaterialStateProperty.all(Colors.black12),
-      side: MaterialStateProperty.all(BorderSide(color: Colors.teal, width: 2)),
+      side: MaterialStateProperty.all(const BorderSide(color: Colors.teal, width: 2)),
       shape: MaterialStateProperty.all(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
@@ -129,13 +126,13 @@ OutlinedButton authOutlinedButton(String title, VoidCallback callback,
     ),
     child: Text(title,
         style: TextStyle(color: textColor, fontSize: 12),
-        strutStyle: StrutStyle()),
+        strutStyle: const StrutStyle()),
   );
 }
 
 Widget readerFloatingActionButton(
-    Widget icon, Alignment alignment, VoidCallback callback,
-    {Color color: Colors.white}) {
+    Widget icon, Alignment alignment, VoidCallback? callback,
+    {Color color = Colors.white}) {
   return Align(
     alignment: alignment,
     child: Container(

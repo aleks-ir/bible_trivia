@@ -5,6 +5,8 @@ import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 class AboutContainer extends StatelessWidget {
+  const AboutContainer({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {

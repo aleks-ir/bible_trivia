@@ -9,7 +9,7 @@ import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'home_container.dart';
 
 class ActiveContainer extends StatelessWidget {
-  ActiveContainer({
+  const ActiveContainer({
     Key? key,
   }) : super(key: key);
 
@@ -20,11 +20,11 @@ class ActiveContainer extends StatelessWidget {
         builder: (context, _ViewModel viewModel) {
           switch (viewModel.activeTab) {
             case NavigationTab.home:
-              return HomeContainer();
+              return const HomeContainer();
             case NavigationTab.reader:
-              return ReaderContainer();
+              return const ReaderContainer();
             case NavigationTab.pastTrivia:
-              return PastTriviaContainer();
+              return const PastTriviaContainer();
             default:
               return Container();
           }

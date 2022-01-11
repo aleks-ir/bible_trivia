@@ -7,12 +7,16 @@ import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/constants_map.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
-import 'package:weekly_bible_trivia/redux/actions/home_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/trivia_actions.dart';
+import 'package:weekly_bible_trivia/redux/middleware/firebase_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/utils/selectors.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
+import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 
 class HomeContainer extends StatefulWidget {
+  const HomeContainer({Key? key}) : super(key: key);
+
   @override
   _HomeContainerState createState() => _HomeContainerState();
 }
@@ -21,12 +25,13 @@ class _HomeContainerState extends State<HomeContainer>
     with TickerProviderStateMixin {
   late double _scale;
   late AnimationController _buttonAnimationController;
+  late _ViewModel _viewModel;
 
   @override
   void initState() {
     _buttonAnimationController = AnimationController(
       vsync: this,
-      duration: Duration(
+      duration: const Duration(
         milliseconds: 500,
       ),
       lowerBound: 0.0,
@@ -52,6 +57,7 @@ class _HomeContainerState extends State<HomeContainer>
           _scale = 0.8 - _buttonAnimationController.value;
           bool isPortrait =
               MediaQuery.of(context).orientation == Orientation.portrait;
+          _viewModel = viewModel;
 
           return Container(
               margin: EdgeInsets.only(top: 70),
@@ -71,7 +77,7 @@ class _HomeContainerState extends State<HomeContainer>
                       child: Text(
                         _getDateString(viewModel.currentDate,
                             mapMonths: selectMapMonths(viewModel.language)),
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white,
                             fontFamily: INTER,
                             fontStyle: FontStyle.italic,
@@ -83,7 +89,8 @@ class _HomeContainerState extends State<HomeContainer>
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: isPortrait
-                            ? MediaQuery.of(context).size.height / 4
+                            ? MediaQuery.of(context).size.height /
+                                (viewModel.theme == DARK ? 8 : 3.5)
                             : 80),
                     child: Center(
                       child: Column(
@@ -119,7 +126,8 @@ class _HomeContainerState extends State<HomeContainer>
                             height: isPortrait ? 20 : 10,
                           ),
                           Visibility(
-                            visible: !viewModel.isPassed &&
+                            visible:
+                            !viewModel.isPassed &&
                                 _compareToDate(viewModel.currentDate,
                                     viewModel.nextTriviaDate),
                             child: GestureDetector(
@@ -130,14 +138,22 @@ class _HomeContainerState extends State<HomeContainer>
                               child: Transform.scale(
                                   scale: _scale,
                                   child: animatedHomeButton(
-                                    title: go.i18n,
+                                    child: viewModel.isLoadingData
+                                        ? buttonCircularProgressIndicator(
+                                            color: Color(viewModel.iconColor))
+                                        : Text(
+                                            go.i18n,
+                                            style: TextStyle(
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold,
+                                                color:
+                                                    Color(viewModel.iconColor)),
+                                          ),
                                     height: 140,
-                                    width: 50,
-                                    textColor: Colors.teal,
-                                    //Color(viewModel.primaryColor),
+                                    width: 55,
                                     backgroundColor:
                                         Color(viewModel.primaryColor),
-                                    //Color(viewModel.textColor)
+                                    shadowColor: Color(viewModel.shadowColor),
                                   )),
                             ),
                           ),
@@ -182,13 +198,15 @@ class _HomeContainerState extends State<HomeContainer>
 
   void _tapUp(TapUpDetails details) {
     _buttonAnimationController.reverse();
+    _viewModel.getDataAndNavigateToTrivia();
   }
 }
 
 class _ViewModel {
+  final bool isLoadingData;
   final int primaryColor;
-  final int secondaryColor;
   final int shadowColor;
+  final int iconColor;
   final int textColor;
   final String theme;
   final String language;
@@ -199,12 +217,13 @@ class _ViewModel {
   final DateTime nextTriviaDate;
   final DateTime currentDate;
 
-  final Function(bool) changeShowedInfoTrivia;
+  final Function() getDataAndNavigateToTrivia;
 
   _ViewModel({
+    required this.isLoadingData,
     required this.primaryColor,
-    required this.secondaryColor,
     required this.shadowColor,
+    required this.iconColor,
     required this.textColor,
     required this.theme,
     required this.language,
@@ -214,14 +233,15 @@ class _ViewModel {
     required this.nextTriviaChapters,
     required this.nextTriviaDate,
     required this.currentDate,
-    required this.changeShowedInfoTrivia,
+    required this.getDataAndNavigateToTrivia,
   });
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+      isLoadingData: store.state.loadingState.isLoadingDataFromFirebase,
       primaryColor: store.state.themeSettingsState.primaryColor,
-      secondaryColor: store.state.themeSettingsState.secondaryColor,
       shadowColor: store.state.themeSettingsState.shadowColor,
+      iconColor: store.state.themeSettingsState.iconColor,
       textColor: store.state.themeSettingsState.textColor,
       theme: store.state.localStorageState.theme,
       language: store.state.localStorageState.language,
@@ -232,9 +252,9 @@ class _ViewModel {
       nextTriviaBook: store.state.infoTriviaState.nextBookName,
       nextTriviaDate: store.state.infoTriviaState.nextDate,
       nextTriviaChapters: store.state.infoTriviaState.nextChapters,
-
-      changeShowedInfoTrivia: (bool value) {
-        store.dispatch(ChangeShowInfoTriviaAction(value));
+      getDataAndNavigateToTrivia: () {
+        store.dispatch(UpdateIsTimeTriviaAction(true));
+        store.dispatch(getDataWeeklyTriviaFromFirebaseAndNavigateThunk());
       },
     );
   }

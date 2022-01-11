@@ -5,17 +5,15 @@ import 'package:weekly_bible_trivia/widgets/slide_items/slide_nums.dart';
 import 'package:weekly_bible_trivia/widgets/timer.dart';
 
 Widget triviaTopBar({
-  required Widget centerWidget,
   required String titleLeftButton,
   required String titleRightButton,
   required VoidCallback callbackLeftButton,
   required VoidCallback callbackRightButton,
   required AnimationController timerController,
-  Color cardColor: Colors.white,
-  Color titleColor: Colors.teal,
+  Color cardColor = Colors.white,
+  Color titleColor = Colors.teal,
 }) {
   return Row(
-
     children: [
       Expanded(
         flex: 5,
@@ -23,13 +21,13 @@ Widget triviaTopBar({
           alignment: Alignment.topCenter,
           child: Card(
             color: cardColor,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(10.0),
                   bottomRight: Radius.circular(30.0)),
             ),
             child: InkWell(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(10.0),
                     bottomRight: Radius.circular(30.0)),
                 onTap: callbackLeftButton,
@@ -51,25 +49,25 @@ Widget triviaTopBar({
           ),
         ),
       ),
-      Expanded(flex: 2, child: SizedBox()),
+      const Expanded(flex: 2, child: SizedBox()),
       Expanded(
         flex: 5,
         child: Container(),
       ),
-      Expanded(flex: 2, child: SizedBox()),
+      const Expanded(flex: 2, child: SizedBox()),
       Expanded(
         flex: 5,
         child: Align(
           alignment: Alignment.topCenter,
           child: Card(
             color: cardColor,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(30.0),
                   bottomRight: Radius.circular(10.0)),
             ),
             child: InkWell(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(30.0),
                     bottomRight: Radius.circular(10.0)),
                 onTap: callbackRightButton,
@@ -101,20 +99,20 @@ Widget triviaBottomBar(
     required int currentPage,
     required List<bool> answeredQuestions,
     required Function(int) callback,
-    bool isPortrait: true,
-    Color backgroundColor: Colors.white,
-    Color answeredColor: Colors.teal,
-    Color unansweredColor: Colors.black}) {
+    bool isPortrait = true,
+    Color backgroundColor = Colors.white,
+    Color answeredColor = Colors.teal,
+    Color unansweredColor = Colors.black}) {
   return Align(
     alignment: AlignmentDirectional.bottomCenter,
     child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       margin: EdgeInsets.symmetric(horizontal: isPortrait ? 50 : 200),
       height: 50,
       decoration: BoxDecoration(
         color: backgroundColor,
         border: Border.all(color: Colors.grey, width: 0.7),
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
       ),
       child: Row(
@@ -122,7 +120,7 @@ Widget triviaBottomBar(
         children: <Widget>[
           for (int i = startPage; i < endPage; i++)
             Expanded(
-              child: SlideNums(
+              child: SlideNumbers(
                 index: i,
                 isActive: i == currentPage ? true : false,
                 isAnswered: answeredQuestions[i],
