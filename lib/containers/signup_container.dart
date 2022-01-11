@@ -9,7 +9,6 @@ import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
 import 'package:weekly_bible_trivia/widgets/error_validation.dart';
 import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
-import 'package:weekly_bible_trivia/widgets/snack_bar.dart';
 import 'package:weekly_bible_trivia/widgets/text_form_fields.dart';
 
 class SignUpContainer extends StatelessWidget {

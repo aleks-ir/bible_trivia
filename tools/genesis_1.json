@@ -1,0 +1,208 @@
+[
+  {
+    "book": "Genesis",
+    "chapter": 1,
+    "date": "2021-12-26",
+    "runtime": 300,
+    "questions": [
+      {
+        "question_ru": "Что в самом начале сотворил Бог?",
+        "question_en": "What did God create in the beginning?",
+        "answers_ru": [
+          "Небо",
+          "Свет",
+          "Тьму",
+          "Землю"
+        ],
+        "answers_en": [
+          "The Sky",
+          "Light",
+          "Darkness",
+          "Earth"
+        ],
+        "correct_answer": [
+          0,
+          3
+        ],
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Птиц были сотворены в один и тот же день, что и люди?",
+        "question_en": "Were birds created on the same day as humans?",
+        "answers_ru": [
+          "Да",
+          "Нет"
+        ],
+        "answers_en": [
+          "Yes",
+          "No"
+        ],
+        "correct_answer": [
+          1
+        ],
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Что было названо морями?",
+        "question_en": "Pharaoh's first attempt to solve the \"Jewish question\"",
+        "answers_ru": [
+          "Собрание вод",
+          "Собрание озер",
+          "Собрание рек"
+        ],
+        "answers_en": [
+          "Collection of Waters",
+          "Collection of Lakes",
+          "Collection of Rivers"
+        ],
+        "correct_answer": [
+          0
+        ],
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Что произошло после слов: Да будет свет?",
+        "question_en": "What happened after the words: Let there be light?",
+        "answers_ru": [
+          "Ничего",
+          "Светило",
+          "Свет"
+        ],
+        "answers_en": [
+          "Nothing",
+          "Luminosity",
+          "Light"
+        ],
+        "correct_answer": [
+          2
+        ],
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Для чего нужны светила на тверди небесной?",
+        "question_en": "What are the luminaries in the firmament for?",
+        "answers_ru": [
+          "Для отделения животных по парам",
+          "Для отделения дней",
+          "Для знамений"
+        ],
+        "answers_en": [
+          "To separate animals in pairs",
+          "To separate days",
+          "For omens"
+        ],
+        "correct_answer": [
+          1,
+          2
+        ],
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Сколько светил создал Бог?",
+        "question_en": "How many luminaries did God create?",
+        "answers_ru": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "answers_en": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correct_answer": [
+          1
+        ],
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "На какой день произросла трава и зелень?",
+        "question_en": "On what day did the grass and herbs grow?",
+        "answers_ru": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "answers_en": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correct_answer": [
+          1
+        ],
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Что стало разделением воды над твердью от воды под твердью?",
+        "question_en": "What has become the separation of the water above the solid from the water below the solid?",
+        "answers_ru": [
+          "Море",
+          "Светила",
+          "Земля",
+          "Небо"
+        ],
+        "answers_en": [
+          "The Sea",
+          "Luminaries",
+          "Earth",
+          "Heaven"
+        ],
+        "correct_answer": [
+          3
+        ],
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Одно из пожеланий Бога людям",
+        "question_en": "One of God's wishes for people",
+        "answers_ru": [
+          "Не размножаться",
+          "Обладать землей",
+          "Наполнять воду"
+        ],
+        "answers_en": [
+          "Not to multiply",
+          "Possess the earth",
+          "Fill the water"
+        ],
+        "correct_answer": [
+          1
+        ],
+        "explanation_ru": "",
+        "explanation_en": ""
+      },
+      {
+        "question_ru": "Что произошло на 6-ой день?",
+        "question_en": "What happened on the 6th day?",
+        "answers_ru": [
+          "Богу не понравилось, то что Он сотворил",
+          "Отделение воды от тверди",
+          "Сотворение человека"
+        ],
+        "answers_en": [
+          "God didn't like what He had created",
+          "Separation of water from solid",
+          "The Creation of Man"
+        ],
+        "correct_answer": [
+          2
+        ],
+        "explanation_ru": "",
+        "explanation_en": ""
+      }
+    ]
+  }
+]

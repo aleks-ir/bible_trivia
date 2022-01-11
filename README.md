@@ -1,16 +1,9 @@
-# weekly_bible_trivia
+## WT Bible
 
-A new Flutter project.
+WT Bible is a Bible study app.
+The app has a handy reader with a keyword search, a weekly trivia with new questions,
+and the ability to change theme and language at will.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Screenshots
+![screenshot](documentation/img/app_img1.png) ![screenshot](documentation/img/app_img2.png) ![screenshot](documentation/img/app_img3.png) ![screenshot](documentation/img/app_img4.png)
+![screenshot](documentation/img/app_img5.png) ![screenshot](documentation/img/app_img6.png) ![screenshot](documentation/img/app_img7.png) ![screenshot](documentation/img/app_img8.png)

@@ -1,7 +1,5 @@
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/redux/actions/reader_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/search_actions.dart';
-import 'package:weekly_bible_trivia/redux/states/reader_state.dart';
 import 'package:weekly_bible_trivia/redux/states/search_state.dart';
 
 Reducer<SearchState> searchReducer = combineReducers([

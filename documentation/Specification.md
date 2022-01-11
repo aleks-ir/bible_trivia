@@ -1,7 +1,7 @@
 # Weekly bible trivia
 
 
-###Buttons at the bottom bar of the screen:
+### Buttons at the bottom bar of the screen:
 * Home
 * Bible
 * Past trivia

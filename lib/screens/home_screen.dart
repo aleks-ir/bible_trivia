@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weekly_bible_trivia/containers/active_container.dart';
 import 'package:weekly_bible_trivia/containers/bars/active_appbar.dart';
 import 'package:weekly_bible_trivia/containers/bars/active_menubar.dart';
-
 import 'package:weekly_bible_trivia/containers/loading_app.dart';
 import 'package:weekly_bible_trivia/containers/tab_selector.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';

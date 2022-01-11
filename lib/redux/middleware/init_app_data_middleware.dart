@@ -1,5 +1,4 @@
 import 'package:intl/intl.dart';
-import 'package:ntp/ntp.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:weekly_bible_trivia/redux/actions/info_actions.dart';

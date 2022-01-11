@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:weekly_bible_trivia/widgets/radial_percent.dart';
 import 'package:weekly_bible_trivia/widgets/slide_items/slide_nums.dart';
-import 'package:weekly_bible_trivia/widgets/timer.dart';
 
 Widget triviaTopBar({
   required String titleLeftButton,

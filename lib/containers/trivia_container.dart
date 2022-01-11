@@ -10,7 +10,6 @@ import 'package:weekly_bible_trivia/redux/actions/trivia_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/dialogs.dart';
-import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 import 'package:weekly_bible_trivia/widgets/slide_items/slide_item.dart';
 import 'package:weekly_bible_trivia/widgets/timer.dart';
 import 'package:weekly_bible_trivia/widgets/trivia_bars.dart';

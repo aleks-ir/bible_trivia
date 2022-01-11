@@ -1,10 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weekly_bible_trivia/dao/book_dao.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
-import 'package:weekly_bible_trivia/models/database/verse.dart';
 import 'package:weekly_bible_trivia/redux/actions/loading_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/reader_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/search_actions.dart';
