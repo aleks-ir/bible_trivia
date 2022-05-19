@@ -7,6 +7,11 @@ Reducer<WeeklyTriviaState> weeklyTriviaReducer = combineReducers([
   TypedReducer<WeeklyTriviaState, UpdateRuntimeAction>(_changeRuntime),
   TypedReducer<WeeklyTriviaState, UpdateWeeklyTriviaPassedAction>(
       _changeShowDialog),
+  TypedReducer<WeeklyTriviaState, UpdateAccessWeeklyTriviaAction>(_changeAccessTrivia),
+  TypedReducer<WeeklyTriviaState, AccessWeeklyTriviaErrorAction>(
+      _changeAccessError),
+  TypedReducer<WeeklyTriviaState, UpdateWeeklyTriviaQuestionsAction>(
+      _changeQuestions),
 ]);
 
 WeeklyTriviaState _changeDate(
@@ -27,6 +32,28 @@ WeeklyTriviaState _changeShowDialog(
     WeeklyTriviaState prevState, UpdateWeeklyTriviaPassedAction action) {
   return prevState.copyWith(
     isPassed: action.isPassed,
+  );
+}
+
+
+WeeklyTriviaState _changeAccessTrivia(
+    WeeklyTriviaState prevState, UpdateAccessWeeklyTriviaAction action) {
+  return prevState.copyWith(
+    isAccessTrivia: action.isAccessTrivia,
+  );
+}
+
+WeeklyTriviaState _changeAccessError(
+    WeeklyTriviaState prevState, AccessWeeklyTriviaErrorAction action) {
+  return prevState.copyWith(
+    messageError: action.message,
+  );
+}
+
+WeeklyTriviaState _changeQuestions(
+    WeeklyTriviaState prevState, UpdateWeeklyTriviaQuestionsAction action) {
+  return prevState.copyWith(
+    questions: action.questions,
   );
 }
 

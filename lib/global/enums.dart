@@ -7,7 +7,7 @@ enum AuthenticationStatus {
   error,
 }
 
-enum MenuBar { home, reader, pastTrivia }
+enum MenuBar {home, reader, pastTrivia}
 
 enum NavigationTab { home, reader, pastTrivia, more }
 

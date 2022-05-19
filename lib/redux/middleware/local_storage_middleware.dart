@@ -62,10 +62,19 @@ ThunkAction<AppState> saveLanguageThunk(String language) {
 ThunkAction<AppState> saveThemeThunk(String theme) {
   return (Store<AppState> store) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    ;
 
     prefs.setString(THEME, theme.toString());
     store.dispatch(UpdateThemeAction(theme));
+  };
+}
+
+
+ThunkAction<AppState> saveNotificationThunk(bool isNotification) {
+  return (Store<AppState> store) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setBool(NOTIFICATION, isNotification);
+    store.dispatch(UpdateNotificationAction(isNotification));
   };
 }
 
@@ -103,7 +112,7 @@ ThunkAction<AppState> initSettingsThunk() {
     double fontSize = prefs.getDouble(FONT_SIZE) ?? DEFAULT_FONT_SIZE;
     store.dispatch(UpdateFontSizeAction(fontSize));
 
-    Future.delayed(const Duration(seconds: 2), () async {
+    Future.delayed(const Duration(seconds: 3), () async {
       store.dispatch(LoadedAppAction());
     });
   };

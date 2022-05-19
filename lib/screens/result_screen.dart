@@ -14,6 +14,6 @@ class ResultScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: SimpleAppBar(result.i18n, NavigateFromResultToHomeScreenAction()),
-          body: ResultContainer(),
+          body: const ResultContainer(),
       );
 }

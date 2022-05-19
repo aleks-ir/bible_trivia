@@ -10,10 +10,10 @@ class SlideItem extends StatelessWidget {
   final List<Answer> currentAnswers;
   final bool isCheckBox;
   final Function(bool?, int, int) callback;
-  final Color color;
-  final Color cardColor;
-  final Color textColor;
-  final Color selectedColor;
+  final Color? color;
+  final Color? cardColor;
+  final Color? textColor;
+  final Color? selectedColor;
 
   const SlideItem(
       {Key? key, required this.questionId,
@@ -21,10 +21,10 @@ class SlideItem extends StatelessWidget {
       required this.currentAnswers,
       required this.isCheckBox,
       required this.callback,
-      this.color: Colors.white,
-      this.cardColor: Colors.white,
-      this.textColor: Colors.black,
-      this.selectedColor: Colors.teal}) : super(key: key);
+      this.color,
+      this.cardColor,
+      this.textColor,
+      this.selectedColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,18 +40,18 @@ class SlideItem extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 30, left: 40, right: 40),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 30, right: 30, top: 30, bottom: 30),
+                      left: 30, right: 30, top: 50, bottom: 30),
                   child: Text(
                     questionTitle,
                     style: TextStyle(
                         color: textColor, fontSize: 18, letterSpacing: 0.7),
                   ),
                 )),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.only(bottom: 50.0, left: 15, right: 15),
               child: isCheckBox
                   ? CheckBoxView(
                       questionId,

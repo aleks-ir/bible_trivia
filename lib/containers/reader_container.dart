@@ -28,8 +28,9 @@ class _ReaderContainerState extends State<ReaderContainer>
     with TickerProviderStateMixin {
   late ScrollController _scrollController;
   late AnimationController _buttonsAnimationController;
-  late Animation<double> _scaleAnimations;
   late _ViewModel _viewModel;
+  late Animation<Offset> _buttonNextOffset;
+  late Animation<Offset> _buttonPrevOffset;
 
   @override
   void initState() {
@@ -37,21 +38,26 @@ class _ReaderContainerState extends State<ReaderContainer>
     _buttonsAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
-    )..forward();
+    );
     _scrollController = ScrollController();
     _scrollController.addListener(listen);
-    _scaleAnimations = CurvedAnimation(
-        parent: _buttonsAnimationController, curve: Curves.easeIn);
+
+    _buttonNextOffset =
+        Tween<Offset>(begin: Offset.zero, end: const Offset(2, 0))
+            .animate(_buttonsAnimationController);
+    _buttonPrevOffset =
+        Tween<Offset>(begin: Offset.zero, end: const Offset(-2, 0))
+            .animate(_buttonsAnimationController);
   }
 
   void listen() {
     final direction = _scrollController.position.userScrollDirection;
     if (direction == ScrollDirection.forward) {
       _viewModel.changeReaderMod(false);
-      _buttonsAnimationController.forward();
+      _buttonsAnimationController.reverse();
     } else if (direction == ScrollDirection.reverse) {
       _viewModel.changeReaderMod(true);
-      _buttonsAnimationController.reverse();
+      _buttonsAnimationController.forward();
     }
   }
 
@@ -110,12 +116,16 @@ class _ReaderContainerState extends State<ReaderContainer>
                                         left: 15),
                                     color: Color(viewModel.primaryColor),
                                     child: Center(
-                                      child: getTextReader(
-                                          index,
-                                          viewModel.searchVerse - 1 == index,
-                                              viewModel.listVerses[index].text,
-                                          viewModel.fontSize,
-                                          Color(viewModel.textColor)),
+                                      child: TextReader(
+                                        index: index,
+                                        text: viewModel.listVerses[index].text,
+                                        isSearchVerse:
+                                            viewModel.searchVerse - 1 == index,
+                                        fontSize: viewModel.fontSize,
+                                        textColor: Color(viewModel.textColor),
+                                        textSearchColor:
+                                            Color(viewModel.iconColor),
+                                      ),
                                     ),
                                   ),
                                 );
@@ -123,36 +133,36 @@ class _ReaderContainerState extends State<ReaderContainer>
                             ),
                           ),
                         ),
-                        FadeTransition(
-                          opacity: _scaleAnimations,
-                          child: readerFloatingActionButton(
-                              Icon(Icons.navigate_next,
-                                  color: Color(viewModel.iconColor)),
-                              Alignment.bottomRight,
-                              _scaleAnimations.status == AnimationStatus.dismissed
-                                  ? null
-                                  : () {
-                                      viewModel.changePage(_getNextChapter());
-                                    },
-                              color: Color(viewModel.primaryColor)),
+                        Positioned(
+                          bottom: 80,
+                          right: 10,
+                          child: SlideTransition(
+                            position: _buttonNextOffset,
+                            child: readerFloatingActionButton(
+                                Icon(Icons.navigate_next,
+                                    size: 25,
+                                    color: Color(viewModel.iconColor)), () {
+                              viewModel.changePage(_getNextChapter());
+                            }, color: Color(viewModel.primaryColor)),
+                          ),
                         ),
-                        FadeTransition(
-                          opacity: _scaleAnimations,
-                          child: readerFloatingActionButton(
-                              Transform.rotate(
-                                angle: pi,
-                                child: Icon(Icons.navigate_next,
-                                    color: Color(viewModel.iconColor)),
-                              ),
-                              Alignment.bottomLeft,
-                              _scaleAnimations.status == AnimationStatus.dismissed
-                                  ? null
-                                  : () {
-                                      viewModel.changePage(
-                                        _getPrevChapter(),
-                                      );
-                                    },
-                              color: Color(viewModel.primaryColor)),
+                        Positioned(
+                          bottom: 80,
+                          left: 10,
+                          child: SlideTransition(
+                            position: _buttonPrevOffset,
+                            child: readerFloatingActionButton(
+                                Transform.rotate(
+                                  angle: pi,
+                                  child: Icon(Icons.navigate_next,
+                                      size: 25,
+                                      color: Color(viewModel.iconColor)),
+                                ), () {
+                              viewModel.changePage(
+                                _getPrevChapter(),
+                              );
+                            }, color: Color(viewModel.primaryColor)),
+                          ),
                         ),
                       ])),
           );

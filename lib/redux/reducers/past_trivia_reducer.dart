@@ -6,8 +6,14 @@ Reducer<PastTriviaState> pastTriviaReducer = combineReducers([
   TypedReducer<PastTriviaState, UpdatePastTriviaBookNameAction>(_changeBook),
   TypedReducer<PastTriviaState, UpdatePastTriviaChapterAction>(_changeChapter),
   TypedReducer<PastTriviaState, UpdatePastTriviaDialogAction>(
-      _changeShowDialog),
-  TypedReducer<PastTriviaState, ResetPastTriviaAction>(_reset),
+      _changePastTriviaDialog),
+  TypedReducer<PastTriviaState, UpdateWeeklyTriviaDialogAction>(
+      _changeTriviaDialog),
+  TypedReducer<PastTriviaState, UpdateBookImageUrlMapAction>(
+      _changeImages),
+  TypedReducer<PastTriviaState, UpdateListPastBookNamesAction>(_changeListPastBookNames),
+  TypedReducer<PastTriviaState, UpdateMapCountPastChaptersAction>(_changeListCountPastChapters),
+  TypedReducer<PastTriviaState, ResetTriviaDialogAction>(_reset),
 ]);
 
 PastTriviaState _changeBook(
@@ -24,17 +30,48 @@ PastTriviaState _changeChapter(
   );
 }
 
-PastTriviaState _changeShowDialog(
+PastTriviaState _changePastTriviaDialog(
     PastTriviaState prevState, UpdatePastTriviaDialogAction action) {
   return prevState.copyWith(
-    isShowDialog: action.isShowDialog,
+    isShowPastTriviaDialog: action.isShowPastTriviaDialog,
+  );
+}
+
+
+PastTriviaState _changeTriviaDialog(
+    PastTriviaState prevState, UpdateWeeklyTriviaDialogAction action) {
+  return prevState.copyWith(
+    isShowWeeklyTriviaDialog: action.isShowWeeklyTriviaDialog,
+
+  );
+}
+
+PastTriviaState _changeImages(
+    PastTriviaState prevState, UpdateBookImageUrlMapAction action) {
+  return prevState.copyWith(
+    bookImageUrlMap: action.bookImageUrlMap,
+  );
+}
+
+PastTriviaState _changeListPastBookNames(
+    PastTriviaState prevState, UpdateListPastBookNamesAction action) {
+  return prevState.copyWith(
+    listPastBookNames: action.listPastBookNames,
+  );
+}
+
+PastTriviaState _changeListCountPastChapters(
+    PastTriviaState prevState, UpdateMapCountPastChaptersAction action) {
+  return prevState.copyWith(
+    mapCountPastChapters: action.mapCountPastChapters,
   );
 }
 
 PastTriviaState _reset(
-    PastTriviaState prevState, ResetPastTriviaAction action) {
+    PastTriviaState prevState, ResetTriviaDialogAction action) {
   return prevState.copyWith(
-      isShowDialog: action.isShowDialog,
+      isShowPastTriviaDialog: action.isShowPastTriviaDialog,
+      isShowWeeklyTriviaDialog: action.isShowWeeklyTriviaDialog,
       bookName: action.bookName,
       chapter: action.chapter);
 }

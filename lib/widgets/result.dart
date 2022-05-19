@@ -42,8 +42,9 @@ class ResultView extends StatelessWidget {
         return
           ExpandableNotifier(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                padding: const EdgeInsets.only(left: 10, right: 10, bottom: 3),
                 child: Card(
+                  elevation: 2,
                   color: cardColor,
                   clipBehavior: Clip.antiAlias,
                   child: Column(
@@ -61,11 +62,11 @@ class ResultView extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
                               title,
-                              style: TextStyle(fontFamily: INTER,
-                                  fontSize: 18, color: textColor),
+                              style: TextStyle(fontFamily: VERDANA,
+                                  fontSize: 15, color: textColor),
                             ),
                           ),
-                          collapsed: SizedBox.shrink(),
+                          collapsed: const SizedBox.shrink(),
                           expanded:
                           Center(
                             child: Column(
@@ -75,7 +76,7 @@ class ResultView extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                                   child: Text(
                                     titleQuestion,
-                                    style: TextStyle(fontFamily: VERDANA,fontSize: 18, color: textColor),
+                                    style: TextStyle(fontFamily: VERDANA, fontSize: 14, color: textColor),
                                   ),
                                 ),
                                 for (int i = 0; i < titleAnswers.length; i++)
@@ -95,7 +96,7 @@ class ResultView extends StatelessWidget {
                           ),
                           builder: (_, collapsed, expanded) {
                             return Padding(
-                              padding: EdgeInsets.only(left: 10, right: 10, bottom: 3, top: 3),
+                              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 2, top: 2),
                               child: Expandable(
                                 collapsed: collapsed,
                                 expanded: expanded,

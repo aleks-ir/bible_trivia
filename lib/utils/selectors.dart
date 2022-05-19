@@ -11,7 +11,7 @@ AppTheme selectTheme(String themeType) {
     case DARK:
       return AppTheme(
           primaryColor: AppColors.greyDark,
-          secondaryColor: Colors.white12.value,
+          secondaryColor: Colors.grey.shade800.value,
           cardColor: Colors.grey.shade800.value,
           appBarColor: AppColors.greyDark,
           shadowColor: Colors.white54.value,
@@ -20,12 +20,12 @@ AppTheme selectTheme(String themeType) {
     default:
       return AppTheme(
           primaryColor: AppColors.whiteDefault,
-          secondaryColor: Colors.black12.value,
+          secondaryColor: Colors.grey.shade100.value,
           cardColor: AppColors.whiteDefault,
           appBarColor: AppColors.whiteDefault,
-          shadowColor: Colors.black54.value,
+          shadowColor: Colors.black38.value,
           textColor: AppColors.blackDefault,
-          iconColor: Colors.teal.value);
+          iconColor: Colors.lightBlueAccent.value);
   }
 }
 
@@ -83,9 +83,9 @@ Icon selectIconBottomBar(NavigationTab tab, Color color) {
   } else if (tab == NavigationTab.pastTrivia) {
     return Icon(Icons.library_books_sharp, color: color);
   } else if (tab == NavigationTab.more) {
-    return Icon(Icons.list, color: color);
+    return Icon(Icons.person, color: color);
   }
-  return Icon(Icons.error);
+  return const Icon(Icons.error);
 }
 
 String selectBackgroundImage(String theme, bool isPortrait) {

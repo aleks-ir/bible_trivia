@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:ntp/ntp.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+import 'package:weekly_bible_trivia/models/firebase/image_book.dart';
 import 'package:weekly_bible_trivia/models/firebase/question.dart';
 import 'package:weekly_bible_trivia/models/firebase/record.dart';
 import 'package:weekly_bible_trivia/models/firebase/trivia.dart';
@@ -65,30 +66,43 @@ Future<String> getPrevTriviaDate() async {
   return DateFormat('yyyy-MM-dd').format(prevTriviaDate);
 }
 
-ThunkAction<AppState> initInfoTriviaBookAndChaptersThunk(String date) {
+ThunkAction<AppState> initWeeklyTriviaThunk(String date) {
   return (Store<AppState> store) async {
+    int runtime = 0;
+    List<Question> questions = [];
+    String bookName = '';
+    StringBuffer chapters = StringBuffer();
+    
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance
         .collection('trivia')
         .where('date', isEqualTo: date)
         .get();
-    List<QueryDocumentSnapshot> docs = snapshot.docs;
-    var firstDoc = docs.first;
-    var lastDoc = docs.last;
-    if (firstDoc.data() != null && lastDoc.data() != null) {
-      var firstData = firstDoc.data() as Map<String, dynamic>;
-      var lastData = lastDoc.data() as Map<String, dynamic>;
-
-      store.dispatch(UpdateInfoTriviaBookAction(firstData['book']));
-      store.dispatch(UpdateInfoTriviaChaptersAction(
-          firstData['chapter'].toString() +
-              " - " +
-              lastData['chapter'].toString()));
+    
+    for (var doc in snapshot.docs) {
+      var data = doc.data();
+      bookName = data['book'];
+      chapters.write(data['chapter'].toString());
+      chapters.write(' ');
     }
+    store.dispatch(UpdateInfoTriviaBookAction(bookName));
+    store.dispatch(UpdateInfoTriviaChaptersAction(chapters.toString()));
+
+    
+    for (var doc in snapshot.docs) {
+      var data = doc.data();
+      Trivia trivia = Trivia.fromJson(data);
+      runtime += trivia.runtime;
+      questions.addAll(trivia.questions);
+    }
+    questions.shuffle(Random());
+    store.dispatch(UpdateRuntimeAction(runtime));
+    store.dispatch(UpdateWeeklyTriviaQuestionsAction(questions));
+    
   };
 }
 
-ThunkAction<AppState> initPastTriviaBookNamesAndCountChaptersThunk(
+ThunkAction<AppState> initPastTriviaThunk(
     String date) {
   return (Store<AppState> store) async {
     String uniqueBookName = '';
@@ -119,35 +133,6 @@ ThunkAction<AppState> initPastTriviaBookNamesAndCountChaptersThunk(
   };
 }
 
-ThunkAction<AppState> getDataWeeklyTriviaFromFirebaseAndNavigateThunk() {
-  return (Store<AppState> store) async {
-    String date = store.state.weeklyTriviaState.date;
-    int runtime = 0;
-    List<Question> listQuestions = [];
-    store.dispatch(UpdateLoadingAppDataFromFirebaseAction(true));
-
-    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-        .instance
-        .collection('trivia')
-        .where('date', isEqualTo: date)
-        .get();
-
-    for (var doc in snapshot.docs) {
-      var data = doc.data();
-      Trivia trivia = Trivia.fromJson(data);
-      runtime += trivia.runtime;
-      listQuestions.addAll(trivia.questions);
-    }
-    listQuestions.shuffle(Random());
-
-    if (listQuestions.isNotEmpty) {
-      store.dispatch(UpdateRuntimeAction(runtime));
-      store.dispatch(UpdateListQuestionsAction(listQuestions));
-      store.dispatch(updateScreenThunk(NavigateFromHomeToTriviaScreenAction()));
-    }
-    store.dispatch(UpdateLoadingAppDataFromFirebaseAction(false));
-  };
-}
 
 ThunkAction<AppState> getDataPastTriviaFromFirebaseAndNavigateThunk() {
   return (Store<AppState> store) async {
@@ -162,11 +147,13 @@ ThunkAction<AppState> getDataPastTriviaFromFirebaseAndNavigateThunk() {
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       Trivia trivia = Trivia.fromJson(data);
-      store.dispatch(UpdateListQuestionsAction(trivia.questions));
-      store.dispatch(updateScreenThunk(NavigateFromHomeToTriviaScreenAction()));
+      Future.delayed(const Duration(milliseconds: 500), (){
+        store.dispatch(UpdateTriviaQuestionsAction(trivia.questions));
+        store.dispatch(updateScreenThunk(NavigateFromHomeToTriviaScreenAction()));
+        store.dispatch(ResetTriviaDialogAction());
+        store.dispatch(UpdateLoadingAppDataFromFirebaseAction(false));
+      });
     }
-    store.dispatch(ResetPastTriviaAction());
-    store.dispatch(UpdateLoadingAppDataFromFirebaseAction(false));
   };
 }
 
@@ -185,4 +172,31 @@ ThunkAction<AppState> createRecordToFirebaseThunk(int percentOfCorrectAnswers) {
         .add(record.toJson())
         .catchError((error) => print("Failed to add record: $error"));
   };
+}
+
+ThunkAction<AppState> initImagesUrlFromFirebaseThunk() {
+  return (Store<AppState> store) async {
+    List<ImageBook> images = [];
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance.collection('images').get();
+
+    for (var doc in snapshot.docs) {
+      var data = doc.data();
+      images.add(ImageBook.fromJson(data));
+    }
+    final bookImageUrlMap = _buildBookImageUrlMap(
+        store.state.pastTriviaState.listPastBookNames, images);
+    store.dispatch(UpdateBookImageUrlMapAction(bookImageUrlMap));
+  };
+}
+
+Map<String, String> _buildBookImageUrlMap(
+    List<String> bookNames, List<ImageBook> images) {
+  final Map<String, String> bookImageUrlMap = {};
+  images.shuffle(Random());
+  for(var bookName in bookNames){
+    bookImageUrlMap[bookName] = images
+        .firstWhere((element) => element.book == bookName).url;
+  }
+  return bookImageUrlMap;
 }

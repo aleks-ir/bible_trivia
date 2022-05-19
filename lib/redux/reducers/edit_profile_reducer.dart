@@ -1,6 +1,6 @@
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
-import 'package:weekly_bible_trivia/redux/actions/edit_profile_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/profile_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/edit_profile_state.dart';
 
@@ -10,7 +10,7 @@ Reducer<EditProfileState> editProfileReducer = combineReducers([
   TypedReducer<EditProfileState, ChangeValidationStatusAction>(
       _changeValidationStatus),
   TypedReducer<EditProfileState, NameErrorAction>(_changeNameError),
-  TypedReducer<EditProfileState, ClearErrorsAction>(_clearErrorsAction)
+  TypedReducer<EditProfileState, ClearSignInErrorsAction>(_clearErrorsAction)
 ]);
 
 EditProfileState _changeLoadingStatus(
@@ -33,5 +33,5 @@ EditProfileState _changeNameError(EditProfileState state, NameErrorAction action
   }
 }
 
-EditProfileState _clearErrorsAction(EditProfileState state, ClearErrorsAction action) =>
+EditProfileState _clearErrorsAction(EditProfileState state, ClearSignInErrorsAction action) =>
     state.copyWith(validationStatus: ValidationStatus.success, nameError: "");

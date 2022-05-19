@@ -8,6 +8,7 @@ class LocalStorageState {
   final int chapter;
   final String language;
   final String theme;
+  final bool isNotification;
   final double fontSize;
 
   const LocalStorageState({
@@ -16,6 +17,7 @@ class LocalStorageState {
     required this.chapter,
     required this.language,
     required this.theme,
+    required this.isNotification,
     required this.fontSize,
   });
 
@@ -25,6 +27,7 @@ class LocalStorageState {
     int? chapter,
     String? language,
     String? theme,
+    bool? isNotification,
     double? fontSize,
   }) {
     return LocalStorageState(
@@ -33,6 +36,7 @@ class LocalStorageState {
       chapter: chapter ?? this.chapter,
       language: language ?? this.language,
       theme: theme ?? this.theme,
+      isNotification: isNotification ?? this.isNotification,
       fontSize: fontSize ?? this.fontSize,
     );
   }
@@ -44,6 +48,7 @@ class LocalStorageState {
       chapter: 1,
       language: ENGLISH,
       theme: LIGHT,
+      isNotification: false,
       fontSize: DEFAULT_FONT_SIZE,
     );
   }

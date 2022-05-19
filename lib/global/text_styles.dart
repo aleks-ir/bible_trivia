@@ -11,7 +11,7 @@ class TextStyles {
 
   static TextStyle getAppBarStyle(Color color)
   {return TextStyle(
-      fontSize: 20,
+      fontSize: 17,
       fontWeight: FontWeight.w300,
       color: color
   );}

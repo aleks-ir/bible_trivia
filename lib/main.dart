@@ -6,6 +6,7 @@ import 'package:i18n_extension/i18n_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+import 'package:weekly_bible_trivia/redux/middleware/firestore_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/init_app_data_middleware.dart';
 import 'package:weekly_bible_trivia/redux/reducers/app_state_reduser.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';

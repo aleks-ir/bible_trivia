@@ -4,7 +4,7 @@ class RoutePaths {
   static const String fromHomeToTableResultsScreen =
       "fromHomeToTableResultsScreen";
   static const String fromHomeToAboutScreen = "fromHomeToAboutScreen";
-  static const String fromHomeToEditProfileScreen =
+  static const String fromHomeToProfileScreen =
       "fromHomeToEditProfileScreen";
   static const String fromHomeToTriviaScreen = "fromHomeToTriviaScreen";
   static const String fromHomeToSearchScreen = "fromHomeToSearchScreen";
@@ -17,7 +17,7 @@ class RoutePaths {
   static const String fromTableResultsToHomeScreen =
       "fromTableResultsToHomeScreen";
   static const String fromAboutToHomeScreen = "fromAboutToHomeScreen";
-  static const String fromEditProfileToHomeScreen =
+  static const String fromProfileToHomeScreen =
       "fromEditProfileToHomeScreen";
   static const String fromTriviaToResultScreen =
       "fromTriviaToResultScreen";

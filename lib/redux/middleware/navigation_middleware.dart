@@ -4,11 +4,12 @@ import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/route_paths.dart';
 import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/past_trivia_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/services/navigation_service.dart';
+import 'package:weekly_bible_trivia/utils/locator.dart';
 
-import '../../utils/locator.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
@@ -23,52 +24,48 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
     if (action is NavigateToHomeAction) {
       _navigationService.navigate(RoutePaths.toHomeScreen);
       return;
-    } else if (action is NavigateBackToHomeAction) {
-      _navigationService.navigateBack(RoutePaths.toHomeScreen);
-      return;
     } else if (action is NavigateFromHomeToSignInScreenAction) {
-      store.dispatch(ClearErrorsAction());
-      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToSignInScreen);
+      _navigationService.navigate(RoutePaths.fromHomeToSignInScreen);
       return;
     } else if (action is NavigateFromHomeToTableResultsScreenAction) {
-      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToTableResultsScreen);
+      _navigationService.navigate(RoutePaths.fromHomeToTableResultsScreen);
       return;
     } else if (action is NavigateFromHomeToAboutScreenAction) {
-      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToAboutScreen);
+      closeMenuBarAndNavigate(store, RoutePaths.fromHomeToAboutScreen);
       return;
-    } else if (action is NavigateFromHomeToEditProfileScreenAction) {
-      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToEditProfileScreen);
+    } else if (action is NavigateFromHomeToProfileScreenAction) {
+      _navigationService.navigate(RoutePaths.fromHomeToProfileScreen);
       return;
     } else if (action is NavigateFromHomeToTriviaScreenAction) {
-      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToTriviaScreen);
+      closeMenuBarAndNavigate(store, RoutePaths.fromHomeToTriviaScreen);
       return;
     } else if (action is NavigateFromHomeToSearchScreenAction) {
-      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToSearchScreen);
+      closeMenuBarAndNavigate(store, RoutePaths.fromHomeToSearchScreen);
       return;
     } else if (action is NavigateFromHomeToSelectionScreenAction) {
-      checkMenuBarAndNavigate(store, RoutePaths.fromHomeToSelectionReaderScreen);
+      closeMenuBarAndNavigate(store, RoutePaths.fromHomeToSelectionReaderScreen);
       return;
     } else if (action is NavigateFromSelectionToTranslationScreenAction) {
       _navigationService.navigate(RoutePaths.fromSelectionReaderToTranslationScreen);
       return;
     } else if (action is NavigateFromSignInToHomeScreenAction) {
-      _navigationService.navigateBack(RoutePaths.fromSignInToHomeScreen);
+      _navigationService.goBack();
       return;
     } else if (action is NavigateFromSignInToSignUpScreenAction) {
-      store.dispatch(ClearErrorsAction());
       _navigationService.navigate(RoutePaths.fromSignInToSignUpScreen);
       return;
     } else if (action is NavigateFromSignUpToHomeScreenAction) {
-      _navigationService.navigateBack(RoutePaths.fromSignUpToHomeScreen);
+      _navigationService.goBack();
+      _navigationService.goBack();
       return;
     } else if (action is NavigateFromTableResultsToHomeScreenAction) {
-      _navigationService.navigate(RoutePaths.fromTableResultsToHomeScreen);
+      _navigationService.goBack();
       return;
     } else if (action is NavigateFromAboutToHomeScreenAction) {
-      _navigationService.navigateBack(RoutePaths.fromAboutToHomeScreen);
+      _navigationService.goBack();
       return;
-    } else if (action is NavigateFromEditProfileToHomeScreenAction) {
-      _navigationService.navigateBack(RoutePaths.fromEditProfileToHomeScreen);
+    } else if (action is NavigateFromProfileToHomeScreenAction) {
+      _navigationService.goBack();
       return;
     } else if (action is NavigateFromTriviaToResultScreenAction) {
       _navigationService.navigateAndReplace(RoutePaths.fromTriviaToResultScreen);
@@ -77,17 +74,17 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
       _navigationService.goBack();
       return;
     } else if (action is NavigateFromResultToHomeScreenAction) {
+      store.dispatch(ResetTriviaDialogAction());
       _navigationService.navigateBack(RoutePaths.fromResultToHomeScreen);
       return;
     } else if (action is NavigateFromSearchToHomeScreenAction) {
-      _navigationService.navigateBack(RoutePaths.fromSearchToHomeScreen);
+      _navigationService.goBack();
       return;
     } else if (action is NavigateFromSelectionToHomeScreenAction) {
-      _navigationService.navigateBack(RoutePaths.fromSelectionReaderToHomeScreen);
+      _navigationService.goBack();
       return;
     } else if (action is NavigateFromTranslationToSelectionScreenAction) {
-      _navigationService
-          .navigateBack(RoutePaths.fromTranslationToSelectionScreen);
+      _navigationService.goBack();
       return;
     }else if (action is NavigateFromTranslationToHomeScreenAction) {
       _navigationService
@@ -98,14 +95,13 @@ ThunkAction<AppState> updateScreenThunk(dynamic action) {
   };
 }
 
-void checkMenuBarAndNavigate(Store<AppState> store, String routePath) {
+void closeMenuBarAndNavigate(Store<AppState> store, String routePath) {
   if(store.state.appBarState.isShowMenuBar){
     store.dispatch(UpdateShowMenuBarAction(false));
-    Future.delayed(const Duration(milliseconds: 400), () {
+    Future.delayed(const Duration(milliseconds: 0), () {
       _navigationService.navigate(routePath);
     });
   }else{
     _navigationService.navigate(routePath);
   }
-
 }

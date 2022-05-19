@@ -34,47 +34,47 @@ class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
             child: AppBar(
               automaticallyImplyLeading: false,
               actions: [
-                Expanded(
-                  flex: 3,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.search,
-                      color: Color(viewModel.iconColor),
+                IconButton(
+                  splashRadius: 20,
+                  icon: Icon(
+                    Icons.search,
+                    size: 20,
+                    color: Color(viewModel.iconColor),
+                  ),
+                  onPressed: () {
+                    viewModel.navigateToSearch();
+                  },
+                ),
+                const Spacer(),
+                Center(
+                  child: GestureDetector(
+                    onTap: viewModel.navigateToSelection,
+                    child: Text(
+                      _getTitle(
+                          viewModel.language == RUSSIAN
+                              ? mapBooksRu[viewModel.bookName]
+                              : viewModel.bookName,
+                          viewModel.chapter.toString()),
+                      style:  TextStyle(
+                          fontSize: 12,
+                          fontFamily: OPEN_SANS,
+                          color: Color(viewModel.textColor)),
                     ),
-                    onPressed: () {
-                      viewModel.navigateToSearch();
-                    },
                   ),
                 ),
-                const Expanded(flex: 2, child: SizedBox()),
-                Expanded(
-                    flex: 13,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 15.0, 5, 15.0),
-                      child: menuOutlinedButton(
-                          _getTitle(
-                              viewModel.language == RUSSIAN
-                                  ? mapBooksRu[viewModel.bookName]
-                                  : viewModel.bookName,
-                              viewModel.chapter.toString()), () {
-                        viewModel.navigateToSelection();
-                      }, textColor: Color(viewModel.textColor)),
-                    )),
-                const Expanded(flex: 2, child: SizedBox()),
-                Expanded(
-                  flex: 2,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.settings,
-                      color: Color(viewModel.iconColor),
-                    ),
-                    onPressed: () {
-                      viewModel.changeShowMenuBar(
-                          viewModel.isShowMenuBar ? false : true);
-                    },
+                const Spacer(),
+                IconButton(
+                  splashRadius: 20,
+                  icon: Icon(
+                    Icons.settings_suggest,
+                    size: 20,
+                    color: Color(viewModel.iconColor),
                   ),
+                  onPressed: () {
+                    viewModel.changeShowMenuBar(
+                        viewModel.isShowMenuBar ? false : true);
+                  },
                 ),
-                const Expanded(flex: 1, child: SizedBox()),
               ],
               backgroundColor: Color(viewModel.appBarColor),
             ),

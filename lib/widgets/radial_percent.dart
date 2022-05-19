@@ -21,12 +21,12 @@ class RadialPercentWidget extends StatelessWidget {
     required this.controller,
     required this.percentCorrect,
     required this.percentWrong,
-    this.textColor: Colors.black,
-    this.fillColor: Colors.black,
-    this.correctColor: Colors.lightGreen,
-    this.wrongColor: Colors.redAccent,
-    this.skippedColor: Colors.grey,
-    this.lineWidth: 10,
+    this.textColor = Colors.black,
+    this.fillColor = Colors.black,
+    this.correctColor = Colors.lightGreen,
+    this.wrongColor = Colors.redAccent,
+    this.skippedColor = Colors.grey,
+    this.lineWidth = 10,
   }) : super(key: key);
 
   @override
@@ -52,7 +52,7 @@ class RadialPercentWidget extends StatelessWidget {
               return Center(
                 child: Text(
                   _getPercentString(),
-                  style: TextStyle(fontSize: 20.0, color: textColor),
+                  style: TextStyle(fontSize: 16.0, color: textColor),
                 ),
               );
             }),
@@ -157,7 +157,7 @@ class RadialPercentPainter extends CustomPainter {
   }
 
   Rect calculateArcsRect(Size size) {
-    const linesMargin = 5;
+    const linesMargin = 3;
     final offest = lineWidth / 2 + linesMargin;
     final arcRect = Offset(offest, offest) &
     Size(size.width - offest * 2, size.height - offest * 2);

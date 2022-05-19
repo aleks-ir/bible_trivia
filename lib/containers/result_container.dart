@@ -43,7 +43,7 @@ class _ResultContainerState extends State<ResultContainer>
     );
     _radialPercentController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
     );
     _secondRadialPercentController = AnimationController(
       vsync: this,
@@ -58,12 +58,12 @@ class _ResultContainerState extends State<ResultContainer>
         CurvedAnimation(parent: _resultController, curve: Curves.easeIn);
 
     _resizeRadialPercentAnimation =
-        Tween<Size>(begin: const Size(150, 150), end: const Size(100, 100)).animate(
+        Tween<Size>(begin: const Size(120, 120), end: const Size(80, 80)).animate(
             CurvedAnimation(
                 parent: _secondRadialPercentController, curve: Curves.ease));
 
     _moveRadialPercentAnimation = Tween<Offset>(
-      begin: const Offset(0.4, 0),
+      begin: const Offset(0.5, 0),
       end: Offset.zero,
     ).animate(CurvedAnimation(
         parent: _secondRadialPercentController, curve: Curves.ease));
@@ -161,9 +161,9 @@ class _ResultContainerState extends State<ResultContainer>
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
         onInit: (Store<AppState> store) {
-          List<Question> listQuestions = store.state.triviaState.listQuestions;
+          List<Question> listQuestions = store.state.triviaState.questions;
           List<List<Answer>> listUserAnswers =
-              store.state.triviaState.listCurrentAnswers;
+              store.state.triviaState.currentAnswers;
           _listCorrectAnswers = _initListCorrectAnswers(listQuestions);
           _result = _countResult(listUserAnswers, _listCorrectAnswers);
 
@@ -206,7 +206,7 @@ class _ResultContainerState extends State<ResultContainer>
                                     textColor: Color(viewModel.textColor),
                                     fillColor: Color(viewModel.cardColor),
                                     skippedColor: Colors.grey.shade300,
-                                    lineWidth: 8,
+                                    lineWidth: 6,
                                   ),
                                 );
                               }),
@@ -223,8 +223,8 @@ class _ResultContainerState extends State<ResultContainer>
                                 correct.i18n +
                                     ": " +
                                     _result.countCorrectAnswers.toString(),
-                                style: const TextStyle(
-                                    fontSize: 17, color: Colors.lightGreen),
+                                style: TextStyle(
+                                    fontSize: 15, fontFamily: INTER, color: Color(viewModel.textColor)),
                               ),
                               const SizedBox(
                                 height: 5,
@@ -234,7 +234,7 @@ class _ResultContainerState extends State<ResultContainer>
                                     ": " +
                                     _result.countWrongAnswers.toString(),
                                 style:
-                                    const TextStyle(fontSize: 17, color: Colors.redAccent),
+                                    TextStyle(fontSize: 15, fontFamily: INTER, color: Color(viewModel.textColor)),
                               ),
                               const SizedBox(
                                 height: 5,
@@ -244,7 +244,7 @@ class _ResultContainerState extends State<ResultContainer>
                                     ": " +
                                     _result.countSkippedAnswers.toString(),
                                 style:
-                                    const TextStyle(fontSize: 17, color: Colors.grey),
+                                    TextStyle(fontSize: 15, fontFamily: INTER, color: Color(viewModel.textColor)),
                               ),
                             ],
                           ),
@@ -252,7 +252,7 @@ class _ResultContainerState extends State<ResultContainer>
                       ],
                     ),
                     SizedBox(
-                      height: isPortrait ? 70 : 30,
+                      height: isPortrait ? 50 : 30,
                     ),
                     SlideTransition(
                       position: _moveAnswersAnimation,
@@ -266,6 +266,9 @@ class _ResultContainerState extends State<ResultContainer>
                         textColor: Color(viewModel.textColor),
                         cardColor: Color(viewModel.cardColor),
                       ),
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
                   ],
                 ),
@@ -303,8 +306,8 @@ class _ViewModel {
       shadowColor: store.state.themeSettingsState.shadowColor,
       textColor: store.state.themeSettingsState.textColor,
       theme: store.state.localStorageState.theme,
-      listUserAnswers: store.state.triviaState.listCurrentAnswers,
-      listQuestions: store.state.triviaState.listQuestions,
+      listUserAnswers: store.state.triviaState.currentAnswers,
+      listQuestions: store.state.triviaState.questions,
       language: store.state.localStorageState.language,
     );
   }

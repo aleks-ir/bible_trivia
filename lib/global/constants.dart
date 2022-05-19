@@ -27,10 +27,8 @@ const String PIGEON_IMG = 'assets/images/pigeon.png';
 const String RUSSIA_IMG = 'assets/images/russia.png';
 const String UNITED_KINGDOM_IMG = 'assets/images/united_kingdom.png';
 const String DEFAULT_USER_IMG = 'assets/images/default_user.jpg';
+const String DEFAULT_PLACEHOLDER_IMG = 'assets/images/logo.png';
 const String BIBLE_IMG = 'assets/images/bible.jpg';
-const String LOADING_GIF = 'assets/images/loading.gif';
-const String EXIT_LIGHT_IMG = "assets/images/exit_light.png";
-const String EXIT_DARK_IMG = "assets/images/exit_dark.png";
 
 
 const String TEST_URL = "https://aleks-ir.github.io/data/test.json";
@@ -43,6 +41,7 @@ const String EMAIL_PATTERN =
 
 const String FONT_SIZE = "font size";
 const String THEME = "theme";
+const String NOTIFICATION = "notification";
 const String LANGUAGE = "language";
 const String BOOK_NAME = "book_name";
 const String CHAPTER = "chapter";
@@ -52,7 +51,7 @@ const String DB_HAS_DATA = "database has data";
 const String DEFAULT_BOOK_NAME = "Genesis";
 const int DEFAULT_CHAPTER = 1;
 const String DEFAULT_TRARSLATION_ID = "ASV";
-const double DEFAULT_FONT_SIZE = 20;
+const double DEFAULT_FONT_SIZE = 12;
 const String DEFAULT_PHOTO_URL =
     "https://firebasestorage.googleapis.com/v0/b/teatauth.appspot.com/o/default_user.jpg?alt=media&token=3c7374ab-a750-4cbb-a5f8-24d8a08fb799";
 

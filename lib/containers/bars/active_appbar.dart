@@ -5,9 +5,9 @@ import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/containers/bars/past_trivia_appbar.dart';
 import 'package:weekly_bible_trivia/containers/bars/reader_appbar.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
-import '../../global/translation_i18n.dart';
 import 'home_appbar.dart';
 
 class ActiveAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -31,7 +31,7 @@ class ActiveAppBar extends StatelessWidget with PreferredSizeWidget {
         builder: (context, _ViewModel viewModel) {
           switch (viewModel.activeTab) {
             case NavigationTab.home:
-              return HomeAppBar("WT Bible");
+              return HomeAppBar("Bible Trivia");
             case NavigationTab.reader:
               return ReaderAppBar(controller);
             case NavigationTab.pastTrivia:

@@ -7,10 +7,13 @@ class UpdateNavigationTabAction {
   UpdateNavigationTabAction(this.newTab);
 }
 
+class UpdateActiveAnimation {
+  final bool isActiveAnimation;
+  UpdateActiveAnimation(this.isActiveAnimation);
+}
+
 
 class NavigateToHomeAction {}
-
-class NavigateBackToHomeAction {}
 
 class NavigateFromHomeToSignInScreenAction {}
 
@@ -18,7 +21,7 @@ class NavigateFromHomeToTableResultsScreenAction {}
 
 class NavigateFromHomeToAboutScreenAction {}
 
-class NavigateFromHomeToEditProfileScreenAction {}
+class NavigateFromHomeToProfileScreenAction {}
 
 class NavigateFromHomeToTriviaScreenAction {}
 
@@ -38,7 +41,7 @@ class NavigateFromTableResultsToHomeScreenAction {}
 
 class NavigateFromAboutToHomeScreenAction {}
 
-class NavigateFromEditProfileToHomeScreenAction {}
+class NavigateFromProfileToHomeScreenAction {}
 
 class NavigateFromTriviaToResultScreenAction {}
 

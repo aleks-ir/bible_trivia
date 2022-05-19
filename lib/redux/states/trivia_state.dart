@@ -9,9 +9,9 @@ class TriviaState {
   final int currentPage;
   final int startPage;
   final int endPage;
-  final List<Question> listQuestions;
-  final List<List<Answer>> listCurrentAnswers;
-  final List<bool> listAnsweredQuestions;
+  final List<Question> questions;
+  final List<List<Answer>> currentAnswers;
+  final List<bool> answeredQuestions;
 
   const TriviaState({
     required this.isShowDialog,
@@ -19,9 +19,9 @@ class TriviaState {
     required this.currentPage,
     required this.startPage,
     required this.endPage,
-    required this.listQuestions,
-    required this.listCurrentAnswers,
-    required this.listAnsweredQuestions,
+    required this.questions,
+    required this.currentAnswers,
+    required this.answeredQuestions,
   });
 
   TriviaState copyWith({
@@ -30,9 +30,9 @@ class TriviaState {
     int? currentPage,
     int? startPage,
     int? endPage,
-    List<Question>? listQuestions,
-    List<List<Answer>>? listCurrentAnswers,
-    List<bool>? listAnsweredQuestions,
+    List<Question>? questions,
+    List<List<Answer>>? currentAnswers,
+    List<bool>? answeredQuestions,
   }) {
     return TriviaState(
       isShowDialog: isShowDialog ?? this.isShowDialog,
@@ -40,9 +40,9 @@ class TriviaState {
       currentPage: currentPage ?? this.currentPage,
       startPage: startPage ?? this.startPage,
       endPage: endPage ?? this.endPage,
-      listQuestions: listQuestions ?? this.listQuestions,
-      listCurrentAnswers: listCurrentAnswers ?? this.listCurrentAnswers,
-      listAnsweredQuestions: listAnsweredQuestions ?? this.listAnsweredQuestions,
+      questions: questions ?? this.questions,
+      currentAnswers: currentAnswers ?? this.currentAnswers,
+      answeredQuestions: answeredQuestions ?? this.answeredQuestions,
     );
   }
 
@@ -53,8 +53,8 @@ class TriviaState {
         currentPage: 0,
         startPage: 0,
         endPage: 10,
-        listQuestions: [],
-        listCurrentAnswers: [],
-        listAnsweredQuestions: []);
+        questions: [],
+        currentAnswers: [],
+        answeredQuestions: []);
   }
 }

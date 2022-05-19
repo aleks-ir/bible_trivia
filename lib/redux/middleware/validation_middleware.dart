@@ -11,7 +11,7 @@ import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 import 'authentication_middleware.dart';
-import 'edit_profile_middleware.dart';
+import 'firestore_middleware.dart';
 
 
 

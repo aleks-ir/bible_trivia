@@ -27,67 +27,58 @@ class SelectionReaderAppBar extends StatelessWidget with PreferredSizeWidget {
             automaticallyImplyLeading: false,
             centerTitle: true,
             actions: [
-              Expanded(
-                flex: 3,
-                child: TextButton(
-                  onPressed: () {
-                    viewModel.navigateToTranslation();
-                  },
-                  child: Text(
-                    viewModel.currentTranslation,
-                    style: TextStyle(color: Color(viewModel.activeTextColor)),
-                  ),
+              TextButton(
+                onPressed: () {
+                  viewModel.navigateToTranslation();
+                },
+                child: Text(
+                  viewModel.currentTranslation,
+                  style: TextStyle(color: Color(viewModel.activeTextColor)),
                 ),
               ),
-              const Expanded(flex: 2, child: SizedBox()),
-              Expanded(
-                flex: 3,
-                child: TextButton(
-                    onPressed: () {
-                      viewModel.changeTestament(true);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      splashFactory: NoSplash.splashFactory,
+              const Spacer(),
+              TextButton(
+                  onPressed: () {
+                    viewModel.changeTestament(true);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    splashFactory: NoSplash.splashFactory,
+                  ),
+                  child: Center(
+                    child: Text(
+                      oldTestament.i18n,
+                      style: TextStyle(
+                          color: viewModel.isOldTestament
+                              ? Color(viewModel.activeTextColor)
+                              : Color(viewModel.noActiveTextColor)),
                     ),
-                    child: Center(
-                      child: Text(
-                        oldTestament.i18n,
-                        style: TextStyle(
-                            color: viewModel.isOldTestament
-                                ? Color(viewModel.activeTextColor)
-                                : Color(viewModel.noActiveTextColor)),
-                      ),
-                    )),
-              ),
-              Expanded(
-                flex: 3,
-                child: TextButton(
-                    onPressed: () {
-                      viewModel.changeTestament(false);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      splashFactory: NoSplash.splashFactory,
+                  )),
+              TextButton(
+                  onPressed: () {
+                    viewModel.changeTestament(false);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    splashFactory: NoSplash.splashFactory,
+                  ),
+                  child: Center(
+                    child: Text(
+                      newTestament.i18n,
+                      style: TextStyle(
+                          color: viewModel.isOldTestament
+                              ? Color(viewModel.noActiveTextColor)
+                              : Color(viewModel.activeTextColor)),
                     ),
-                    child: Center(
-                      child: Text(
-                        newTestament.i18n,
-                        style: TextStyle(
-                            color: viewModel.isOldTestament
-                                ? Color(viewModel.noActiveTextColor)
-                                : Color(viewModel.activeTextColor)),
-                      ),
-                    )),
-              ),
-              const Expanded(flex: 2, child: SizedBox()),
-              Expanded(
-                flex: 2,
-                child: IconButton(
-                    icon: Transform.rotate(
-                      angle: 90 * pi / 180,
-                      child: Icon(Icons.chevron_right, color: Color(viewModel.iconColor)),
-                    ),
-                    onPressed: () => viewModel.navigateToHome()),
-              ),
+                  )),
+              const Spacer(),
+              IconButton(
+                  icon: Transform.rotate(
+                    angle: 90 * pi / 180,
+                    child: Icon(Icons.chevron_right,
+                        size: 20,
+                        color: Color(viewModel.iconColor)),
+                  ),
+                  splashRadius: 20,
+                  onPressed: () => viewModel.navigateToHome()),
             ],
             backgroundColor: Color(viewModel.appBarColor),
           );

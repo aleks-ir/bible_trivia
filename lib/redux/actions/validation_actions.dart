@@ -31,5 +31,7 @@ class ChangeValidationStatusAction{
   ChangeValidationStatusAction(this.status);
 }
 
-class ClearErrorsAction{}
+class ClearSignInErrorsAction{}
+
+class ClearSignUpErrorsAction{}
 

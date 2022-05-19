@@ -1,9 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/text_styles.dart';
 import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
+import 'package:weekly_bible_trivia/redux/middleware/local_storage_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 
 class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -26,8 +27,10 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
               automaticallyImplyLeading: false,
               actions: [
                 IconButton(
+                  splashRadius: 20,
                   icon: Icon(
-                    Icons.public,
+                    Icons.settings,
+                    size: 20,
                     color: Color(viewModel.iconColor),
                   ),
                   onPressed: () {
@@ -35,11 +38,10 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
                         viewModel.isShowMenuBar ? false : true);
                   },
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
               ],
-              title: Text(title, style: TextStyles.getAppBarStyle(Color(viewModel.textColor))),
+
+              title: Text(title,
+                  style: TextStyles.getAppBarStyle(Color(viewModel.textColor))),
               centerTitle: true,
               backgroundColor: Color(viewModel.primaryColor),
             ));
@@ -57,17 +59,17 @@ class _ViewModel {
     required this.iconColor,
     required this.isShowMenuBar,
     required this.textColor,
-    required this.changeShowMenuBar,
     required this.primaryColor,
+    required this.changeShowMenuBar,
   });
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
-      iconColor: store.state.themeSettingsState.iconColor,
-      primaryColor: store.state.themeSettingsState.primaryColor,
-      textColor: store.state.themeSettingsState.textColor,
-      isShowMenuBar: store.state.appBarState.isShowMenuBar,
-      changeShowMenuBar: (value) => store.dispatch(UpdateShowMenuBarAction(value)),
-    );
+        iconColor: store.state.themeSettingsState.iconColor,
+        primaryColor: store.state.themeSettingsState.primaryColor,
+        textColor: store.state.themeSettingsState.textColor,
+        isShowMenuBar: store.state.appBarState.isShowMenuBar,
+        changeShowMenuBar: (value) =>
+            store.dispatch(UpdateShowMenuBarAction(value)),);
   }
 }

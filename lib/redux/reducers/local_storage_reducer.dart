@@ -8,6 +8,7 @@ Reducer<LocalStorageState> localStorageReducer = combineReducers([
   TypedReducer<LocalStorageState, UpdateTranslationIdAction>(_saveTranslationId),
   TypedReducer<LocalStorageState, UpdateLanguageAction>(_saveLanguage),
   TypedReducer<LocalStorageState, UpdateThemeAction>(_saveTheme),
+  TypedReducer<LocalStorageState, UpdateNotificationAction>(_saveNotification),
   TypedReducer<LocalStorageState, UpdateFontSizeAction>(_saveFontSize),
 ]);
 
@@ -46,11 +47,21 @@ LocalStorageState _saveTheme(
   );
 }
 
+
+LocalStorageState _saveNotification(
+    LocalStorageState prevState, UpdateNotificationAction action) {
+  return prevState.copyWith(
+      isNotification: action.isNotification
+  );
+}
+
+
 LocalStorageState _saveFontSize(
     LocalStorageState prevState, UpdateFontSizeAction action) {
   return prevState.copyWith(
       fontSize: action.fontSize,
   );
 }
+
 
 

@@ -6,8 +6,8 @@ class SlideNumbers extends StatelessWidget {
   final bool isActive;
   final bool isAnswered;
   final Function() callback;
-  final Color answeredColor;
-  final Color unansweredColor;
+  final Color? answeredColor;
+  final Color? unansweredColor;
 
   const SlideNumbers({Key? key, required this.index, required this.isActive, required this.isAnswered, required this.callback,
       this.answeredColor = Colors.teal, this.unansweredColor = Colors.black}) : super(key: key);
@@ -27,7 +27,7 @@ class SlideNumbers extends StatelessWidget {
           (index + 1).toString(),
           style: TextStyle(
               color: isAnswered ? answeredColor : unansweredColor,
-              fontSize: isActive ? 17 : 12,
+              fontSize: isActive ? 15 : 12,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.w400),
         ),

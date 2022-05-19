@@ -22,7 +22,7 @@ ThunkAction<AppState> createLogOutThunk() {
     try {
       await _auth.signOut();
       store.dispatch(UpdateAuthStatusAction(AuthenticationStatus.noLoaded));
-      store.dispatch(updateScreenThunk(NavigateBackToHomeAction()));
+      store.dispatch(updateScreenThunk(NavigateFromProfileToHomeScreenAction()));
     } catch (error) {
       print(error);
     }

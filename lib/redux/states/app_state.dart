@@ -80,7 +80,8 @@ class AppState {
   }
 
   AppState copyWith(
-      {LoadingState? loadingState,
+      {
+        LoadingState? loadingState,
         BottomBarState? bottomBarState,
       ReaderState? readerState,
       TriviaState? triviaState,

@@ -7,6 +7,7 @@ import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/signin_request.dart';
 import 'package:weekly_bible_trivia/redux/actions/authentication_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
@@ -28,12 +29,17 @@ class SignInContainer extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
-          if (isErrorListener && viewModel.authStatus == AuthenticationStatus.error &&
+          if (isErrorListener &&
+              viewModel.authStatus == AuthenticationStatus.error &&
               viewModel.authError.isNotEmpty) {
             Future.delayed(Duration.zero, () async {
-              showSnackBar(context, viewModel.authError, color: Color(viewModel.iconColor));
+              ScaffoldMessenger.of(context).showSnackBar(floatingSnackBar(
+                title: viewModel.authError,
+                color: Color(viewModel.primaryColor),
+                textColor: Color(viewModel.iconColor),
+              ));
+              viewModel.resetAuthError();
             });
-            viewModel.resetAuthError();
           }
 
           bool isPortrait =
@@ -41,6 +47,7 @@ class SignInContainer extends StatelessWidget {
 
           Widget createButton() => authOutlinedButton(
               createAccount.i18n, viewModel.navigateToRegistration,
+              color: Color(viewModel.iconColor),
               textColor: Color(viewModel.iconColor));
 
           Widget singInButton() => authMaterialButton(
@@ -48,28 +55,11 @@ class SignInContainer extends StatelessWidget {
                       ? Text(
                           signIn.i18n,
                         )
-                      : buttonCircularProgressIndicator(), () {
+                      : circularButtonProgressIndicator(), () {
                 FocusScope.of(context).unfocus();
                 viewModel.signIn(
                     SignInRequest(_emailController.text, _passController.text));
               }, color: Color(viewModel.iconColor));
-
-          Widget emailTextField() => authTextField(
-              textColor: Color(viewModel.textColor),
-              borderColor: Color(viewModel.textColor),
-              focusedBorderColor: Color(viewModel.iconColor),
-              icon: Icons.email,
-              controller: _emailController,
-              onChanged: (value) => viewModel.validateEmail(value));
-
-          Widget passwordTextField() => authTextField(
-              textColor: Color(viewModel.textColor),
-              borderColor: Color(viewModel.textColor),
-              focusedBorderColor: Color(viewModel.iconColor),
-              icon: Icons.lock,
-              obscure: true,
-              controller: _passController,
-              onChanged: (value) => viewModel.validatePassword(value));
 
           Widget emailErrorBox() => Align(
                 alignment: Alignment.center,
@@ -79,14 +69,15 @@ class SignInContainer extends StatelessWidget {
                     : const SizedBox(),
               );
 
-          Widget passwordErrorBox() => viewModel.validStatus == ValidationStatus.error &&
-                  viewModel.passwordError.isNotEmpty
-              ? errorValidation(viewModel.passwordError)
-              : const SizedBox();
+          Widget passwordErrorBox() =>
+              viewModel.validStatus == ValidationStatus.error &&
+                      viewModel.passwordError.isNotEmpty
+                  ? errorValidation(viewModel.passwordError)
+                  : const SizedBox();
 
           Widget emailTitle() => Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
+                alignment: Alignment.centerLeft,
+                child: Padding(
                   padding: const EdgeInsets.only(left: 15),
                   child: Text(
                     email.i18n,
@@ -95,11 +86,11 @@ class SignInContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-          );
+              );
 
           Widget passwordTitle() => Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
+                alignment: Alignment.centerLeft,
+                child: Padding(
                   padding: const EdgeInsets.only(left: 15),
                   child: Text(
                     password.i18n,
@@ -108,7 +99,7 @@ class SignInContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-          );
+              );
 
           final Column buttonsGroupColumn = Column(
             children: [
@@ -128,85 +119,67 @@ class SignInContainer extends StatelessWidget {
             ],
           );
 
-          final Row emailAndPasswordGroupRow = Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    emailTitle(),
-                    const SizedBox(height: 5),
-                    emailTextField(),
-                    emailErrorBox(),
-                  ],
-                ),
-                flex: 10,
-              ),
-              const Expanded(
-                child: SizedBox(),
-                flex: 1,
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    passwordTitle(),
-                    const SizedBox(height: 5),
-                    passwordTextField(),
-                    passwordErrorBox(),
-                  ],
-                ),
-                flex: 10,
-              ),
-            ],
-          );
 
-          final Column emailAndPasswordGroupColumn = Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              emailTitle(),
-              const SizedBox(height: 5),
-              emailTextField(),
-              emailErrorBox(),
-              const SizedBox(height: 20),
-              passwordTitle(),
-              const SizedBox(height: 5),
-              passwordTextField(),
-              passwordErrorBox(),
-            ],
-          );
 
           return SizedBox.expand(
             child: Container(
               color: Color(viewModel.primaryColor),
-              padding: const EdgeInsets.symmetric(horizontal: 50.0),
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: isPortrait ? 20.0 : 0),
-                    Center(
-                      child: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        radius: 48.0,
-                        child: Image.asset(PIGEON_IMG),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: isPortrait ? 40 : 100),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: isPortrait ? 20.0 : 10),
+                      Center(
+                        child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: 48.0,
+                          child: Image.asset(PIGEON_IMG),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: isPortrait ? 20.0 : 0),
-                    isPortrait
-                        ? emailAndPasswordGroupColumn
-                        : emailAndPasswordGroupRow,
-                    SizedBox(height: isPortrait ? 20 : 20),
-                    buttonsGroupColumn,
-                  ],
+                      const SizedBox(height: 10),
+                      AuthTextField(
+                        onChanged: (value) => viewModel.validateEmail(value),
+                        controller: _emailController,
+                        icon: Icons.email,
+                        label: email.i18n,
+                        error: viewModel.validStatus == ValidationStatus.error &&
+                            viewModel.emailError.isNotEmpty ? viewModel.emailError : '',
+                        textColor: Color(viewModel.textColor),
+                        borderColor: Color(viewModel.textColor),
+                        focusedBorderColor: Color(viewModel.iconColor),
+                      ),
+                      const SizedBox(height: 20),
+                      AuthTextField(
+                        onChanged: (value) => viewModel.validatePassword(value),
+                        controller: _passController,
+                        icon: Icons.lock,
+                        label: password.i18n,
+                        error: viewModel.validStatus == ValidationStatus.error &&
+                            viewModel.passwordError.isNotEmpty ? viewModel.passwordError : '',
+                        obscure: true,
+                        textColor: Color(viewModel.textColor),
+                        borderColor: Color(viewModel.textColor),
+                        focusedBorderColor: Color(viewModel.iconColor),
+                      ),
+                      const SizedBox(height: 40),
+                      buttonsGroupColumn,
+                      const SizedBox(height: 20.0),
+                    ],
+                  ),
                 ),
               ),
             ),
           );
         });
   }
+
 }
 
 class _ViewModel {
   final int iconColor;
+  final int shadowColor;
   final int primaryColor;
   final int textColor;
   final ValidationStatus validStatus;
@@ -223,6 +196,7 @@ class _ViewModel {
 
   _ViewModel({
     required this.iconColor,
+    required this.shadowColor,
     required this.primaryColor,
     required this.textColor,
     required this.validStatus,
@@ -240,6 +214,7 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
         iconColor: store.state.themeSettingsState.iconColor,
+        shadowColor: store.state.themeSettingsState.shadowColor,
         primaryColor: store.state.themeSettingsState.primaryColor,
         textColor: store.state.themeSettingsState.textColor,
         validStatus: store.state.signInState.validationStatus,

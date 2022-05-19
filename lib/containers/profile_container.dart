@@ -9,6 +9,7 @@ import 'package:weekly_bible_trivia/global/enums.dart';
 import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/edit_profile_request.dart';
 import 'package:weekly_bible_trivia/models/user_firebase.dart';
+import 'package:weekly_bible_trivia/redux/middleware/authentication_middleware.dart';
 import 'package:weekly_bible_trivia/redux/middleware/validation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/widgets/buttons.dart';
@@ -17,16 +18,16 @@ import 'package:weekly_bible_trivia/widgets/progress_indicators.dart';
 import 'package:weekly_bible_trivia/widgets/text_form_fields.dart';
 
 
-class EditProfileContainer extends StatefulWidget {
-  const EditProfileContainer({Key? key}) : super(key: key);
+class ProfileContainer extends StatefulWidget {
+  const ProfileContainer({Key? key}) : super(key: key);
 
   @override
-  EditProfileContainerState createState() {
-    return EditProfileContainerState();
+  ProfileContainerState createState() {
+    return ProfileContainerState();
   }
 }
 
-class EditProfileContainerState extends State<EditProfileContainer> {
+class ProfileContainerState extends State<ProfileContainer> {
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _nameController = TextEditingController();
   bool _isInitName = false;
@@ -44,11 +45,11 @@ class EditProfileContainerState extends State<EditProfileContainer> {
           return SizedBox.expand(
             child: Container(
               color: Color(viewModel.primaryColor),
-              padding: EdgeInsets.symmetric(horizontal: 40.0),
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     CircleAvatar(
@@ -58,22 +59,23 @@ class EditProfileContainerState extends State<EditProfileContainer> {
                       },
                       backgroundColor: Color(viewModel.secondaryColor),
                       backgroundImage: _imageFile != null
-                          ? FileImage(_imageFile!) as ImageProvider
+                          ? FileImage(_imageFile!)
                           : _getNetworkImage(viewModel.user.photoURL)
                               as ImageProvider,
-                      radius: 80.0,
+                      radius: 70.0,
                       child: Stack(children: [
                         Align(
                           alignment: Alignment.bottomRight,
-                          child: Container(
-                            width: 40.0,
-                            height: 40.0,
+                          child: SizedBox(
+                            width: 35.0,
+                            height: 35.0,
                             child: RawMaterialButton(
-                              fillColor: Colors.brown,
-                              shape: CircleBorder(),
-                              child: Icon(
+                              fillColor: Color(viewModel.iconColor),
+                              shape: const CircleBorder(),
+                              child: const Icon(
                                 Icons.add,
                                 color: Colors.white,
+                                size: 17,
                               ),
                               onPressed: () async {
                                 final status = await Permission.storage
@@ -87,16 +89,15 @@ class EditProfileContainerState extends State<EditProfileContainer> {
                         ),
                       ]),
                     ),
-                    SizedBox(
-                      height: 50,
+                    const SizedBox(
+                      height: 30,
                     ),
-                    authTextField(
+                    AuthTextField(
                         textColor: Color(viewModel.textColor),
                         borderColor: Color(viewModel.textColor),
-                        focusedBorderColor: Colors.brown,
+                        focusedBorderColor: Color(viewModel.iconColor),
                         controller: _nameController,
-                        onChanged: (value) => viewModel.validateName(value),
-                        label: name.i18n),
+                        onChanged: (value) => viewModel.validateName(value),),
                     Align(
                       alignment: Alignment.centerRight,
                       child: viewModel.validStatus == ValidationStatus.error &&
@@ -104,21 +105,36 @@ class EditProfileContainerState extends State<EditProfileContainer> {
                           ? errorValidation(viewModel.nameError)
                           : const SizedBox(),
                     ),
-                    SizedBox(
-                      height: 30,
+                    const SizedBox(
+                      height: 50,
                     ),
                     SizedBox(
                       width: double.infinity,
                       child: authMaterialButton(
                           viewModel.loading
-                              ? buttonCircularProgressIndicator()
+                              ? circularButtonProgressIndicator()
                               : Text(
                                   save.i18n,
                                 ), () {
                         FocusScope.of(context).unfocus();
                         viewModel.editProfile(
                             EditProfileRequest(_nameController.text, _imageFile));
-                      }, color: Colors.brown),
+                      }, color: Color(viewModel.iconColor)),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child:
+                      authOutlinedButton(
+                          signOut.i18n,
+                          viewModel.navigateToSignOut,
+                          textColor: Color(viewModel.iconColor),
+                          color: Color(viewModel.iconColor))
+                    ),
+                    const SizedBox(
+                      height: 30,
                     ),
                   ],
                 ),
@@ -161,6 +177,7 @@ class _ViewModel {
 
   final Function(String) validateName;
   final Function(EditProfileRequest) editProfile;
+  final Function() navigateToSignOut;
 
   _ViewModel({
     required this.iconColor,
@@ -173,6 +190,7 @@ class _ViewModel {
     required this.validStatus,
     required this.validateName,
     required this.editProfile,
+    required this.navigateToSignOut,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
@@ -189,6 +207,7 @@ class _ViewModel {
           store.dispatch(validateNameThunk(name, Screen.editProfile)),
       editProfile: (request) =>
           store.dispatch(validateEditProfileThunk(request)),
+      navigateToSignOut: () => store.dispatch(createLogOutThunk()),
     );
   }
 }

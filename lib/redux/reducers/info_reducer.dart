@@ -7,8 +7,6 @@ Reducer<InfoState> infoReducer = combineReducers([
   TypedReducer<InfoState, UpdateInfoTriviaChaptersAction>(_changeChapters),
   TypedReducer<InfoState, UpdateInfoTriviaDateAction>(_changeDate),
   TypedReducer<InfoState, UpdateCurrentDateAction>(_changeCurrentDate),
-  TypedReducer<InfoState, UpdateListPastBookNamesAction>(_changeListPastBookNames),
-  TypedReducer<InfoState, UpdateMapCountPastChaptersAction>(_changeListCountPastChapters),
 ]);
 
 
@@ -37,19 +35,5 @@ InfoState _changeCurrentDate(
     InfoState prevState, UpdateCurrentDateAction action) {
   return prevState.copyWith(
     currentDate: action.currentDate,
-  );
-}
-
-InfoState _changeListPastBookNames(
-    InfoState prevState, UpdateListPastBookNamesAction action) {
-  return prevState.copyWith(
-    listPastBookNames: action.listPastBookNames,
-  );
-}
-
-InfoState _changeListCountPastChapters(
-    InfoState prevState, UpdateMapCountPastChaptersAction action) {
-  return prevState.copyWith(
-    mapCountPastChapters: action.mapCountPastChapters,
   );
 }

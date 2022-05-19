@@ -2,36 +2,35 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:weekly_bible_trivia/containers/modal_container.dart';
 import 'package:weekly_bible_trivia/global/enums.dart';
+import 'package:weekly_bible_trivia/global/route_paths.dart';
 import 'package:weekly_bible_trivia/redux/actions/appbar_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/past_trivia_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/validation_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
 import 'package:weekly_bible_trivia/utils/selectors.dart';
 import 'package:weekly_bible_trivia/utils/sliding_bottombar.dart';
 
 class TabSelector extends StatefulWidget {
-  final AnimationController _navigationController;
+  final AnimationController navigationController;
 
-  const TabSelector(this._navigationController, {Key? key}) : super(key: key);
+  const TabSelector(this.navigationController, {Key? key}) : super(key: key);
 
-  
   @override
   _TabSelectorState createState() {
-    return _TabSelectorState(_navigationController);
+    return _TabSelectorState();
   }
 }
 
 class _TabSelectorState extends State<TabSelector>
     with TickerProviderStateMixin {
-  final AnimationController _navigationController;
   late AnimationController _modalAnimationController;
-  late Animation<double> _imageScaleAnimations;
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   late int _currentIndexTabBar;
 
-  _TabSelectorState(this._navigationController) : super();
+  _TabSelectorState() : super();
 
   @override
   void initState() {
@@ -40,14 +39,10 @@ class _TabSelectorState extends State<TabSelector>
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
-
-    
-    _imageScaleAnimations = CurvedAnimation(
-        parent: _modalAnimationController, curve: Curves.easeIn);
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _modalAnimationController.dispose();
     super.dispose();
   }
@@ -63,12 +58,12 @@ class _TabSelectorState extends State<TabSelector>
       converter: _ViewModel.fromStore,
       builder: (context, viewModel) {
         return SlidingBottomNavigationBar(
-          controller: _navigationController,
+          controller: widget.navigationController,
           visible: !viewModel.isReaderMod,
           child: CurvedNavigationBar(
             key: _bottomNavigationKey,
             index: _currentIndexTabBar,
-            height: 60.0,
+            height: 50.0,
             items: NavigationTab.values.map((tab) {
               return selectIconBottomBar(
                   tab,
@@ -82,25 +77,24 @@ class _TabSelectorState extends State<TabSelector>
             animationCurve: Curves.easeInOut,
             animationDuration: const Duration(milliseconds: 600),
             onTap: (index) {
-
               setState(() {
                 _currentIndexTabBar = index;
               });
-
               switch (index) {
                 case 3:
                   setState(() {
                     _currentIndexTabBar = index;
                   });
-                  Future.delayed(const Duration(milliseconds: 600), () async {
-                    _modalAnimationController.forward();
-                    ModalBottomSheetContainer(context, _imageScaleAnimations)
-                        .showModal(() {
-                      _bottomNavigationKey.currentState!.setPage(
-                          NavigationTab.values.indexOf(viewModel.activeTab));
-                      _modalAnimationController.reverse();
+                  viewModel.resetAuthError();
+                  if (!viewModel.isActiveAnimation) {
+                    viewModel.updateIsActiveAnimation(true);
+                    Future.delayed(const Duration(milliseconds: 550), () async {
+                      viewModel.hideMenuBar(index);
+                      _modalAnimationController.forward();
+                      viewModel.updateIsActiveAnimation(false);
+                      navigate(viewModel);
                     });
-                  });
+                  }
                   break;
                 default:
                   viewModel.hideMenuBar(index);
@@ -114,6 +108,18 @@ class _TabSelectorState extends State<TabSelector>
       },
     );
   }
+
+  void navigate(_ViewModel viewModel) async {
+    Navigator.of(context)
+        .pushNamed(viewModel.isAuthenticated
+            ? RoutePaths.fromHomeToProfileScreen
+            : RoutePaths.fromHomeToSignInScreen)
+        .whenComplete(() {
+      _bottomNavigationKey.currentState!
+          .setPage(NavigationTab.values.indexOf(viewModel.activeTab));
+      _modalAnimationController.reverse();
+    });
+  }
 }
 
 class _ViewModel {
@@ -122,11 +128,15 @@ class _ViewModel {
   final int iconColor;
   final String theme;
   final int tabBarColor;
+  final bool isAuthenticated;
+  final bool isActiveAnimation;
   final NavigationTab activeTab;
   final bool isReaderMod;
   final Function(int) onTabSelected;
   final Function(int) hideMenuBar;
   final Function() hidePastTriviaDialog;
+  final Function(bool) updateIsActiveAnimation;
+  final Function() resetAuthError;
 
   _ViewModel({
     required this.bottomBarColor,
@@ -134,32 +144,49 @@ class _ViewModel {
     required this.iconColor,
     required this.theme,
     required this.tabBarColor,
+    required this.isAuthenticated,
+    required this.isActiveAnimation,
     required this.activeTab,
     required this.isReaderMod,
+    required this.updateIsActiveAnimation,
     required this.onTabSelected,
     required this.hideMenuBar,
     required this.hidePastTriviaDialog,
+    required this.resetAuthError,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      bottomBarColor: store.state.themeSettingsState.appBarColor,
-      secondaryColor: store.state.themeSettingsState.secondaryColor,
-      iconColor: store.state.themeSettingsState.iconColor,
-      theme: store.state.localStorageState.theme,
-      tabBarColor: store.state.themeSettingsState.appBarColor,
-      activeTab: store.state.bottomBarState.activeTab,
-      isReaderMod: store.state.appBarState.isReaderMod,
-      onTabSelected: (index) {
-        store.dispatch(updateTabThunk(NavigationTab.values[index]));
-      },
-      hideMenuBar: (index) {
-        Future.delayed(const Duration(milliseconds: 500), () {
-          store.dispatch(UpdateMenuBarAction(MenuBar.values[index]));
+        bottomBarColor: store.state.themeSettingsState.appBarColor,
+        secondaryColor: store.state.themeSettingsState.secondaryColor,
+        iconColor: store.state.themeSettingsState.iconColor,
+        theme: store.state.localStorageState.theme,
+        tabBarColor: store.state.themeSettingsState.appBarColor,
+        isAuthenticated: store.state.authenticationState.status ==
+            AuthenticationStatus.loaded,
+        activeTab: store.state.bottomBarState.activeTab,
+        isActiveAnimation: store.state.bottomBarState.isActiveAnimation,
+        isReaderMod: store.state.appBarState.isReaderMod,
+        onTabSelected: (index) {
+          store.dispatch(updateTabThunk(NavigationTab.values[index]));
+        },
+        hideMenuBar: (index) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if(index != 3){
+              store.dispatch(UpdateMenuBarAction(MenuBar.values[index]));
+            }
+          });
+          if (store.state.appBarState.isShowMenuBar) {
+            store.dispatch(UpdateShowMenuBarAction(false));
+          }
+        },
+        hidePastTriviaDialog: () => store.dispatch(ResetTriviaDialogAction()),
+        updateIsActiveAnimation: (value) => store.dispatch(
+              UpdateActiveAnimation(value),
+            ),
+        resetAuthError: () {
+          store.dispatch(ClearSignUpErrorsAction());
+          store.dispatch(ClearSignInErrorsAction());
         });
-        store.dispatch(UpdateShowMenuBarAction(false));
-      },
-      hidePastTriviaDialog: () => store.dispatch(ResetPastTriviaAction()),
-    );
   }
 }

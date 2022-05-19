@@ -9,6 +9,8 @@ import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/trivia_actions.dart';
 import 'package:weekly_bible_trivia/redux/middleware/navigation_middleware.dart';
 import 'package:weekly_bible_trivia/redux/states/app_state.dart';
+import 'package:weekly_bible_trivia/widgets/blur_background.dart';
+import 'package:weekly_bible_trivia/widgets/buttons.dart';
 import 'package:weekly_bible_trivia/widgets/dialogs.dart';
 import 'package:weekly_bible_trivia/widgets/slide_items/slide_item.dart';
 import 'package:weekly_bible_trivia/widgets/timer.dart';
@@ -59,10 +61,10 @@ class _TriviaContainerState extends State<TriviaContainer>
 
   void _initDataTrivia(Store<AppState> store) {
     store.dispatch(UpdateListCurrentAnswersAction(_initListCurrentAnswers(
-        store.state.triviaState.listQuestions,
+        store.state.triviaState.questions,
         store.state.localStorageState.language)));
-    store.dispatch(UpdateListAnsweredQuestionsAction(_initListAnsweredQuestions(
-        store.state.triviaState.listQuestions.length)));
+    store.dispatch(UpdateListAnsweredQuestionsAction(
+        _initListAnsweredQuestions(store.state.triviaState.questions.length)));
     store.dispatch(UpdateTriviaDialogAction(false));
     store.dispatch(UpdateCurrentPageAction(0));
     store.dispatch(UpdateStartPageAction(0));
@@ -79,8 +81,6 @@ class _TriviaContainerState extends State<TriviaContainer>
 
   @override
   Widget build(BuildContext context) {
-    bool isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
     return StoreConnector<AppState, _ViewModel>(
         onInit: (Store<AppState> store) {
           _timerController = AnimationController(
@@ -91,48 +91,54 @@ class _TriviaContainerState extends State<TriviaContainer>
           if (store.state.triviaState.isTimeTrivia) {
             _initTimeTrivia(store);
           }
-
         },
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
           return SizedBox.expand(
             child: Container(
               color: Color(viewModel.primaryColor),
-              child: Stack(
-                alignment: AlignmentDirectional.bottomCenter,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30.0, bottom: 30),
-                    child: PageView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: _pageController,
-                      onPageChanged: viewModel.changePage,
-                      itemCount: viewModel.questions.length,
-                      itemBuilder: (ctx, i) => SlideItem(
-                        questionId: i,
-                        questionTitle: viewModel.language == RUSSIAN
-                            ? viewModel.questions[i].questionRu
-                            : viewModel.questions[i].questionEn,
-                        currentAnswers: viewModel.currentAnswers[i],
-                        isCheckBox:
-                            viewModel.questions[i].correctAnswers.length == 1
-                                ? false
-                                : true,
-                        callback: (value, questionId, answerId) {
-                          viewModel.changeAnswer(value, questionId, answerId);
-                          _updateScreen(viewModel);
+              child: GestureDetector(
+                onTap: viewModel.isShowDialog ? () => viewModel.changeIsShowDialog(false) : null,
+                child: Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30.0),
+                      child: NotificationListener<OverscrollIndicatorNotification>(
+                        onNotification: (overScroll) {
+                          overScroll.disallowIndicator();
+                          return false;
                         },
-                        color: Color(viewModel.primaryColor),
-                        cardColor: Color(viewModel.cardColor),
-                        textColor: Color(viewModel.textColor),
-                        selectedColor: Color(viewModel.iconColor),
+                        child: PageView.builder(
+                          scrollDirection: Axis.horizontal,
+                          controller: _pageController,
+                          onPageChanged: viewModel.changePage,
+                          itemCount: viewModel.questions.length,
+                          itemBuilder: (ctx, index) => SlideItem(
+                            questionId: index,
+                            questionTitle: viewModel.language == RUSSIAN
+                                ? viewModel.questions[index].questionRu
+                                : viewModel.questions[index].questionEn,
+                            currentAnswers: viewModel.currentAnswers[index],
+                            isCheckBox:
+                                viewModel.questions[index].correctAnswers.length == 1
+                                    ? false
+                                    : true,
+                            callback: (value, questionId, answerId) {
+                              viewModel.changeAnswer(value, questionId, answerId);
+                              _updateScreen(viewModel);
+                            },
+                            color: Color(viewModel.primaryColor),
+                            cardColor: Color(viewModel.cardColor),
+                            textColor: Color(viewModel.textColor),
+                            selectedColor: Color(viewModel.iconColor),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  Stack(
-                    alignment: AlignmentDirectional.topCenter,
-                    children: <Widget>[
-                      Visibility(
+                    Positioned(
+                      top: 0,
+                      child: Visibility(
                         visible: viewModel.isTimeTrivia,
                         child: TimerWidget(
                           timerController: _timerController,
@@ -140,33 +146,45 @@ class _TriviaContainerState extends State<TriviaContainer>
                           textColor: Color(viewModel.textColor),
                         ),
                       ),
-                      triviaTopBar(
-                          titleRightButton: _checkForLastQuestion(viewModel)
-                              ? complete.i18n
-                              : next.i18n,
-                          titleLeftButton: exit.i18n,
-                          callbackLeftButton: () {
-                            _openOrCloseDialog(viewModel);
-                          },
-                          callbackRightButton: () {
-                            _nextPage(viewModel);
-                            _closeDialog(viewModel);
-                            if (_checkForLastQuestion(viewModel)) {
-                              viewModel.navigateToResult();
-                            }
-                          },
-                          timerController: _timerController,
-                          cardColor: Color(viewModel.cardColor),
-                          titleColor: Color(viewModel.iconColor)),
-                      Card(
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.only(bottom: 20.0),
-                          height: 20,
-                          child: null,
-                        ),
+                    ),
+                    Positioned(
+                        top: 0,
+                        left: 0,
+                        child: TriviaButton(
+                            callback: () => _openOrCloseDialog(viewModel),
+                            title: exit.i18n,
+                            isLeft: true,
+                            color: Color(viewModel.cardColor),
+                            textColor: Color(viewModel.iconColor)
+                        )),
+                    Positioned(
+                        top: 0, right: 0,
+                        child: TriviaButton(
+                            callback: () {
+                              _nextPage(viewModel);
+                              if (viewModel.isLastQuestion) {
+                                viewModel.navigateToResult();
+                              }
+                            },
+                            title: viewModel.isLastQuestion
+                                ? complete.i18n
+                                : next.i18n,
+                            isLeft: false,
+                            color: Color(viewModel.cardColor),
+                            textColor: Color(viewModel.iconColor)
+                        )),
+                    Positioned(
+                      top: 0,
+                      child: Container(
+                        color: Color(viewModel.cardColor),
+                        width: MediaQuery.of(context).size.width,
+                        padding: const EdgeInsets.only(bottom: 20.0),
+                        height: 24,
                       ),
-                      triviaBottomBar(
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      child: TriviaBottomBar(
                         currentPage: viewModel.currentPage,
                         endPage: viewModel.endPage,
                         startPage: viewModel.startPage,
@@ -180,29 +198,29 @@ class _TriviaContainerState extends State<TriviaContainer>
                         answeredColor: Color(viewModel.iconColor),
                         unansweredColor: Color(viewModel.textColor),
                       ),
-                      Visibility(
-                          visible: viewModel.isShowDialog,
-                          child: triviaDialog(
-                              closeCallback: () {
-                                _closeDialog(viewModel);
-                              },
-                              confirmCallback: () {
-                                _exitTrivia(viewModel);
-                              },
-                              isDarkTheme:
-                                  viewModel.theme == DARK ? true : false,
-                              backgroundColor: Color(viewModel.primaryColor),
-                              isPortrait: isPortrait,
-                              textColor: Color(viewModel.textColor))),
-                    ],
-                  )
-                ],
+                    ),
+                    Visibility(
+                        visible: viewModel.isShowDialog,
+                        child: const BlurBackground()),
+                    Visibility(
+                        visible: viewModel.isShowDialog,
+                        child: TriviaDialog(
+                          closeCallback: () {
+                            _closeDialog(viewModel);
+                          },
+                          confirmCallback: () {
+                            _exitTrivia(viewModel);
+                          },
+                          backgroundColor: Color(viewModel.primaryColor),
+                          textColor: Color(viewModel.textColor),
+                          textButtonColor: Color(viewModel.textColor),)),
+                  ],
+                ),
               ),
             ),
           );
         });
   }
-
 
   void _updateScreen(_ViewModel viewModel) {
     _pageController.jumpToPage(viewModel.currentPage == viewModel.startPage
@@ -231,25 +249,19 @@ class _TriviaContainerState extends State<TriviaContainer>
     if (viewModel.currentPage <= viewModel.questions.length - 2) {
       viewModel.changePage(viewModel.currentPage + 1);
       _pageController.nextPage(
-          duration: const Duration(milliseconds: 200), curve: Curves.bounceIn);
+          duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
     } else {
       viewModel.changePage(0);
       _pageController.animateToPage(0,
-          duration: const Duration(milliseconds: 1000), curve: Curves.decelerate);
+          duration: const Duration(milliseconds: 1000),
+          curve: Curves.decelerate);
     }
   }
 
-  bool _checkForLastQuestion(_ViewModel viewModel) {
-    if (viewModel.answeredQuestions
-        .where((element) => element == false)
-        .isEmpty) {
-      return true;
-    }
-    return false;
-  }
 }
 
 class _ViewModel {
+  final bool isLastQuestion;
   final bool isShowDialog;
   final bool isTimeTrivia;
   final int primaryColor;
@@ -272,6 +284,7 @@ class _ViewModel {
   final Function(bool?, int, int) changeAnswer;
 
   _ViewModel({
+    required this.isLastQuestion,
     required this.isShowDialog,
     required this.isTimeTrivia,
     required this.primaryColor,
@@ -295,6 +308,9 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
+      isLastQuestion: store.state.triviaState.answeredQuestions
+          .where((element) => element == false)
+          .isEmpty,
       isShowDialog: store.state.triviaState.isShowDialog,
       isTimeTrivia: store.state.triviaState.isTimeTrivia,
       primaryColor: store.state.themeSettingsState.primaryColor,
@@ -306,9 +322,9 @@ class _ViewModel {
       startPage: store.state.triviaState.startPage,
       endPage: store.state.triviaState.endPage,
       language: store.state.localStorageState.language,
-      currentAnswers: store.state.triviaState.listCurrentAnswers,
-      questions: store.state.triviaState.listQuestions,
-      answeredQuestions: store.state.triviaState.listAnsweredQuestions,
+      currentAnswers: store.state.triviaState.currentAnswers,
+      questions: store.state.triviaState.questions,
+      answeredQuestions: store.state.triviaState.answeredQuestions,
       navigateToHome: () => store
           .dispatch(updateScreenThunk(NavigateFromTriviaToHomeScreenAction())),
       navigateToResult: () => store.dispatch(
@@ -323,7 +339,7 @@ class _ViewModel {
       },
       changeAnswer: (value, questionId, answerId) {
         List<List<Answer>> newListCurrentAnswers =
-            store.state.triviaState.listCurrentAnswers;
+            store.state.triviaState.currentAnswers;
         if (value != null) {
           newListCurrentAnswers[questionId][answerId].isSelected = value;
         } else {
@@ -340,7 +356,7 @@ class _ViewModel {
   static _checkHasAnswer(Store<AppState> store) {
     int currentPage = store.state.triviaState.currentPage;
     List<Answer> currentAnswers =
-        store.state.triviaState.listCurrentAnswers[currentPage];
+        store.state.triviaState.currentAnswers[currentPage];
     if (currentAnswers.where((element) => element.isSelected).isNotEmpty) {
       _changeAnsweredQuestions(store, currentPage);
     }
@@ -348,7 +364,7 @@ class _ViewModel {
 
   static _changeAnsweredQuestions(Store<AppState> store, int currentPage) {
     List<bool> newListAnsweredQuestions =
-        store.state.triviaState.listAnsweredQuestions;
+        store.state.triviaState.answeredQuestions;
     newListAnsweredQuestions[currentPage] = true;
     store.dispatch(UpdateListAnsweredQuestionsAction(newListAnsweredQuestions));
   }

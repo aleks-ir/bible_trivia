@@ -14,7 +14,7 @@ class ReaderMenuBar extends StatelessWidget {
   final String title;
   final AnimationController controller;
 
-  ReaderMenuBar(
+  const ReaderMenuBar(
     this.title,
     this.controller, {
     Key? key,
@@ -30,54 +30,81 @@ class ReaderMenuBar extends StatelessWidget {
         child: AppBar(
           automaticallyImplyLeading: false,
           flexibleSpace: Container(
-            padding: const EdgeInsets.only(top: 95),
-            height: 135,
-            child: Row(children: [const Expanded(flex: 2, child: SizedBox()),
-              Expanded(
-                  flex: 5,
-                  child: menuFloatingButton(
-                      const Icon(Icons.dark_mode), viewModel.theme == DARK, () {
+            padding: const EdgeInsets.only(top: 90),
+            height: 130,
+            child: Row(
+              children: [
+                const Spacer(),
+                MenuFloatingButton(
+                  callback: () {
                     viewModel.changeTheme(DARK);
                     viewModel.changeThemeSettings(selectTheme(DARK));
-                  }, activeColor: Color(viewModel.iconColor))),
-              Expanded(
-                  flex: 2,
-                  child: Icon(
-                    Icons.brightness_4,
-                    color:
-                    viewModel.theme == DARK ? Colors.white : Colors.black54,
-                  )),
-              Expanded(
-                  flex: 5,
-                  child: menuFloatingButton(
-                      const Icon(Icons.light_mode), viewModel.theme == LIGHT, () {
+                  },
+                  child: const Icon(
+                    Icons.dark_mode,
+                    size: 18,
+                  ),
+                  isActive: viewModel.theme == DARK,
+                  activeColor: Color(viewModel.iconColor),
+                  color: Color(viewModel.secondaryColor),
+                  foregroundNoActiveColor: Color(viewModel.iconColor),
+                ),
+                Icon(
+                  Icons.brightness_4,
+                  size: 18,
+                  color: viewModel.foregroundIconColor,
+                ),
+                MenuFloatingButton(
+                  callback: () {
                     viewModel.changeTheme(LIGHT);
                     viewModel.changeThemeSettings(selectTheme(LIGHT));
-                  }, activeColor: Color(viewModel.iconColor))),
-
-              const Expanded(flex: 3, child: SizedBox()),
-              Expanded(
-                  flex: 5,
-                  child: menuFloatingButton(const Icon(Icons.remove), false, () {
-                    viewModel.changeFontSize(viewModel.fontSize - 2);
-                  }, activeColor: Color(viewModel.iconColor))),
-              Expanded(
-                  flex: 2,
-                  child: Icon(
-                    Icons.format_size,
-                    color:
-                    viewModel.theme == DARK ? Colors.white : Colors.black54,
-                  )),
-              Expanded(
-                  flex: 5,
-                  child: menuFloatingButton(Icon(Icons.add), false, () {
-                    viewModel.changeFontSize(viewModel.fontSize + 2);
-                  }, activeColor: Color(viewModel.iconColor))),
-              const Expanded(flex: 2, child: SizedBox())],),
+                  },
+                  child: const Icon(
+                    Icons.light_mode,
+                    size: 18,
+                  ),
+                  isActive: viewModel.theme == LIGHT,
+                  activeColor: Color(viewModel.iconColor),
+                  color: Color(viewModel.secondaryColor),
+                  foregroundNoActiveColor: Color(viewModel.iconColor),
+                ),
+                const Spacer(),
+                const Spacer(),
+                MenuFloatingButton(
+                  callback: () {
+                    viewModel.changeFontSize(viewModel.fontSize - 1);
+                  },
+                  child: const Icon(
+                    Icons.remove,
+                    size: 18,
+                  ),
+                  activeColor: Color(viewModel.iconColor),
+                  color: Color(viewModel.secondaryColor),
+                  foregroundNoActiveColor: viewModel.foregroundIconColor,
+                ),
+                Icon(
+                  Icons.format_size,
+                  color: viewModel.foregroundIconColor,
+                  size: 18,
+                ),
+                MenuFloatingButton(
+                  callback: () {
+                    viewModel.changeFontSize(viewModel.fontSize + 1);
+                  },
+                  child: const Icon(
+                    Icons.add,
+                    size: 18,
+                  ),
+                  color: Color(viewModel.secondaryColor),
+                  foregroundNoActiveColor: viewModel.foregroundIconColor,
+                ),
+                const Spacer(),
+              ],
+            ),
           ),
           shape: const ContinuousRectangleBorder(
               borderRadius:
-                  BorderRadius.vertical(bottom: Radius.circular(50.0))),
+                  BorderRadius.vertical(bottom: Radius.circular(25.0))),
           backgroundColor: Color(
             viewModel.appBarColor,
           ),
@@ -88,7 +115,9 @@ class ReaderMenuBar extends StatelessWidget {
 }
 
 class _ViewModel {
+  final Color foregroundIconColor;
   final int iconColor;
+  final int secondaryColor;
   final int appBarColor;
   final int shadowColor;
   final bool isMenuBar;
@@ -99,7 +128,9 @@ class _ViewModel {
   final Function(double) changeFontSize;
 
   _ViewModel({
+    required this.foregroundIconColor,
     required this.iconColor,
+    required this.secondaryColor,
     required this.appBarColor,
     required this.shadowColor,
     required this.isMenuBar,
@@ -112,7 +143,11 @@ class _ViewModel {
 
   factory _ViewModel.fromStore(Store<AppState> store) {
     return _ViewModel(
+        foregroundIconColor: store.state.localStorageState.theme == DARK
+            ? Colors.white
+            : Colors.black54,
         iconColor: store.state.themeSettingsState.iconColor,
+        secondaryColor: store.state.themeSettingsState.secondaryColor,
         appBarColor: store.state.themeSettingsState.appBarColor,
         shadowColor: store.state.themeSettingsState.shadowColor,
         isMenuBar: store.state.appBarState.isShowMenuBar,
@@ -122,7 +157,10 @@ class _ViewModel {
               store.dispatch(saveThemeThunk(value)),
             },
         changeFontSize: (value) => {
-              store.dispatch(saveFontSizeThunk(value)),
+              if (value >= 5 && value <= 30)
+                {
+                  store.dispatch(saveFontSizeThunk(value)),
+                }
             },
         changeThemeSettings: (theme) => {
               store.dispatch(UpdateThemeSettingsAction(

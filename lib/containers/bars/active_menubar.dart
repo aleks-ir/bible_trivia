@@ -12,9 +12,10 @@ import 'home_menubar.dart';
 class ActiveMenuBar extends StatelessWidget with PreferredSizeWidget {
   final AnimationController controller;
   @override
-  Size get preferredSize => const Size.fromHeight(80);
+  Size get preferredSize => const Size.fromHeight(70);
 
-  ActiveMenuBar(this.controller, {
+  ActiveMenuBar(this.controller,
+      {
     Key? key,
   })  : super(key: key);
 
@@ -29,7 +30,7 @@ class ActiveMenuBar extends StatelessWidget with PreferredSizeWidget {
             case MenuBar.reader:
               return ReaderMenuBar("Bible", controller);
             case MenuBar.pastTrivia:
-              return PastTriviaMenuBar("Trivia", controller);
+              return HomeMenuBar("Home", controller);
             default:
               return AppBar(title: const Text(""), backgroundColor: Colors.white,);
           }

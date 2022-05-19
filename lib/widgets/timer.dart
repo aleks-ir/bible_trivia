@@ -27,7 +27,7 @@ class TimerWidget extends StatelessWidget {
               painter: TimerPainter(
             animation: timerController,
             backgroundColor: Colors.grey.shade200,
-            color: Colors.teal,
+            color: indicatorColor,
           )),
         ),
         AnimatedBuilder(
@@ -68,10 +68,10 @@ class TimerPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
-    canvas.drawArc(Offset(0, -15) & size, 0, pi, false, paint);
+    canvas.drawArc(const Offset(0, -15) & size, 0, pi, false, paint);
     paint.color = color;
     double progress = (animation.value) * pi;
-    canvas.drawArc(Offset(0, -15) & size, pi, -progress, false, paint);
+    canvas.drawArc(const Offset(0, -15) & size, pi, -progress, false, paint);
   }
 
   @override

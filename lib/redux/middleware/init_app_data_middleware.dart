@@ -24,8 +24,9 @@ ThunkAction<AppState> createInitAppDataThunk() {
     store.dispatch(initAuthThunk(weeklyTriviaDateString));
     store.dispatch(initDatabaseThunk());
     store.dispatch(initSettingsThunk());
-    store.dispatch(initInfoTriviaBookAndChaptersThunk(weeklyTriviaDateString));
-    store.dispatch(initPastTriviaBookNamesAndCountChaptersThunk(currentDateString));
+    store.dispatch(initImagesUrlFromFirebaseThunk());
+    store.dispatch(initWeeklyTriviaThunk(weeklyTriviaDateString));
+    store.dispatch(initPastTriviaThunk(currentDateString));
   };
 }
 

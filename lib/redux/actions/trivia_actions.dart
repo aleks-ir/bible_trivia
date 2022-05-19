@@ -27,9 +27,9 @@ class UpdateEndPageAction {
   UpdateEndPageAction(this.endPage);
 }
 
-class UpdateListQuestionsAction {
-  final List<Question> listQuestions;
-  UpdateListQuestionsAction(this.listQuestions);
+class UpdateTriviaQuestionsAction {
+  final List<Question> questions;
+  UpdateTriviaQuestionsAction(this.questions);
 }
 
 class UpdateListCurrentAnswersAction {

@@ -18,12 +18,3 @@ class UpdateCurrentDateAction {
   UpdateCurrentDateAction(this.currentDate);
 }
 
-class UpdateListPastBookNamesAction {
-  final List<String> listPastBookNames;
-  UpdateListPastBookNamesAction(this.listPastBookNames);
-}
-
-class UpdateMapCountPastChaptersAction {
-  final Map<String, int> mapCountPastChapters;
-  UpdateMapCountPastChaptersAction(this.mapCountPastChapters);
-}

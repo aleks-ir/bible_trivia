@@ -19,7 +19,7 @@ class SimpleAppBar extends StatelessWidget with PreferredSizeWidget {
     this.title,
     this.actionNavigateRoute, {
     Key? key,
-  })  : preferredSize = Size.fromHeight(50.0),
+  })  : preferredSize = const Size.fromHeight(50.0),
         super(key: key);
 
   @override
@@ -34,9 +34,13 @@ class SimpleAppBar extends StatelessWidget with PreferredSizeWidget {
               IconButton(
                   icon: Transform.rotate(
                     angle: 90 * pi / 180,
-                    child: Icon(Icons.chevron_right, color: Color(viewModel.iconColor)),
+                    child: Icon(Icons.chevron_right,
+                        size: 20,
+                        color: Color(viewModel.iconColor)),
                   ),
-                  onPressed: () => viewModel.navigateTo(actionNavigateRoute)),
+                  splashRadius: 20,
+                  onPressed: () => viewModel.navigateTo(actionNavigateRoute),
+              ),
             ],
             title: Text(title, style: TextStyles.getAppBarStyle(Color(viewModel.textColor))),
             backgroundColor: Color(viewModel.appBarColor),

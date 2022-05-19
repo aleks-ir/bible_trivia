@@ -8,7 +8,7 @@ Reducer<TriviaState> triviaReducer = combineReducers([
   TypedReducer<TriviaState, UpdateCurrentPageAction>(_changeCurrentPage),
   TypedReducer<TriviaState, UpdateStartPageAction>(_changeStartPage),
   TypedReducer<TriviaState, UpdateEndPageAction>(_changeEndPage),
-  TypedReducer<TriviaState, UpdateListQuestionsAction>(_changeListQuestions),
+  TypedReducer<TriviaState, UpdateTriviaQuestionsAction>(_changeQuestions),
   TypedReducer<TriviaState, UpdateListCurrentAnswersAction>(_changeListAnswers),
   TypedReducer<TriviaState, UpdateListAnsweredQuestionsAction>(_changeListSkipQuestions),
 ]);
@@ -49,17 +49,17 @@ TriviaState _changeEndPage(
   );
 }
 
-TriviaState _changeListQuestions(
-    TriviaState prevState, UpdateListQuestionsAction action) {
+TriviaState _changeQuestions(
+    TriviaState prevState, UpdateTriviaQuestionsAction action) {
   return prevState.copyWith(
-    listQuestions: action.listQuestions,
+    questions: action.questions,
   );
 }
 
 TriviaState _changeListAnswers(
     TriviaState prevState, UpdateListCurrentAnswersAction action) {
   return prevState.copyWith(
-    listCurrentAnswers: action.listCurrentAnswers,
+    currentAnswers: action.listCurrentAnswers,
   );
 }
 
@@ -67,6 +67,6 @@ TriviaState _changeListAnswers(
 TriviaState _changeListSkipQuestions(
     TriviaState prevState, UpdateListAnsweredQuestionsAction action) {
   return prevState.copyWith(
-    listAnsweredQuestions: action.listAnsweredQuestions,
+    answeredQuestions: action.listAnsweredQuestions,
   );
 }

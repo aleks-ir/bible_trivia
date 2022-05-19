@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/global/constants.dart';
 import 'package:weekly_bible_trivia/global/constants_map.dart';
+import 'package:weekly_bible_trivia/global/translation_i18n.dart';
 import 'package:weekly_bible_trivia/models/database/verse.dart';
 import 'package:weekly_bible_trivia/redux/actions/local_storage_actions.dart';
 import 'package:weekly_bible_trivia/redux/actions/navgation_actions.dart';
@@ -47,147 +48,134 @@ class _SearchContainerState extends State<SearchContainer>
         },
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (context, _ViewModel viewModel) {
-          bool isPortrait =
-              MediaQuery.of(context).orientation == Orientation.portrait;
           _viewModel = viewModel;
           return SizedBox.expand(
             child: Container(
               color: Color(viewModel.primaryColor),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.separated(
-                      keyboardDismissBehavior:
-                          ScrollViewKeyboardDismissBehavior.onDrag,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          Divider(
-                        height: 10,
-                        color: Color(index == 0
-                            ? viewModel.primaryColor
-                            : viewModel.iconColor),
-                      ),
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: viewModel.searchResult.length + 1,
-                      itemBuilder: (context, index) {
-                        return index == 0
-                            ? Padding(
-                                padding: EdgeInsets.only(
-                                    left: isPortrait ? 20 : 50,
-                                    right: isPortrait ? 20 : 50,
-                                    bottom: isPortrait ? 20 : 20,
-                                    top: isPortrait ? 20 : 20),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          flex: 20,
-                                          child: searchTextField(
-                                              callback: () {
-                                                _searchController.text.isNotEmpty
-                                                    ? viewModel.searchByKeyword(
-                                                        _searchController.text)
-                                                    : null;
-                                              },
-                                              controller: _searchController,
-                                              textColor: Color(viewModel.textColor),
-                                              borderColor:
-                                                  Color(viewModel.iconColor)),
+              child: ListView.separated(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(
+                  height: 10,
+                  color: Colors.grey,
+                ),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: viewModel.searchResult.length + 1,
+                itemBuilder: (context, index) {
+                  return index == 0
+                      ? Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30, right: 30, bottom: 10, top: 30),
+                          child: Column(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: SearchTextField(
+                                          onSubmitted:
+                                              viewModel.searchByKeyword,
+                                          controller: _searchController,
+                                          textColor: Color(viewModel.textColor),
+                                          borderColor:
+                                              Color(viewModel.iconColor),
+                                          focusedBorderColor:
+                                              Color(viewModel.iconColor),
                                         ),
-                                        Expanded(
-                                            flex: isPortrait ? 4 : 3,
-                                            child: Container(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10, top: 5),
-                                              height: 45,
-                                              width: 45,
-                                              child: FloatingActionButton(
-                                                  backgroundColor:
-                                                      Color(viewModel.primaryColor),
-                                                  child: Icon(
-                                                    viewModel.isSearching
-                                                        ? Icons.sync
-                                                        : Icons.search,
-                                                    color:
-                                                        Color(viewModel.iconColor),
-                                                  ),
-                                                  onPressed: () {
-                                                    _searchController
-                                                            .text.isNotEmpty
-                                                        ? viewModel.searchByKeyword(
-                                                            _searchController.text)
-                                                        : null;
-                                                  }),
-                                            ))
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : Container(
-                                color: Color(viewModel.primaryColor),
-                                child: ListTile(
-                                  onTap: () {
-                                    viewModel.navigateBackToReader(
-                                        _getBookName(index - 1),
-                                        _getChapter(index - 1),
-                                        _getVerse(index - 1));
-                                  },
-                                  minVerticalPadding: 10,
-                                  title: Center(
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Text(
-                                        _getTitleItem(index - 1),
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Color(viewModel.textColor),
-                                            fontWeight: FontWeight.w600),
                                       ),
-                                    ),
+                                      const SizedBox(width: 15),
+                                      GestureDetector(
+                                        onTap: () => viewModel.searchByKeyword(
+                                            _searchController.text),
+                                        child: Container(
+                                          height: 35,
+                                          width: 35,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color: Color(
+                                                      viewModel.iconColor)),
+                                              borderRadius:
+                                                  BorderRadius.circular(30)),
+                                          child: Icon(
+                                            viewModel.isSearching
+                                                ? Icons.sync
+                                                : Icons.search,
+                                            size: 18,
+                                            color: Color(viewModel.iconColor),
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  subtitle: HighlightText(
-                                    text: _getSubtitleItem(index - 1),
-                                    highlightColor: Color(viewModel.iconColor),
-                                    highlight: _searchController.text,
-                                    textColor: Color(viewModel.textColor),
+                                  const SizedBox(
+                                    height: 10,
                                   ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5.0),
+                                    child: viewModel.searchResult.isEmpty
+                                        ? null
+                                        : Text(
+                                            "${results.i18n}: ${viewModel.searchResult.length}",
+                                            style: TextStyle(
+                                                color:
+                                                    Color(viewModel.textColor)),
+                                          ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(
+                          color: Color(viewModel.primaryColor),
+                          child: ListTile(
+                            onTap: () {
+                              viewModel.navigateBackToReader(
+                                  viewModel.searchResult[index - 1].bookName,
+                                  viewModel.searchResult[index - 1].chapter,
+                                  viewModel.searchResult[index - 1].verse);
+                            },
+                            minVerticalPadding: 10,
+                            title: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Text(
+                                  _getTitleItem(index - 1, viewModel.language,
+                                      viewModel.searchResult),
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Color(viewModel.textColor),
+                                      fontWeight: FontWeight.w600),
                                 ),
-                              );
-                      },
-                    ),
-                  )
-                ],
+                              ),
+                            ),
+                            subtitle: HighlightText(
+                              text: _getSubtitleItem(index - 1),
+                              highlightColor: Color(viewModel.iconColor),
+                              highlight: _searchController.text,
+                              textColor: Color(viewModel.textColor),
+                            ),
+                          ),
+                        );
+                },
               ),
             ),
           );
         });
   }
 
-  String _getBookName(int index) {
-    return _viewModel.searchResult[index].bookName;
-  }
-
-  int _getChapter(int index) {
-    return _viewModel.searchResult[index].chapter;
-  }
-
-  int _getVerse(int index) {
-    return _viewModel.searchResult[index].verse;
-  }
-
-  String _getTitleItem(int index) {
-    String bookName = _viewModel.searchResult[index].bookName;
-    return _viewModel.language == RUSSIAN
-        ? mapBooksRu[bookName] ?? ''
-        : _viewModel.searchResult[index].bookName +
-            "  " +
-            _viewModel.searchResult[index].chapter.toString() +
-            " : " +
-            _viewModel.searchResult[index].verse.toString();
+  String _getTitleItem(int index, String language, List<Verse> searchResult) {
+    final bookName = language == RUSSIAN
+        ? mapBooksRu[searchResult[index].bookName]
+        : searchResult[index].bookName;
+    return "$bookName ${searchResult[index].chapter} : ${searchResult[index].verse}";
   }
 
   String _getSubtitleItem(int index) {
@@ -229,7 +217,10 @@ class _ViewModel {
         language: store.state.localStorageState.language,
         isSearching: store.state.loadingState.isSearching,
         searchByKeyword: (value) => {
-              store.dispatch(updateSearchResultThunk(value)),
+              if (value.isNotEmpty && !store.state.loadingState.isSearching)
+                {
+                  store.dispatch(updateSearchResultThunk(value)),
+                }
             },
         navigateBackToReader: (bookName, chapter, verse) => {
               store.dispatch(UpdateReaderBookNameAction(bookName)),

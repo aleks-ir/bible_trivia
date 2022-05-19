@@ -11,7 +11,7 @@ Reducer<SignUpState> signUpReducer = combineReducers([
   TypedReducer<SignUpState, PasswordErrorAction>(_passwordError),
   TypedReducer<SignUpState, RetypePasswordErrorAction>(
       _retypePasswordError),
-  TypedReducer<SignUpState, ClearErrorsAction>(_clearErrors)
+  TypedReducer<SignUpState, ClearSignUpErrorsAction>(_clearErrors)
 ]);
 
 SignUpState _changeValidationStatus(
@@ -52,9 +52,9 @@ SignUpState _retypePasswordError(
   }
 }
 
-SignUpState _clearErrors(SignUpState state, ClearErrorsAction action) =>
+SignUpState _clearErrors(SignUpState state, ClearSignUpErrorsAction action) =>
     state.copyWith(
-        validationStatus: ValidationStatus.success,
+        validationStatus: ValidationStatus.loading,
         nameError: "",
         emailError: "",
         passwordError: "",

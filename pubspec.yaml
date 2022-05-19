@@ -1,5 +1,4 @@
 name: weekly_bible_trivia
-description: A new Flutter project.
 
 version: 1.0.0+1
 
@@ -29,6 +28,7 @@ dependencies:
   expandable: ^5.0.1
   curved_navigation_bar: ^1.0.1
   ntp: ^2.0.0
+  cached_network_image: ^3.0.0
 
 
   cupertino_icons: ^1.0.2

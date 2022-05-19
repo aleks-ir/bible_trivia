@@ -1,8 +1,6 @@
 import 'package:i18n_extension/i18n_extension.dart';
 
-
 const homeAppBar = "homeAppBar";
-const triviaAppBar = "triviaAppBar";
 const authorization = "authorization";
 const signIn = "signIn";
 const signOut = "signOut";
@@ -19,15 +17,21 @@ const trivia = "trivia";
 const more = "more";
 const results = "results";
 const result = "result";
-const go = "go";
+const start = "start";
 const infoTitle = "infoTitle";
 const infoCard = "infoCard";
 const infoDialog = "infoDialog";
 const close = "close";
 const continueTo = "continueTo";
-const editProfile = "editProfile";
-const about = "aboutApp";
-
+const profile = "profile";
+const about = "about";
+const book = "book";
+const questions = "questions";
+const minutes = "minutes";
+const notAuthError = "notAuthError";
+const answeredError = "answeredError";
+const otherDateError = "otherDateError";
+const notQuestionsError = "notQuestionsError";
 const nameError = "nameError";
 const emailError = "emailError";
 const passwordError = "passwordError";
@@ -57,16 +61,11 @@ const correct = "correct";
 const wrong = "wrong";
 const skipped = "skipped";
 
-
 extension Localization on String {
-  static final _t = Translations.from("en_us", {
+  static const _t = Translations.from("en_us", {
     homeAppBar: {
       "en": "Weekly Trivia",
       "ru": "Недельная викторина",
-    },
-    triviaAppBar: {
-      "en": "Trivia",
-      "ru": "Викторина",
     },
     authorization: {
       "en": "Sign In",
@@ -132,8 +131,8 @@ extension Localization on String {
       "en": "Result",
       "ru": "Результат",
     },
-    go: {
-      "en": "Go",
+    start: {
+      "en": "Start",
       "ru": "Начать",
     },
     infoTitle: {
@@ -156,13 +155,41 @@ extension Localization on String {
       "en": "Continue",
       "ru": "Продолжить",
     },
-    editProfile: {
-      "en": "Edit profile",
-      "ru": "Изменить профиль",
+    profile: {
+      "en": "Profile",
+      "ru": "Профиль",
     },
     about: {
-      "en": "About application",
-      "ru": "О приложении",
+      "en": "About trivia",
+      "ru": "О Викторине",
+    },
+    book: {
+      "en": "Book",
+      "ru": "Книга",
+    },
+    questions: {
+      "en": "questions",
+      "ru": "вопросов",
+    },
+    minutes: {
+      "en": "min",
+      "ru": "мин",
+    },
+    notAuthError: {
+      "en": "Please sign in",
+      "ru": "Пожалуйста, авторизируйтесь",
+    },
+    answeredError: {
+      "en": "Good job. Try it in a week",
+      "ru": "Хорошая работа. Попробуйте через неделю",
+    },
+    otherDateError: {
+      "en": "Now is not the time to do that",
+      "ru": "Сейчас не время это делать",
+    },
+    notQuestionsError: {
+      "en": "Please restart the application",
+      "ru": "Пожалуйста, перезапустите приложение",
     },
     nameError: {
       "en": "Name can not be empty",
@@ -197,8 +224,8 @@ extension Localization on String {
       "ru": "Попробуйте позже...",
     },
     infoAbout: {
-      "en": "\t\tThe app will help you read your Bible step by step. \n\n\t\tEach week, take a trivia. \n\n\t\tYou need to log in to your account and find the \"Start\" button on the home screen. \n\n\t\tDon't forget about time - it's limited.",
-      "ru": "\t\tПриложение поможет тебе шаг за шагом прочитать Библию. \n\n\t\tКаждую неделю, принимай участие в викторине. \n\n\t\tДля этого необходимо войти под своей учетной записью и найти кнопку \"Начать\" на главном экране. \n\n\t\tНе забудь про время - оно ограничено.",
+      "en": "",
+      "ru": "",
     },
     top: {
       "en": "Top",
@@ -225,8 +252,8 @@ extension Localization on String {
       "ru": "Новый",
     },
     chooseChapter: {
-      "en": "Choose a chapter:",
-      "ru": "Выбирите главу:",
+      "en": "Choose a chapter",
+      "ru": "Выбирите главу",
     },
     completeTrivia: {
       "en": "Complete the trivia?",

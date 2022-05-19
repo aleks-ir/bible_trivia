@@ -1,6 +1,6 @@
 import 'package:redux/redux.dart';
 import 'package:weekly_bible_trivia/redux/actions/authentication_actions.dart';
-import 'package:weekly_bible_trivia/redux/actions/edit_profile_actions.dart';
+import 'package:weekly_bible_trivia/redux/actions/profile_actions.dart';
 import 'package:weekly_bible_trivia/redux/states/authentication_state.dart';
 
 Reducer<AuthenticationState> authenticationReducer = combineReducers([

@@ -5,15 +5,15 @@ class CheckBoxView extends StatelessWidget {
   final int questionId;
   final List<Answer> currentAnswers;
   final Function(bool?, int, int) callback;
-  final Color cardColor;
-  final Color textColor;
-  final Color selectedColor;
+  final Color? cardColor;
+  final Color? textColor;
+  final Color? selectedColor;
 
   const CheckBoxView(this.questionId, this.currentAnswers, this.callback,
       {Key? key,
-      this.cardColor = Colors.white,
-      this.textColor = Colors.black,
-      this.selectedColor = Colors.teal})
+      this.cardColor,
+      this.textColor,
+      this.selectedColor})
       : super(key: key);
 
   @override

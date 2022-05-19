@@ -26,6 +26,11 @@ class UpdateThemeAction {
   UpdateThemeAction(this.theme);
 }
 
+class UpdateNotificationAction {
+  final bool isNotification;
+  UpdateNotificationAction(this.isNotification);
+}
+
 class UpdateFontSizeAction {
   final double fontSize;
   UpdateFontSizeAction(this.fontSize);

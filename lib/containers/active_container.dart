@@ -24,7 +24,7 @@ class ActiveContainer extends StatelessWidget {
             case NavigationTab.reader:
               return const ReaderContainer();
             case NavigationTab.pastTrivia:
-              return const PastTriviaContainer();
+              return PastTriviaContainer();
             default:
               return Container();
           }

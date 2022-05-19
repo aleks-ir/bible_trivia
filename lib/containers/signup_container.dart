@@ -27,91 +27,67 @@ class SignUpContainer extends StatelessWidget {
           bool isPortrait =
               MediaQuery.of(context).orientation == Orientation.portrait;
 
-          Widget nameTextField() => authTextField(
-              textColor: Color(viewModel.textColor),
-              borderColor: Color(viewModel.textColor),
-              focusedBorderColor: Color(viewModel.iconColor),
-              icon: Icons.person,
-              label: name.i18n,
-              controller: _nameController,
-              onChanged: (value) => viewModel.validateName(value));
-
-          Widget emailTextField() => authTextField(
-              textColor: Color(viewModel.textColor),
-              borderColor: Color(viewModel.textColor),
-              focusedBorderColor: Color(viewModel.iconColor),
-              icon: Icons.email,
-              label: email.i18n,
-              controller: _emailController,
-              onChanged: (value) => viewModel.validateEmail(value));
-
-          Widget passwordTextField() => authTextField(
-              textColor: Color(viewModel.textColor),
-              borderColor: Color(viewModel.textColor),
-              focusedBorderColor: Color(viewModel.iconColor),
-              icon: Icons.lock,
-              obscure: true,
-              label: password.i18n,
-              autofocus: false,
-              controller: _passController,
-              onChanged: (value) => viewModel.validatePassword(value));
-
-          Widget verifyTextField() => authTextField(
-              textColor: Color(viewModel.textColor),
-              borderColor: Color(viewModel.textColor),
-              focusedBorderColor: Color(viewModel.iconColor),
-              icon: Icons.lock,
-              obscure: true,
-              label: verify.i18n,
-              autofocus: false,
-              controller: _retypePassController,
-              onChanged: (value) =>
-                  viewModel.validatePasswordMatch(_passController.text, value));
 
           final Column emailAndNameGroupColumn = Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              nameTextField(),
-              viewModel.validStatus == ValidationStatus.error &&
-                      viewModel.nameError.isNotEmpty
-                  ? errorValidation(viewModel.nameError)
-                  : const SizedBox(),
-              SizedBox(height: 20),
-              emailTextField(),
-              viewModel.validStatus == ValidationStatus.error &&
-                      viewModel.emailError.isNotEmpty
-                  ? errorValidation(viewModel.emailError)
-                  : const SizedBox(),
+              AuthTextField(
+                onChanged: (value) => viewModel.validateName(value),
+                controller: _nameController,
+                icon: Icons.person,
+                label: name.i18n,
+                error: viewModel.validStatus == ValidationStatus.error &&
+                    viewModel.nameError.isNotEmpty ? viewModel.nameError : '',
+                textColor: Color(viewModel.textColor),
+                borderColor: Color(viewModel.textColor),
+                focusedBorderColor: Color(viewModel.iconColor),
+              ),
+              const SizedBox(height: 10,),
+              AuthTextField(
+                onChanged: (value) => viewModel.validateEmail(value),
+                controller: _emailController,
+                icon: Icons.email,
+                label: email.i18n,
+                error: viewModel.validStatus == ValidationStatus.error &&
+                    viewModel.emailError.isNotEmpty ? viewModel.emailError : '',
+                textColor: Color(viewModel.textColor),
+                borderColor: Color(viewModel.textColor),
+                focusedBorderColor: Color(viewModel.iconColor),
+              ),
             ],
           );
 
           final Row emailAndNameGroupRow = Row(
             children: [
               Expanded(
-                child: Column(
-                  children: [
-                    nameTextField(),
-                    viewModel.validStatus == ValidationStatus.error &&
-                            viewModel.nameError.isNotEmpty
-                        ? errorValidation(viewModel.nameError)
-                        : const SizedBox(),
-                  ],
+                child: AuthTextField(
+                  onChanged: (value) => viewModel.validateName(value),
+                  controller: _nameController,
+                  icon: Icons.person,
+                  label: name.i18n,
+                  error: viewModel.validStatus == ValidationStatus.error &&
+                      viewModel.nameError.isNotEmpty ? viewModel.nameError : '',
+                  textColor: Color(viewModel.textColor),
+                  borderColor: Color(viewModel.textColor),
+                  focusedBorderColor: Color(viewModel.iconColor),
                 ),
                 flex: 10,
               ),
               const Expanded(
                 child: SizedBox(),
-                flex: 1,
+                flex: 2,
               ),
               Expanded(
-                child: Column(
-                  children: [
-                    emailTextField(),
-                    viewModel.validStatus == ValidationStatus.error &&
-                            viewModel.emailError.isNotEmpty
-                        ? errorValidation(viewModel.emailError)
-                        : const SizedBox(),
-                  ],
+                child: AuthTextField(
+                  onChanged: (value) => viewModel.validateEmail(value),
+                  controller: _emailController,
+                  icon: Icons.email,
+                  label: email.i18n,
+                  error: viewModel.validStatus == ValidationStatus.error &&
+                      viewModel.emailError.isNotEmpty ? viewModel.emailError : '',
+                  textColor: Color(viewModel.textColor),
+                  borderColor: Color(viewModel.textColor),
+                  focusedBorderColor: Color(viewModel.iconColor),
                 ),
                 flex: 10,
               ),
@@ -121,47 +97,69 @@ class SignUpContainer extends StatelessWidget {
           final Column passwordAndVerifyGroupColumn = Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              passwordTextField(),
-              viewModel.validStatus == ValidationStatus.error &&
-                      viewModel.passwordError.isNotEmpty
-                  ? errorValidation(viewModel.passwordError)
-                  : const SizedBox(),
-              const SizedBox(height: 20),
-              verifyTextField(),
-              viewModel.validStatus == ValidationStatus.error &&
-                      viewModel.retypePasswordError.isNotEmpty
-                  ? errorValidation(viewModel.retypePasswordError)
-                  : const SizedBox(),
+              AuthTextField(
+                onChanged: (value) => viewModel.validatePassword(value),
+                controller: _passController,
+                icon: Icons.lock,
+                label: password.i18n,
+                error: viewModel.validStatus == ValidationStatus.error &&
+                    viewModel.passwordError.isNotEmpty ? viewModel.passwordError : '',
+                obscure: true,
+                textColor: Color(viewModel.textColor),
+                borderColor: Color(viewModel.textColor),
+                focusedBorderColor: Color(viewModel.iconColor),
+              ),
+              const SizedBox(height: 10,),
+              AuthTextField(
+                onChanged: (value) =>
+                    viewModel.validatePasswordMatch(_passController.text, value),
+                controller: _retypePassController,
+                icon: Icons.lock,
+                label: verify.i18n,
+                error: viewModel.validStatus == ValidationStatus.error &&
+                    viewModel.retypePasswordError.isNotEmpty ? viewModel.retypePasswordError : '',
+                obscure: true,
+                textColor: Color(viewModel.textColor),
+                borderColor: Color(viewModel.textColor),
+                focusedBorderColor: Color(viewModel.iconColor),
+              ),
             ],
           );
 
           final Row passwordAndVerifyGroupRow = Row(
             children: [
               Expanded(
-                child: Column(
-                  children: [
-                    passwordTextField(),
-                    viewModel.validStatus == ValidationStatus.error &&
-                            viewModel.passwordError.isNotEmpty
-                        ? errorValidation(viewModel.passwordError)
-                        : const SizedBox(),
-                  ],
+                child:  AuthTextField(
+                  onChanged: (value) => viewModel.validatePassword(value),
+                  controller: _passController,
+                  icon: Icons.lock,
+                  label: password.i18n,
+                  error: viewModel.validStatus == ValidationStatus.error &&
+                      viewModel.passwordError.isNotEmpty ? viewModel.passwordError : '',
+                  obscure: true,
+                  textColor: Color(viewModel.textColor),
+                  borderColor: Color(viewModel.textColor),
+                  focusedBorderColor: Color(viewModel.iconColor),
                 ),
                 flex: 10,
               ),
               const Expanded(
                 child: SizedBox(),
-                flex: 1,
+                flex: 2,
               ),
               Expanded(
-                child: Column(
-                  children: [
-                    verifyTextField(),
-                    viewModel.validStatus == ValidationStatus.error &&
-                            viewModel.retypePasswordError.isNotEmpty
-                        ? errorValidation(viewModel.retypePasswordError)
-                        : const SizedBox(),
-                  ],
+                child:  AuthTextField(
+                  onChanged: (value) =>
+                      viewModel.validatePasswordMatch(_passController.text, value),
+                  controller: _retypePassController,
+                  icon: Icons.lock,
+                  label: verify.i18n,
+                  error: viewModel.validStatus == ValidationStatus.error &&
+                      viewModel.passwordError.isNotEmpty ? viewModel.passwordError : '',
+                  obscure: true,
+                  textColor: Color(viewModel.textColor),
+                  borderColor: Color(viewModel.textColor),
+                  focusedBorderColor: Color(viewModel.iconColor),
                 ),
                 flex: 10,
               ),
@@ -178,7 +176,7 @@ class SignUpContainer extends StatelessWidget {
                     ? Text(
                   create.i18n,
                 )
-                    : buttonCircularProgressIndicator(), () {
+                    : circularButtonProgressIndicator(), () {
               FocusScope.of(context).unfocus();
               viewModel.signUp(SignUpRequest(
                   _nameController.text,
@@ -191,20 +189,22 @@ class SignUpContainer extends StatelessWidget {
           return SizedBox.expand(
             child: Container(
               color: Color(viewModel.primaryColor),
-              padding: const EdgeInsets.symmetric(horizontal: 50),
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: isPortrait ? 70 : 50),
-                    isPortrait ? emailAndNameGroupColumn : emailAndNameGroupRow,
-                    SizedBox(height: isPortrait ? 60 : 30),
-                    isPortrait
-                        ? passwordAndVerifyGroupColumn
-                        : passwordAndVerifyGroupRow,
-                    SizedBox(height: 30),
-                    createButton,
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: isPortrait ? 40 : 20),
+                      isPortrait ? emailAndNameGroupColumn : emailAndNameGroupRow,
+                      SizedBox(height: isPortrait ? 50 : 20),
+                      isPortrait
+                          ? passwordAndVerifyGroupColumn
+                          : passwordAndVerifyGroupRow,
+                      const SizedBox(height: 40),
+                      createButton,
+                      const SizedBox(height: 40),
+                    ],
+                  ),
                 ),
               ),
             ),
