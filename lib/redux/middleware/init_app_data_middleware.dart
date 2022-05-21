@@ -14,7 +14,7 @@ import 'local_storage_middleware.dart';
 ThunkAction<AppState> createInitAppDataThunk() {
   return (Store<AppState> store) async {
     //var currentDate = await NTP.now();
-    DateTime currentDate = DateTime.parse("2022-01-09");
+    DateTime currentDate = DateTime.parse("2022-05-22");
     var weeklyTriviaDate = getNextTriviaDate(currentDate);
 
     String currentDateString = DateFormat('yyyy-MM-dd').format(currentDate);

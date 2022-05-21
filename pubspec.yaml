@@ -29,6 +29,7 @@ dependencies:
   curved_navigation_bar: ^1.0.1
   ntp: ^2.0.0
   cached_network_image: ^3.0.0
+  flutter_local_notifications: ^9.5.3+1
 
 
   cupertino_icons: ^1.0.2

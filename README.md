@@ -1,9 +1,22 @@
-## WT Bible
+# Bible Trivia
 
-WT Bible is a Bible study app.
-The app has a handy reader with a keyword search, a weekly trivia with new questions,
-and the ability to change theme and language at will.
+Bible reading application. Has a Russian and English language, dark and light theme. You can change the translation and use a search by keywords.
+After logging in to the app, you can answer questions about the suggested topic.
 
-### Screenshots
-![screenshot](documentation/img/app_img1.png) ![screenshot](documentation/img/app_img2.png) ![screenshot](documentation/img/app_img3.png) ![screenshot](documentation/img/app_img4.png)
-![screenshot](documentation/img/app_img5.png) ![screenshot](documentation/img/app_img6.png) ![screenshot](documentation/img/app_img7.png) ![screenshot](documentation/img/app_img8.png)
+## Technology and structures
+- [x] Flutter
+- [x] Redux
+- [x] Redux Thunk
+- [x] Shared Preferences
+- [x] Firestore authentication
+- [x] Firebase storage
+- [x] Cloud Firestore
+- [x] Http Client
+- [x] GitHub REST API
+- [x] SQLite
+- [x] Navigation
+- [x] Local notifications
+- [x] Localization (English / Russian)
+
+## App Recording
+https://user-images.githubusercontent.com/57506563/169648634-66017b15-9600-4b97-a8f9-7843a5a29fb2.mp4
