@@ -1,7 +1,10 @@
 # Bible Trivia
 
-Bible reading application. Has a Russian and English language, dark and light theme. You can change the translation and use a search by keywords.
-After logging in to the app, you can answer questions about the suggested topic.
+The application to read the Bible and test your strength in an interesting trivia game.
+
+## Requirements
+
+- [x] JDK 8
 
 ## Technology and structures
 - [x] Flutter
@@ -18,3 +21,5 @@ After logging in to the app, you can answer questions about the suggested topic.
 - [x] Local notifications
 - [x] Localization (English / Russian)
 
+## App Recording
+https://user-images.githubusercontent.com/57506563/169648634-66017b15-9600-4b97-a8f9-7843a5a29fb2.mp4
