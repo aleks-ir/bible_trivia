@@ -1,6 +1,6 @@
 # Bible Trivia
 
-The application to read the Bible and test your strength in an interesting trivia game.
+An app for reading the Bible and answering questions in a trivia game
 
 ## Requirements
 
